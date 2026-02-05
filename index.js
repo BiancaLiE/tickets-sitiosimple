@@ -1,18 +1,20 @@
 import express from "express";
 import { MongoClient } from "mongodb";
 
+const app = express();
+const PORT = process.env.PORT || 3000;
+
 // -----------------------------
 // MongoDB
 // -----------------------------
 const MONGODB_URI = process.env.MONGODB_URI;
 const client = new MongoClient(MONGODB_URI);
 
-let db;
 let ticketsCollection;
 
 async function connectDB() {
   await client.connect();
-  db = client.db("ticketsDB");
+  const db = client.db("ticketsDB");
   ticketsCollection = db.collection("tickets");
   console.log("✅ Conectado a MongoDB");
 }
@@ -20,11 +22,8 @@ async function connectDB() {
 connectDB();
 
 // -----------------------------
-// App
+// Middlewares
 // -----------------------------
-const app = express();
-const PORT = process.env.PORT || 3000;
-
 app.use(express.json());
 app.use(express.static("public"));
 
@@ -51,25 +50,25 @@ app.post("/webhook", async (req, res) => {
         direccion: pedido?.direccionEnvio?.direccion || ""
       },
       productos: pedido.detalle
-        ?.filter(item => item.tipo === "PRO")
+        .filter(item => item.tipo === "PRO")
         .map(item => ({
           descripcion: item.descripcion,
           cantidad: Number(item.cantidad),
           precio: Number(item.precio)
-        })) || [],
+        })),
       total: Number(pedido.detallePrecios?.[0]?.total || 0),
       estado: "pendiente",
-      createdAt: new Date()
+      creadoEn: new Date()
     };
 
     await ticketsCollection.insertOne(ticket);
 
-    console.log("🧾 TICKET GUARDADO EN MONGODB");
+    console.log("🧾 Ticket guardado en MongoDB");
     console.log(ticket);
 
     res.sendStatus(200);
   } catch (error) {
-    console.error("❌ Error en webhook", error);
+    console.error("❌ Error guardando ticket:", error);
     res.sendStatus(500);
   }
 });
@@ -80,7 +79,7 @@ app.post("/webhook", async (req, res) => {
 app.get("/tickets", async (req, res) => {
   const tickets = await ticketsCollection
     .find({})
-    .sort({ createdAt: -1 })
+    .sort({ creadoEn: -1 })
     .toArray();
 
   res.json(tickets);
