@@ -1,5 +1,22 @@
 import express from "express";
 
+import { MongoClient } from "mongodb";
+
+const MONGODB_URI = process.env.MONGODB_URI;
+const client = new MongoClient(MONGODB_URI);
+
+let db;
+let ticketsCollection;
+
+async function connectDB() {
+  await client.connect();
+  db = client.db("ticketsDB");
+  ticketsCollection = db.collection("tickets");
+  console.log("✅ Conectado a MongoDB");
+}
+
+connectDB();
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -66,4 +83,5 @@ app.get("/tickets", (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
