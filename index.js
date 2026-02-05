@@ -30,3 +30,22 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Servidor listo en puerto", PORT);
 });
+
+app.post('/webhook', (req, res) => {
+  console.log('🔥 WEBHOOK DISPARADO 🔥');
+
+  console.log('Body completo:', JSON.stringify(req.body, null, 2));
+
+  if (req.body.data && req.body.data.isTest) {
+    console.log('🧪 Webhook de prueba recibido');
+    return res.sendStatus(200);
+  }
+
+  if (req.body.data) {
+    console.log('🛒 PEDIDO REAL RECIBIDO');
+    console.log(JSON.stringify(req.body.data, null, 2));
+  }
+
+  res.sendStatus(200);
+});
+
