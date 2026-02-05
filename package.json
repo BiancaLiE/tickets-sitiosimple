@@ -1,13 +1,12 @@
 {
   "name": "tickets-sitiosimple",
   "version": "1.0.0",
-  "description": "Webhook SitioSimple + PDF tickets",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "pdfkit": "^0.15.0"
+    "express": "^4.19.2"
   }
 }
