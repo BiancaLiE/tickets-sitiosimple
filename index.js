@@ -3,11 +3,16 @@ import express from "express";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware para leer JSON
 app.use(express.json());
 
 // -----------------------------
-// Health check (Render / navegador)
+// Almacenamiento en memoria
+// -----------------------------
+let tickets = [];
+let contadorTickets = 1;
+
+// -----------------------------
+// Health check
 // -----------------------------
 app.get("/", (req, res) => {
   res.send("Servidor funcionando OK");
@@ -17,17 +22,42 @@ app.get("/", (req, res) => {
 // Webhook SitioSimple
 // -----------------------------
 app.post("/webhook", (req, res) => {
-  console.log("🔥 WEBHOOK DE PEDIDO RECIBIDO 🔥");
-  console.log(JSON.stringify(req.body, null, 2));
+  const pedido = req.body;
 
-  /**
-   * Acá SitioSimple envía el pedido
-   * apenas el cliente lo crea
-   * (NO cuando se paga)
-   */
+  // Crear ticket interno simplificado
+  const ticket = {
+    ticketNumero: contadorTickets++,
+    pedidoId: pedido.id,
+    fecha: pedido.fechaEsOrden,
+    cliente: {
+      email: pedido?.cliente?.email || "",
+      telefono: pedido?.direccionEnvio?.telefono || "",
+      direccion: pedido?.direccionEnvio?.direccion || ""
+    },
+    productos: pedido.detalle
+      .filter(item => item.tipo === "PRO")
+      .map(item => ({
+        descripcion: item.descripcion,
+        cantidad: Number(item.cantidad),
+        precio: Number(item.precio)
+      })),
+    total: Number(pedido.detallePrecios?.[0]?.total || 0),
+    estado: "pendiente"
+  };
 
-  // Responder SIEMPRE 200
+  tickets.push(ticket);
+
+  console.log("🧾 NUEVO TICKET CREADO");
+  console.log(ticket);
+
   res.sendStatus(200);
+});
+
+// -----------------------------
+// Ver todos los tickets
+// -----------------------------
+app.get("/tickets", (req, res) => {
+  res.json(tickets);
 });
 
 // -----------------------------
