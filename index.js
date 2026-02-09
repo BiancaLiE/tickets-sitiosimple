@@ -44,11 +44,23 @@ app.post("/webhook", async (req, res) => {
     const ticket = {
       pedidoId: pedido.id,
       fecha: pedido.fechaEsOrden || new Date(),
+
       cliente: {
+        nombre: pedido?.cliente?.nombre || "",
+        apellido: pedido?.cliente?.apellido || "",
         email: pedido?.cliente?.email || "",
         telefono: pedido?.direccionEnvio?.telefono || "",
-        direccion: pedido?.direccionEnvio?.direccion || ""
+
+        direccion: pedido?.direccionEnvio?.direccion || "",
+        codigoPostal: pedido?.direccionEnvio?.codigoPostal || "",
+        ciudad: pedido?.direccionEnvio?.ciudad || "",
+        provincia:
+          pedido?.direccionEnvio?.provincia ||
+          pedido?.direccionEnvio?.estado ||
+          pedido?.direccionEnvio?.region ||
+          ""
       },
+
       productos: pedido.detalle
         .filter(item => item.tipo === "PRO")
         .map(item => ({
@@ -56,6 +68,7 @@ app.post("/webhook", async (req, res) => {
           cantidad: Number(item.cantidad),
           precio: Number(item.precio)
         })),
+
       total: Number(pedido.detallePrecios?.[0]?.total || 0),
       estado: "pendiente",
       creadoEn: new Date()
@@ -64,8 +77,6 @@ app.post("/webhook", async (req, res) => {
     await ticketsCollection.insertOne(ticket);
 
     console.log("🧾 Ticket guardado en MongoDB");
-    console.log(ticket);
-
     res.sendStatus(200);
   } catch (error) {
     console.error("❌ Error guardando ticket:", error);
@@ -89,3 +100,4 @@ app.get("/tickets", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
