@@ -29,11 +29,22 @@ function mostrarDetalle(ticket) {
   ticketSeleccionado = JSON.parse(JSON.stringify(ticket));
 
   let html = `
-    <h4 class="mb-2">Ticket #${ticketSeleccionado.pedidoId}</h4>
+  <h4 class="mb-3">Ticket #${ticketSeleccionado.pedidoId}</h4>
 
-    <p><b>Email:</b> ${ticketSeleccionado.cliente?.email || "-"}</p>
-    <p><b>Teléfono:</b> ${ticketSeleccionado.cliente?.telefono || "-"}</p>
-    <p><b>Dirección:</b> ${ticketSeleccionado.cliente?.direccion || "-"}</p>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <p><b>Cliente:</b> ${ticketSeleccionado.cliente?.nombre || ""} ${ticketSeleccionado.cliente?.apellido || ""}</p>
+      <p><b>Email:</b> ${ticketSeleccionado.cliente?.email || "-"}</p>
+      <p><b>Teléfono:</b> ${ticketSeleccionado.cliente?.telefono || "-"}</p>
+    </div>
+
+    <div class="col-md-6">
+      <p><b>Dirección:</b> ${ticketSeleccionado.cliente?.direccion || "-"}</p>
+      <p><b>Código Postal:</b> ${ticketSeleccionado.cliente?.cp || "-"}</p>
+      <p><b>Ciudad:</b> ${ticketSeleccionado.cliente?.ciudad || "-"}</p>
+      <p><b>Provincia:</b> ${ticketSeleccionado.cliente?.provincia || "-"}</p>
+    </div>
+  </div>
 
     <table class="table table-bordered mt-3">
       <thead class="table-dark">
