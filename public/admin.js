@@ -25,78 +25,145 @@ async function cargarTickets() {
 // Mostrar detalle
 // -----------------------------
 function mostrarDetalle(ticket) {
-  ticketSeleccionado = JSON.parse(JSON.stringify(ticket)); // copia segura
+  // Copia profunda para editar sin romper el original
+  ticketSeleccionado = JSON.parse(JSON.stringify(ticket));
 
   let html = `
-    <h4>Ticket #${ticketSeleccionado.pedidoId}</h4>
+    <h4 class="mb-2">Ticket #${ticketSeleccionado.pedidoId}</h4>
+
     <p><b>Email:</b> ${ticketSeleccionado.cliente?.email || "-"}</p>
     <p><b>Teléfono:</b> ${ticketSeleccionado.cliente?.telefono || "-"}</p>
     <p><b>Dirección:</b> ${ticketSeleccionado.cliente?.direccion || "-"}</p>
 
     <table class="table table-bordered mt-3">
-      <thead>
+      <thead class="table-dark">
         <tr>
           <th>Producto</th>
-          <th>Cantidad</th>
-          <th>Precio</th>
+          <th style="width:120px">Cantidad</th>
+          <th style="width:150px">Precio</th>
+          <th style="width:80px"></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="productosBody">
   `;
 
   ticketSeleccionado.productos.forEach((item, i) => {
-    html += `
-      <tr>
-        <td>${item.descripcion}</td>
-        <td>
-          <input type="number" class="form-control"
-            value="${item.cantidad}"
-            data-i="${i}"
-            data-tipo="cantidad">
-        </td>
-        <td>
-          <input type="number" class="form-control"
-            value="${item.precio}"
-            data-i="${i}"
-            data-tipo="precio">
-        </td>
-      </tr>
-    `;
+    html += filaProductoHTML(item, i);
   });
 
   html += `
       </tbody>
     </table>
 
-    <button class="btn btn-primary me-2" onclick="guardarCambios()">
-      Guardar cambios
+    <button class="btn btn-outline-secondary mb-3" onclick="agregarProducto()">
+      ➕ Agregar producto
     </button>
 
-    <button class="btn btn-success" onclick="generarPDF()">
-      Generar PDF
-    </button>
+    <h5>Total: $<span id="totalTicket">${calcularTotal()}</span></h5>
+
+    <div class="mt-3">
+      <button class="btn btn-primary me-2" onclick="guardarCambios()">
+        💾 Guardar cambios
+      </button>
+
+      <button class="btn btn-success" onclick="generarPDF()">
+        📄 Generar PDF
+      </button>
+    </div>
   `;
 
   document.getElementById("ticketDetail").innerHTML = html;
 }
 
 // -----------------------------
-// Guardar cambios
+// HTML de una fila de producto
 // -----------------------------
-async function guardarCambios() {
-  const inputs = document.querySelectorAll("input[data-i]");
+function filaProductoHTML(item, i) {
+  return `
+    <tr>
+      <td>
+        <input type="text" class="form-control"
+          value="${item.descripcion}"
+          data-i="${i}"
+          data-tipo="descripcion"
+          oninput="actualizarCampo(this)">
+      </td>
+      <td>
+        <input type="number" class="form-control"
+          value="${item.cantidad}"
+          data-i="${i}"
+          data-tipo="cantidad"
+          oninput="actualizarCampo(this)">
+      </td>
+      <td>
+        <input type="number" class="form-control"
+          value="${item.precio}"
+          data-i="${i}"
+          data-tipo="precio"
+          oninput="actualizarCampo(this)">
+      </td>
+      <td class="text-center">
+        <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${i})">
+          ✖
+        </button>
+      </td>
+    </tr>
+  `;
+}
 
-  inputs.forEach(input => {
-    const i = input.dataset.i;
-    const tipo = input.dataset.tipo;
-    ticketSeleccionado.productos[i][tipo] = Number(input.value);
+// -----------------------------
+// Actualizar campo en vivo
+// -----------------------------
+function actualizarCampo(input) {
+  const i = input.dataset.i;
+  const tipo = input.dataset.tipo;
+
+  ticketSeleccionado.productos[i][tipo] =
+    tipo === "descripcion" ? input.value : Number(input.value);
+
+  document.getElementById("totalTicket").innerText = calcularTotal();
+}
+
+// -----------------------------
+// Agregar producto
+// -----------------------------
+function agregarProducto() {
+  ticketSeleccionado.productos.push({
+    descripcion: "",
+    cantidad: 1,
+    precio: 0
   });
 
-  // recalcular total
-  ticketSeleccionado.total = ticketSeleccionado.productos.reduce(
+  const body = document.getElementById("productosBody");
+  const i = ticketSeleccionado.productos.length - 1;
+  body.insertAdjacentHTML("beforeend", filaProductoHTML(ticketSeleccionado.productos[i], i));
+
+  document.getElementById("totalTicket").innerText = calcularTotal();
+}
+
+// -----------------------------
+// Eliminar producto
+// -----------------------------
+function eliminarProducto(index) {
+  ticketSeleccionado.productos.splice(index, 1);
+  mostrarDetalle(ticketSeleccionado);
+}
+
+// -----------------------------
+// Calcular total
+// -----------------------------
+function calcularTotal() {
+  return ticketSeleccionado.productos.reduce(
     (sum, p) => sum + p.cantidad * p.precio,
     0
   );
+}
+
+// -----------------------------
+// Guardar cambios
+// -----------------------------
+async function guardarCambios() {
+  ticketSeleccionado.total = calcularTotal();
 
   await fetch(`/tickets/${ticketSeleccionado.ticketNumero}`, {
     method: "PUT",
