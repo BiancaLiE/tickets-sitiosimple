@@ -28,7 +28,7 @@ function mostrarDetalle(ticket) {
   ticketSeleccionado = JSON.parse(JSON.stringify(ticket)); // copia segura
 
   let html = `
-    <h4>Ticket #${ticketSeleccionado.ticketNumero}</h4>
+    <h4>Ticket #${ticketSeleccionado.id}</h4>
     <p><b>Email:</b> ${ticketSeleccionado.cliente?.email || "-"}</p>
     <p><b>Teléfono:</b> ${ticketSeleccionado.cliente?.telefono || "-"}</p>
     <p><b>Dirección:</b> ${ticketSeleccionado.cliente?.direccion || "-"}</p>
