@@ -42,7 +42,7 @@
         const tr = document.createElement("tr");
 
         tr.innerHTML = `
-          <td>${t.ticketNumero}</td>
+          <td>${t.id}</td>
           <td>${new Date(t.fecha).toLocaleString()}</td>
           <td>${t.cliente.email}</td>
           <td>$${t.total}</td>
