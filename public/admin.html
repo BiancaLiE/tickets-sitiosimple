@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Panel de Tickets</title>
 
   <!-- Bootstrap -->
@@ -10,49 +10,43 @@
     rel="stylesheet"
   >
 </head>
+
 <body class="bg-light">
 
-<div class="container mt-5">
-  <h1 class="mb-4">🧾 Tickets recibidos</h1>
+<div class="container-fluid mt-4">
+  <h1 class="mb-4">🧾 Panel de Tickets</h1>
 
-  <table class="table table-bordered table-striped">
-    <thead class="table-dark">
-      <tr>
-        <th>#</th>
-        <th>Fecha</th>
-        <th>Cliente</th>
-        <th>Total</th>
-        <th>Estado</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody id="tickets-body">
-      <!-- Se llena con JS -->
-    </tbody>
-  </table>
+  <div class="row">
+    <!-- LISTA DE TICKETS -->
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header fw-bold">
+          Tickets recibidos
+        </div>
+        <div class="card-body" id="ticketsList" style="max-height: 75vh; overflow-y: auto;">
+          <!-- Se llena con admin.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- DETALLE DEL TICKET -->
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header fw-bold">
+          Detalle del ticket
+        </div>
+        <div class="card-body" id="ticketDetail">
+          <p class="text-muted">
+            Seleccioná un ticket para ver o editar los detalles
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<script>
-  fetch("/tickets")
-    .then(res => res.json())
-    .then(tickets => {
-      const tbody = document.getElementById("tickets-body");
-
-      tickets.forEach(t => {
-        const tr = document.createElement("tr");
-
-        tr.innerHTML = `
-          <td>${t.pedidoId}</td>
-          <td>${new Date(t.fecha).toLocaleString()}</td>
-          <td>${t.cliente.email}</td>
-          <td>$${t.total}</td>
-          <td>${t.estado}</td>
-        `;
-
-        tbody.appendChild(tr);
-      });
-    });
-</script>
+<!-- admin.js -->
+<script src="/admin.js"></script>
 
 </body>
 </html>
