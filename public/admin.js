@@ -15,7 +15,7 @@ async function cargarTickets() {
     const div = document.createElement("div");
     div.className = "ticket border p-2 mb-2 rounded";
     div.style.cursor = "pointer";
-    div.innerText = `#${t.ticketNumero} - ${t.cliente?.email || "Cliente"} - $${t.total}`;
+    div.innerText = `#${t.id} - ${t.cliente?.email || "Cliente"} - $${t.total}`;
     div.onclick = () => mostrarDetalle(t);
     list.appendChild(div);
   });
