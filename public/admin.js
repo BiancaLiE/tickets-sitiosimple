@@ -15,7 +15,7 @@ async function cargarTickets() {
     const div = document.createElement("div");
     div.className = "ticket border p-2 mb-2 rounded";
     div.style.cursor = "pointer";
-    div.innerText = `#${t.id} - ${t.cliente?.email || "Cliente"} - $${t.total}`;
+    div.innerText = `#${t.pedidoId} - ${t.cliente?.email || "Cliente"} - $${t.total}`;
     div.onclick = () => mostrarDetalle(t);
     list.appendChild(div);
   });
@@ -28,7 +28,7 @@ function mostrarDetalle(ticket) {
   ticketSeleccionado = JSON.parse(JSON.stringify(ticket)); // copia segura
 
   let html = `
-    <h4>Ticket #${ticketSeleccionado.id}</h4>
+    <h4>Ticket #${ticketSeleccionado.pedidoId}</h4>
     <p><b>Email:</b> ${ticketSeleccionado.cliente?.email || "-"}</p>
     <p><b>Teléfono:</b> ${ticketSeleccionado.cliente?.telefono || "-"}</p>
     <p><b>Dirección:</b> ${ticketSeleccionado.cliente?.direccion || "-"}</p>
