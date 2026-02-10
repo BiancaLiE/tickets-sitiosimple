@@ -67,6 +67,13 @@ app.get("/me", (req, res) => {
   }
 });
 
+function requireAuth(req, res, next) {
+  if (req.session && req.session.user) {
+    return next();
+  }
+  res.status(401).json({ error: "No autorizado" });
+}
+
 app.use(express.static("public"));
 
 // -----------------------------
@@ -177,6 +184,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
