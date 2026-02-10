@@ -39,10 +39,10 @@ function mostrarDetalle(ticket) {
     </div>
 
     <div class="col-md-6">
-      <p><b>Dirección:</b> ${ticketSeleccionado.cliente?.direccion || "-"}</p>
-      <p><b>Código Postal:</b> ${ticketSeleccionado.cliente?.cp || "-"}</p>
-      <p><b>Ciudad:</b> ${ticketSeleccionado.cliente?.ciudad || "-"}</p>
-      <p><b>Provincia:</b> ${ticketSeleccionado.cliente?.provincia || "-"}</p>
+      <p><b>Dirección:</b> ${ticketSeleccionado.envio?.direccion || "-"}</p>
+      <p><b>Código Postal:</b> ${ticketSeleccionado.envio?.codigoPostal || "-"}</p>
+      <p><b>Ciudad:</b> ${ticketSeleccionado.envio?.ciudad || "-"}</p>
+      <p><b>Provincia:</b> ${ticketSeleccionado.envio?.provincia || "-"}</p>
     </div>
   </div>
 
