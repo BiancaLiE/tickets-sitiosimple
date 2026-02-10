@@ -195,6 +195,18 @@ async function guardarCambios() {
   cargarTickets();
 }
 
+// -----------------
+// Cerrar Sesion
+// -----------------------
+async function logout() {
+  await fetch("/logout", {
+    method: "POST",
+    credentials: "include"
+  });
+
+  window.location.href = "/login.html";
+}
+
 // -----------------------------
 // Generar PDF
 // -----------------------------
