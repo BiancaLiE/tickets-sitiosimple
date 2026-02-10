@@ -140,7 +140,7 @@ app.post("/webhook", async (req, res) => {
 // -----------------------------
 // Ver todos los tickets
 // -----------------------------
-app.get("/tickets", async (req, res) => {
+app.get("/tickets", requireAuth, async (req, res) => {
   const tickets = await ticketsCollection
     .find({})
     .sort({ creadoEn: -1 })
@@ -184,6 +184,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
