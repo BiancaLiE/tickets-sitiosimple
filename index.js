@@ -84,6 +84,9 @@ function requireAuth(req, res, next) {
   res.status(401).json({ error: "No autorizado" });
 }
 
+// -------------------
+// PROTECCION DEL PANEL
+// -------------------
 app.get("/admin.html", (req, res, next) => {
   if (req.session.user) {
     return next();
@@ -91,6 +94,9 @@ app.get("/admin.html", (req, res, next) => {
   res.redirect("/login.html");
 });
 
+// -----------------------------
+// Static files (AL FINAL)
+// -----------------------------
 app.use(express.static("public"));
 
 // -----------------------------
@@ -201,6 +207,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
