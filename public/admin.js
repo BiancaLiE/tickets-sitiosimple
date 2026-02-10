@@ -194,7 +194,97 @@ async function guardarCambios() {
 // Generar PDF
 // -----------------------------
 function generarPDF() {
-  window.open(`/tickets/${ticketSeleccionado.ticketNumero}/pdf`, "_blank");
+  if (!ticketSeleccionado) {
+    alert("No hay ticket seleccionado");
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  let y = 10;
+
+  // ------------------------
+  // Encabezado
+  // ------------------------
+  doc.setFontSize(16);
+  doc.text("TICKET DE COMPRA", 105, y, { align: "center" });
+
+  y += 10;
+  doc.setFontSize(10);
+  doc.text(`Orden Nº: ${ticketSeleccionado.pedidoId}`, 10, y);
+  y += 6;
+
+  const fecha = new Date(ticketSeleccionado.fecha).toLocaleString("es-AR");
+  doc.text(`Fecha: ${fecha}`, 10, y);
+
+  y += 10;
+
+  // ------------------------
+  // Cliente
+  // ------------------------
+  doc.setFontSize(12);
+  doc.text("Datos del Cliente", 10, y);
+  y += 6;
+
+  doc.setFontSize(10);
+  doc.text(
+    `${ticketSeleccionado.cliente.nombre || ""} ${ticketSeleccionado.cliente.apellido || ""}`,
+    10,
+    y
+  );
+  y += 5;
+
+  doc.text(`Email: ${ticketSeleccionado.cliente.email || ""}`, 10, y);
+  y += 5;
+
+  doc.text(`Tel: ${ticketSeleccionado.cliente.telefono || ""}`, 10, y);
+  y += 5;
+
+  doc.text(
+    `Dirección: ${ticketSeleccionado.cliente.direccion || ""}`,
+    10,
+    y
+  );
+  y += 5;
+
+  doc.text(
+    `Ciudad: ${ticketSeleccionado.cliente.ciudad || ""} - ${ticketSeleccionado.cliente.provincia || ""}`,
+    10,
+    y
+  );
+  y += 10;
+
+  // ------------------------
+  // Productos
+  // ------------------------
+  doc.setFontSize(12);
+  doc.text("Detalle de Productos", 10, y);
+  y += 6;
+
+  doc.setFontSize(10);
+
+  ticketSeleccionado.productos.forEach((p) => {
+    doc.text(
+      `${p.cantidad} x ${p.descripcion}  $${p.precio}`,
+      10,
+      y
+    );
+    y += 5;
+  });
+
+  y += 5;
+
+  // ------------------------
+  // Total
+  // ------------------------
+  doc.setFontSize(12);
+  doc.text(`TOTAL: $${ticketSeleccionado.total}`, 10, y);
+
+  // ------------------------
+  // Guardar
+  // ------------------------
+  doc.save(`Ticket_${ticketSeleccionado.pedidoId}.pdf`);
 }
 
 // -----------------------------
