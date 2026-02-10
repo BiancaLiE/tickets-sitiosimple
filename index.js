@@ -103,14 +103,21 @@ app.get("/tickets", async (req, res) => {
 // -----------------------------
 // Actualizar ticket (editar desde el panel)
 // -----------------------------
-app.put("/tickets/:id", async (req, res) => {
+app.put("/tickets/:pedidoId", async (req, res) => {
   try {
-    const pedidoId = req.params.id;
-    const ticketActualizado = req.body;
+    const { pedidoId } = req.params;
+    const ticket = req.body;
 
     const result = await ticketsCollection.updateOne(
-      { pedidoId: pedidoId },
-      { $set: ticketActualizado }
+      { pedidoId: String(pedidoId) },
+      {
+        $set: {
+          productos: ticket.productos,
+          total: ticket.total,
+          estado: ticket.estado || "pendiente",
+          actualizadoEn: new Date()
+        }
+      }
     );
 
     if (result.matchedCount === 0) {
@@ -120,7 +127,7 @@ app.put("/tickets/:id", async (req, res) => {
     res.json({ ok: true });
   } catch (error) {
     console.error("❌ Error actualizando ticket:", error);
-    res.status(500).json({ error: "Error actualizando ticket" });
+    res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -128,6 +135,7 @@ app.put("/tickets/:id", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
