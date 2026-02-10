@@ -180,13 +180,18 @@ function calcularTotal() {
 async function guardarCambios() {
   ticketSeleccionado.total = calcularTotal();
 
-  await fetch(`/tickets/${ticketSeleccionado.ticketNumero}`, {
+  const res = await fetch(`/tickets/${ticketSeleccionado.pedidoId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(ticketSeleccionado)
   });
 
-  alert("✅ Cambios guardados");
+  if (!res.ok) {
+    alert("❌ Error al guardar los cambios");
+    return;
+  }
+
+  alert("✅ Cambios guardados correctamente");
   cargarTickets();
 }
 
