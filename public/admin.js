@@ -194,6 +194,10 @@ async function guardarCambios() {
 // Generar PDF
 // -----------------------------
 function generarPDF() {
+  doc.setDrawColor(0);
+  doc.line(10, y, 200, y);
+  y += 6;
+
   if (!ticketSeleccionado) {
     alert("No hay ticket seleccionado");
     return;
