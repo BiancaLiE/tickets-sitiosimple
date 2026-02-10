@@ -33,7 +33,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false // Render usa https pero esto así funciona bien
+      secure: true, // Render usa HTTPS
+      maxAge: 1000 * 60 * 60 * 18 // 18 horas
     }
   })
 );
@@ -197,6 +198,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
