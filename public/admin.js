@@ -237,10 +237,10 @@ function generarPDF() {
   y += 5;
   doc.text(`Teléfono: ${ticketSeleccionado.cliente?.telefono || "-"}`, 14, y);
   y += 5;
-  doc.text(`Dirección: ${ticketSeleccionado.cliente?.direccion || "-"}`, 14, y);
+  doc.text(`Dirección: ${ticketSeleccionado.envio?.direccion || "-"}`, 14, y);
   y += 5;
   doc.text(
-    `CP: ${ticketSeleccionado.cliente?.cp || "-"} - ${ticketSeleccionado.cliente?.ciudad || ""}, ${ticketSeleccionado.cliente?.provincia || ""}`,
+    `CP: ${ticketSeleccionado.envio?.codigoPostal || "-"} - ${ticketSeleccionado.envio?.ciudad || ""}, ${ticketSeleccionado.envio?.provincia || ""}`,
     14,
     y
   );
