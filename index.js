@@ -40,7 +40,6 @@ app.get("/", (req, res) => {
 app.post("/webhook", async (req, res) => {
   console.log("📩 WEBHOOK RECIBIDO");
   console.log("Keys:", Object.keys(req.body));
-  console.log(JSON.stringify(req.body, null, 2));
   
   try {
     const pedido = req.body;
@@ -105,6 +104,7 @@ app.get("/tickets", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
