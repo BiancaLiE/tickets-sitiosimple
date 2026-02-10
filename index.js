@@ -1,5 +1,6 @@
 import express from "express";
 import { MongoClient } from "mongodb";
+import session from "express-session";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -25,6 +26,13 @@ connectDB();
 // Middlewares
 // -----------------------------
 app.use(express.json());
+app.use(
+  session({
+    secret: "super-secret-ticket-panel",
+    resave: false,
+    saveUninitialized: false
+  })
+);
 app.use(express.static("public"));
 
 // -----------------------------
@@ -135,6 +143,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
