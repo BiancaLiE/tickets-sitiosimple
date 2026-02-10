@@ -28,13 +28,16 @@ connectDB();
 app.use(express.json());
 app.use(
   session({
+    name: "tickets-session",
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    rolling: true,
     cookie: {
+      maxAge: 18 * 60 * 60 * 1000, // 18 horas
       httpOnly: true,
-      secure: true, // Render usa HTTPS
-      maxAge: 1000 * 60 * 60 * 18 // 18 horas
+      secure: true,              // OBLIGATORIO en Render
+      sameSite: "none"            // OBLIGATORIO en Render
     }
   })
 );
@@ -198,6 +201,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
