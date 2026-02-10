@@ -37,6 +37,22 @@ app.use(
     }
   })
 );
+app.post("/login", (req, res) => {
+  const { usuario, password } = req.body;
+
+  if (
+    usuario === process.env.ADMIN_USER &&
+    password === process.env.ADMIN_PASSWORD
+  ) {
+    req.session.user = {
+      usuario
+    };
+
+    return res.json({ ok: true });
+  }
+
+  res.status(401).json({ ok: false, error: "Credenciales inválidas" });
+});
 app.use(express.static("public"));
 
 // -----------------------------
@@ -147,6 +163,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
