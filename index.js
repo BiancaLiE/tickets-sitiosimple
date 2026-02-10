@@ -28,9 +28,13 @@ connectDB();
 app.use(express.json());
 app.use(
   session({
-    secret: "super-secret-ticket-panel",
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false // Render usa https pero esto así funciona bien
+    }
   })
 );
 app.use(express.static("public"));
@@ -143,6 +147,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
