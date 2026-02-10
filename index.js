@@ -38,7 +38,9 @@ app.get("/", (req, res) => {
 // Webhook SitioSimple
 // -----------------------------
 app.post("/webhook", async (req, res) => {
+  console.log("📩 WEBHOOK RECIBIDO");
   console.log(JSON.stringify(req.body, null, 2));
+  
   try {
     const pedido = req.body;
 
@@ -62,13 +64,16 @@ app.post("/webhook", async (req, res) => {
           ""
       },
 
-      productos: pedido.detalle
-        .filter(item => item.tipo === "PRO")
-        .map(item => ({
-          descripcion: item.descripcion,
-          cantidad: Number(item.cantidad),
-          precio: Number(item.precio)
-        })),
+      productos: Array.isArray(pedido.detalle)
+        ? pedido.detalle
+          .filter(item => item.tipo === "PRO")
+          .map(item => ({
+            descripcion: item.descripcion,
+            cantidad: Number(item.cantidad),
+            precio: Number(item.precio)
+          }))
+      : [],
+
 
       total: Number(pedido.detallePrecios?.[0]?.total || 0),
       estado: "pendiente",
@@ -101,5 +106,6 @@ app.get("/tickets", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
