@@ -56,6 +56,12 @@ app.post("/login", (req, res) => {
   res.status(401).json({ ok: false, error: "Credenciales inválidas" });
 });
 
+app.post("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.json({ ok: true });
+  });
+});
+
 app.get("/me", (req, res) => {
   if (req.session.user) {
     res.json({
@@ -191,6 +197,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
