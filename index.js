@@ -37,6 +37,8 @@ app.use(
     }
   })
 );
+
+// LOGIN
 app.post("/login", (req, res) => {
   const { usuario, password } = req.body;
 
@@ -53,6 +55,18 @@ app.post("/login", (req, res) => {
 
   res.status(401).json({ ok: false, error: "Credenciales inválidas" });
 });
+
+app.get("/me", (req, res) => {
+  if (req.session.user) {
+    res.json({
+      logueado: true,
+      usuario: req.session.user.usuario
+    });
+  } else {
+    res.json({ logueado: false });
+  }
+});
+
 app.use(express.static("public"));
 
 // -----------------------------
@@ -163,6 +177,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
