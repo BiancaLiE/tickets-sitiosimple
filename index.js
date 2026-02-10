@@ -101,9 +101,34 @@ app.get("/tickets", async (req, res) => {
 });
 
 // -----------------------------
+// Actualizar ticket (editar desde el panel)
+// -----------------------------
+app.put("/tickets/:id", async (req, res) => {
+  try {
+    const pedidoId = req.params.id;
+    const ticketActualizado = req.body;
+
+    const result = await ticketsCollection.updateOne(
+      { pedidoId: pedidoId },
+      { $set: ticketActualizado }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: "Ticket no encontrado" });
+    }
+
+    res.json({ ok: true });
+  } catch (error) {
+    console.error("❌ Error actualizando ticket:", error);
+    res.status(500).json({ error: "Error actualizando ticket" });
+  }
+});
+
+// -----------------------------
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
