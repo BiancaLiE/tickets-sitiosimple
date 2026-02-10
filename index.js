@@ -53,16 +53,15 @@ app.post("/webhook", async (req, res) => {
         nombre: pedido?.cliente?.nombre || "",
         apellido: pedido?.cliente?.apellido || "",
         email: pedido?.cliente?.email || "",
-        telefono: pedido?.direccionEnvio?.telefono || "",
-
+        telefono: pedido?.direccionEnvio?.telefono || ""
+      },
+      
+      envio: {
         direccion: pedido?.direccionEnvio?.direccion || "",
         codigoPostal: pedido?.direccionEnvio?.codigoPostal || "",
         ciudad: pedido?.direccionEnvio?.ciudad || "",
-        provincia:
-          pedido?.direccionEnvio?.provincia ||
-          pedido?.direccionEnvio?.estado ||
-          pedido?.direccionEnvio?.region ||
-          ""
+        provincia: pedido?.direccionEnvio?.provincia || "",
+        pais: pedido?.direccionEnvio?.pais || ""
       },
 
       productos: Array.isArray(pedido.detalle)
@@ -74,7 +73,6 @@ app.post("/webhook", async (req, res) => {
             precio: Number(item.precio)
           }))
       : [],
-
 
       total: Number(pedido.detallePrecios?.[0]?.total || 0),
       estado: "pendiente",
@@ -107,6 +105,7 @@ app.get("/tickets", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
