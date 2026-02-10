@@ -38,6 +38,7 @@ app.get("/", (req, res) => {
 // Webhook SitioSimple
 // -----------------------------
 app.post("/webhook", async (req, res) => {
+  console.log(JSON.stringify(req.body, null, 2));
   try {
     const pedido = req.body;
 
@@ -100,4 +101,5 @@ app.get("/tickets", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
