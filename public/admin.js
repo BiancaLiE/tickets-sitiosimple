@@ -194,101 +194,125 @@ async function guardarCambios() {
 // Generar PDF
 // -----------------------------
 function generarPDF() {
-  doc.setDrawColor(0);
-  doc.line(10, y, 200, y);
-  y += 6;
-
   if (!ticketSeleccionado) {
-    alert("No hay ticket seleccionado");
+    alert("Seleccioná un ticket primero");
     return;
   }
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
-  let y = 10;
+  let y = 15;
 
-  // ------------------------
-  // Encabezado
-  // ------------------------
-  doc.setFontSize(16);
-  doc.text("TICKET DE COMPRA", 105, y, { align: "center" });
+  // ---------------------------
+  // ENCABEZADO
+  // ---------------------------
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(18);
+  doc.text("COMPROBANTE DE PEDIDO", 105, y, { align: "center" });
 
-  y += 10;
-  doc.setFontSize(10);
-  doc.text(`Orden Nº: ${ticketSeleccionado.pedidoId}`, 10, y);
+  y += 8;
+  doc.setFontSize(11);
+  doc.setFont("helvetica", "normal");
+  doc.text(`Orden N°: ${ticketSeleccionado.pedidoId}`, 14, y);
+
+  const fecha = new Date(ticketSeleccionado.fecha || ticketSeleccionado.creadoEn);
+  doc.text(`Fecha: ${fecha.toLocaleDateString("es-AR")}`, 150, y);
+
+  y += 6;
+  doc.line(14, y, 196, y);
+  y += 8;
+
+  // ---------------------------
+  // DATOS DEL CLIENTE
+  // ---------------------------
+  doc.setFont("helvetica", "bold");
+  doc.text("Datos del cliente", 14, y);
   y += 6;
 
-  const fecha = new Date(ticketSeleccionado.fecha).toLocaleString("es-AR");
-  doc.text(`Fecha: ${fecha}`, 10, y);
-
-  y += 10;
-
-  // ------------------------
-  // Cliente
-  // ------------------------
-  doc.setFontSize(12);
-  doc.text("Datos del Cliente", 10, y);
-  y += 6;
-
-  doc.setFontSize(10);
+  doc.setFont("helvetica", "normal");
+  doc.text(`Nombre: ${ticketSeleccionado.cliente?.nombre || ""} ${ticketSeleccionado.cliente?.apellido || ""}`, 14, y);
+  y += 5;
+  doc.text(`Email: ${ticketSeleccionado.cliente?.email || "-"}`, 14, y);
+  y += 5;
+  doc.text(`Teléfono: ${ticketSeleccionado.cliente?.telefono || "-"}`, 14, y);
+  y += 5;
+  doc.text(`Dirección: ${ticketSeleccionado.cliente?.direccion || "-"}`, 14, y);
+  y += 5;
   doc.text(
-    `${ticketSeleccionado.cliente.nombre || ""} ${ticketSeleccionado.cliente.apellido || ""}`,
-    10,
+    `CP: ${ticketSeleccionado.cliente?.cp || "-"} - ${ticketSeleccionado.cliente?.ciudad || ""}, ${ticketSeleccionado.cliente?.provincia || ""}`,
+    14,
     y
   );
-  y += 5;
 
-  doc.text(`Email: ${ticketSeleccionado.cliente.email || ""}`, 10, y);
-  y += 5;
+  y += 8;
+  doc.line(14, y, 196, y);
+  y += 8;
 
-  doc.text(`Tel: ${ticketSeleccionado.cliente.telefono || ""}`, 10, y);
-  y += 5;
-
-  doc.text(
-    `Dirección: ${ticketSeleccionado.cliente.direccion || ""}`,
-    10,
-    y
-  );
-  y += 5;
-
-  doc.text(
-    `Ciudad: ${ticketSeleccionado.cliente.ciudad || ""} - ${ticketSeleccionado.cliente.provincia || ""}`,
-    10,
-    y
-  );
-  y += 10;
-
-  // ------------------------
-  // Productos
-  // ------------------------
-  doc.setFontSize(12);
-  doc.text("Detalle de Productos", 10, y);
+  // ---------------------------
+  // TABLA DE PRODUCTOS
+  // ---------------------------
+  doc.setFont("helvetica", "bold");
+  doc.text("Detalle del pedido", 14, y);
   y += 6;
 
   doc.setFontSize(10);
+  doc.text("Producto", 14, y);
+  doc.text("Cant.", 120, y);
+  doc.text("Precio", 145, y);
+  doc.text("Subtotal", 170, y);
 
-  ticketSeleccionado.productos.forEach((p) => {
-    doc.text(
-      `${p.cantidad} x ${p.descripcion}  $${p.precio}`,
-      10,
-      y
-    );
-    y += 5;
+  y += 2;
+  doc.line(14, y, 196, y);
+  y += 6;
+
+  doc.setFont("helvetica", "normal");
+
+  ticketSeleccionado.productos.forEach(p => {
+    const subtotal = p.cantidad * p.precio;
+
+    doc.text(p.descripcion, 14, y);
+    doc.text(String(p.cantidad), 125, y, { align: "right" });
+    doc.text(`$${p.precio.toFixed(2)}`, 155, y, { align: "right" });
+    doc.text(`$${subtotal.toFixed(2)}`, 195, y, { align: "right" });
+
+    y += 6;
+
+    // Salto de página automático
+    if (y > 270) {
+      doc.addPage();
+      y = 20;
+    }
   });
 
-  y += 5;
+  y += 4;
+  doc.line(14, y, 196, y);
+  y += 8;
 
-  // ------------------------
-  // Total
-  // ------------------------
-  doc.setFontSize(12);
-  doc.text(`TOTAL: $${ticketSeleccionado.total}`, 10, y);
+  // ---------------------------
+  // TOTAL
+  // ---------------------------
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(14);
+  doc.text(`TOTAL: $${calcularTotal().toFixed(2)}`, 196, y, { align: "right" });
 
-  // ------------------------
-  // Guardar
-  // ------------------------
-  doc.save(`Ticket_${ticketSeleccionado.pedidoId}.pdf`);
+  // ---------------------------
+  // PIE
+  // ---------------------------
+  y += 15;
+  doc.setFontSize(9);
+  doc.setFont("helvetica", "normal");
+  doc.text(
+    "Este documento no es una factura ni comprobante fiscal.",
+    105,
+    y,
+    { align: "center" }
+  );
+
+  // ---------------------------
+  // GUARDAR
+  // ---------------------------
+  doc.save(`Pedido_${ticketSeleccionado.pedidoId}.pdf`);
 }
 
 // -----------------------------
