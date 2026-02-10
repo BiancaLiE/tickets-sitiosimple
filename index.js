@@ -39,6 +39,9 @@ app.use(
 );
 
 // LOGIN
+console.log("ADMIN_USER:", process.env.ADMIN_USER);
+console.log("ADMIN_PASSWORD:", process.env.ADMIN_PASSWORD);
+
 app.post("/login", (req, res) => {
   const { usuario, password } = req.body;
 
@@ -177,6 +180,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
