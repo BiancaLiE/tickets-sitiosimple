@@ -30,6 +30,10 @@ function mostrarDetalle(ticket) {
 
   let html = `
   <h4 class="mb-3">Ticket #${ticketSeleccionado.pedidoId}</h4>
+  <p class="text-muted">
+    Fecha de la orden: 
+      <b>${new Date(ticketSeleccionado.fecha).toLocaleString("es-AR")}</b>
+  </p>
 
   <div class="row mb-3">
     <div class="col-md-6">
