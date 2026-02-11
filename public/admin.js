@@ -74,6 +74,15 @@ function mostrarDetalle(ticket) {
       ➕ Agregar producto
     </button>
 
+    <div style="margin-top:15px;">
+      <label><strong>Anticipo:</strong></label>
+      <input type="number" id="anticipo" value="0" min="0" step="0.01">
+    </div>
+
+    <div style="margin-top:10px;">
+      <strong>Total final: $<span id="totalFinal">0</span></strong>
+    </div>
+
     <h5>Total: $<span id="totalTicket">${calcularTotal()}</span></h5>
 
     <div class="mt-3">
