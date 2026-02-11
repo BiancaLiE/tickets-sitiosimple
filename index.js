@@ -147,6 +147,7 @@ app.post("/webhook", async (req, res) => {
       : [],
 
       total: Number(pedido.detallePrecios?.[0]?.total || 0),
+      anticipo: 0,
       estado: "pendiente",
       creadoEn: new Date()
     };
@@ -187,6 +188,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
         $set: {
           productos: ticket.productos,
           total: ticket.total,
+          anticipo: Number(ticket.anticipo) || 0,
           estado: ticket.estado || "pendiente",
           actualizadoEn: new Date()
         }
@@ -208,6 +210,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
