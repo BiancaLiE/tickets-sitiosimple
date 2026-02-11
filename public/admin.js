@@ -367,24 +367,42 @@ function generarPDF() {
 
   const totalFinal = Math.max(total - anticipo, 0);
   
-  // ---------------------------
+// ---------------------------
 // TOTALES
 // ---------------------------
-y += 4;
+y += 6;
 
 doc.setFont("helvetica", "normal");
 doc.setFontSize(11);
 
 if (anticipo > 0) {
+
+  // Total normal
   doc.text(`Total: $${total.toFixed(2)}`, 196, y, { align: "right" });
 
   y += 6;
   doc.text(`Anticipo: -$${anticipo.toFixed(2)}`, 196, y, { align: "right" });
 
-  y += 8;
+  y += 10;
+
+  // === CAJA DESTACADA ===
+  const boxHeight = 12;
+  const boxWidth = 80;
+  const boxX = 196 - boxWidth;
+  const boxY = y - 8;
+
+  doc.setDrawColor(0);
+  doc.setLineWidth(0.5);
+  doc.rect(boxX, boxY, boxWidth, boxHeight);
+
   doc.setFont("helvetica", "bold");
   doc.setFontSize(14);
-  doc.text(`TOTAL FINAL: $${totalFinal.toFixed(2)}`, 196, y, { align: "right" });
+  doc.text(
+    `TOTAL FINAL: $${totalFinal.toFixed(2)}`,
+    196,
+    y,
+    { align: "right" }
+  );
 
 } else {
   doc.setFont("helvetica", "bold");
