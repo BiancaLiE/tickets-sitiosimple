@@ -378,10 +378,10 @@ doc.setFontSize(11);
 if (anticipo > 0) {
 
   // Total normal
-  doc.text(`TOTAL: $${total.localeString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
+  doc.text(`TOTAL: $${total.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
 
   y += 6;
-  doc.text(`Anticipo: -$${anticipo.localeString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
+  doc.text(`Anticipo: -$${anticipo.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
 
   y += 10;
 
@@ -411,7 +411,7 @@ if (anticipo > 0) {
 } else {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(14);
-  doc.text(`TOTAL: $${total.localeString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
+  doc.text(`TOTAL: $${total.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
 }
 
   // ---------------------------
