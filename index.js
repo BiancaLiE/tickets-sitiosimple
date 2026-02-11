@@ -21,8 +21,6 @@ async function connectDB() {
   console.log("✅ Conectado a MongoDB");
 }
 
-connectDB();
-
 // -----------------------------
 // Middlewares
 // -----------------------------
@@ -207,9 +205,18 @@ app.put("/tickets/:pedidoId", async (req, res) => {
 });
 
 // -----------------------------
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
-});
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error("❌ Error conectando a MongoDB:", err);
+    process.exit(1);
+  });
+
+
 
 
 
