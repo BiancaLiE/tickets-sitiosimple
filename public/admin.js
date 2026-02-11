@@ -326,26 +326,30 @@ function generarPDF() {
 
   ticketSeleccionado.productos.forEach(p => {
     const subtotal = p.cantidad * p.precio;
-    const descripcionMaxWidth = 90; // ancho máximo antes de la columna cantidad
+
+    const descripcionMaxWidth = 90;
     const descripcionLineas = doc.splitTextToSize(
-      producto.descripcion,
+      p.descripcion,
       descripcionMaxWidth
     );
-    doc.text(descripcionLineas, 20, y);
-    // cantidad, precio y subtotal se imprimen en la primera línea
-    doc.text(producto.cantidad.toString(), 115, y);
-    doc.text(`$${producto.precio}`, 135, y);
-    doc.text(`$${producto.cantidad * producto.precio}`, 165, y);
 
-    // mover el cursor según la cantidad de líneas usadas
+    // descripción (puede ocupar varias líneas)
+    doc.text(descripcionLineas, 14, y);
+
+    // columnas alineadas a la derecha
+    doc.text(p.cantidad.toString(), 125, y, { align: "right" });
+    doc.text(`$${p.precio.toFixed(2)}`, 150, y, { align: "right" });
+    doc.text(`$${subtotal.toFixed(2)}`, 196, y, { align: "right" });
+
+    // bajar según cantidad de líneas usadas
     y += descripcionLineas.length * 6;
 
-    // Salto de página automático
     if (y > 270) {
       doc.addPage();
       y = 20;
     }
   });
+
 
   y += 4;
   doc.line(14, y, 196, y);
@@ -364,25 +368,29 @@ function generarPDF() {
   const totalFinal = Math.max(total - anticipo, 0);
   
   // ---------------------------
-  // TOTAL
-  // ---------------------------
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(11);
+// TOTALES
+// ---------------------------
+y += 4;
+
+doc.setFont("helvetica", "normal");
+doc.setFontSize(11);
+
+if (anticipo > 0) {
   doc.text(`Total: $${total.toFixed(2)}`, 196, y, { align: "right" });
 
-  if (anticipo > 0) {
-    y += 6;
-    doc.text(`Anticipo: -$${anticipo.toFixed(2)}`, 196, y, { align: "right" });
+  y += 6;
+  doc.text(`Anticipo: -$${anticipo.toFixed(2)}`, 196, y, { align: "right" });
 
-    y += 6;
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(14);
-    doc.text(`TOTAL FINAL: $${totalFinal.toFixed(2)}`, 196, y, { align: "right" });
-  } else {
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(14);
-    doc.text(`TOTAL: $${total.toFixed(2)}`, 196, y, { align: "right" });
-  }
+  y += 8;
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(14);
+  doc.text(`TOTAL FINAL: $${totalFinal.toFixed(2)}`, 196, y, { align: "right" });
+
+} else {
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(14);
+  doc.text(`TOTAL: $${total.toFixed(2)}`, 196, y, { align: "right" });
+}
 
   // ---------------------------
   // PIE
