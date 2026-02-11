@@ -346,11 +346,37 @@ function generarPDF() {
   y += 8;
 
   // ---------------------------
+  // CÁLCULO TOTAL + ANTICIPO
+  // ---------------------------
+  const total = calcularTotal();
+
+  const anticipoInput = document.getElementById("anticipo");
+  const anticipo = anticipoInput
+    ? parseFloat(anticipoInput.value) || 0
+    : 0;
+
+  const totalFinal = Math.max(total - anticipo, 0);
+  
+  // ---------------------------
   // TOTAL
   // ---------------------------
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(14);
-  doc.text(`TOTAL: $${calcularTotal().toFixed(2)}`, 196, y, { align: "right" });
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(11);
+  doc.text(`Total: $${total.toFixed(2)}`, 196, y, { align: "right" });
+
+  if (anticipo > 0) {
+    y += 6;
+    doc.text(`Anticipo: -$${anticipo.toFixed(2)}`, 196, y, { align: "right" });
+
+    y += 6;
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text(`TOTAL FINAL: $${totalFinal.toFixed(2)}`, 196, y, { align: "right" });
+  } else {
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text(`TOTAL: $${total.toFixed(2)}`, 196, y, { align: "right" });
+  }
 
   // ---------------------------
   // PIE
