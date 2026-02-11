@@ -198,6 +198,14 @@ function calcularTotal() {
   return total; // 🔥 IMPORTANTE: devolvemos el total como antes
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  const anticipoInput = document.getElementById("anticipo");
+
+  if (anticipoInput) {
+    anticipoInput.addEventListener("input", calcularTotal);
+  }
+});
+
 // -----------------------------
 // Guardar cambios
 // -----------------------------
