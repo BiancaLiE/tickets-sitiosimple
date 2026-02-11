@@ -397,13 +397,17 @@ if (anticipo > 0) {
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(14);
-  doc.text(
-    `TOTAL FINAL: $${totalFinal.toFixed(2)}`,
-    196,
-    y,
-    { align: "right" }
-  );
+  const textoTotalFinal = `TOTAL FINAL: $${totalFinal.toFixed(2)}`;
 
+  // Centro horizontal de la caja
+  const centerX = boxX + boxWidth / 2;
+
+  doc.text(
+    textoTotalFinal,
+    centerX,
+    boxY + boxHeight / 2 + 3,
+    { align: "center" }
+  );
 } else {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(14);
