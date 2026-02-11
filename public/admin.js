@@ -78,7 +78,7 @@ function mostrarDetalle(ticket) {
 
     <div style="margin-top:15px;">
       <label><strong>Anticipo:</strong></label>
-      <input type="number" id="anticipo" value="0" min="0" step="0.01">
+      <input type="number" id="anticipo" value="${ticketSeleccionado.anticipo || 0}" min="0" step="0.01">
     </div>
 
     <div style="margin-top:10px;">
@@ -211,7 +211,13 @@ function calcularTotal() {
 // Guardar cambios
 // -----------------------------
 async function guardarCambios() {
+  const anticipoInput = document.getElementById("anticipo");
+  const anticipo = anticipoInput
+    ? parseFloat(anticipoInput.value) || 0
+    : 0;
+
   ticketSeleccionado.total = calcularTotal();
+  ticketSeleccionado.anticipo = anticipo; // 👈 NUEVO
 
   const res = await fetch(`/tickets/${ticketSeleccionado.pedidoId}`, {
     method: "PUT",
