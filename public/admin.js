@@ -181,6 +181,12 @@ function calcularTotal() {
     (sum, p) => sum + p.cantidad * p.precio,
     0
   );
+  const anticipo = parseFloat(document.getElementById("anticipo").value) || 0;
+
+  const totalFinal = total - anticipo;
+
+  document.getElementById("total").innerText = total;
+  document.getElementById("totalFinal").innerText = totalFinal;
 }
 
 // -----------------------------
