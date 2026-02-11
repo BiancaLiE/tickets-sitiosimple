@@ -326,13 +326,19 @@ function generarPDF() {
 
   ticketSeleccionado.productos.forEach(p => {
     const subtotal = p.cantidad * p.precio;
+    const descripcionMaxWidth = 90; // ancho máximo antes de la columna cantidad
+    const descripcionLineas = doc.splitTextToSize(
+      producto.descripcion,
+      descripcionMaxWidth
+    );
+    doc.text(descripcionLineas, 20, y);
+    // cantidad, precio y subtotal se imprimen en la primera línea
+    doc.text(producto.cantidad.toString(), 115, y);
+    doc.text(`$${producto.precio}`, 135, y);
+    doc.text(`$${producto.cantidad * producto.precio}`, 165, y);
 
-    doc.text(p.descripcion, 14, y);
-    doc.text(String(p.cantidad), 125, y, { align: "right" });
-    doc.text(`$${p.precio.toFixed(2)}`, 155, y, { align: "right" });
-    doc.text(`$${subtotal.toFixed(2)}`, 195, y, { align: "right" });
-
-    y += 6;
+    // mover el cursor según la cantidad de líneas usadas
+    y += descripcionLineas.length * 6;
 
     // Salto de página automático
     if (y > 270) {
