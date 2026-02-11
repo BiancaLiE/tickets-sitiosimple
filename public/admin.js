@@ -338,8 +338,8 @@ function generarPDF() {
 
     // columnas alineadas a la derecha
     doc.text(p.cantidad.toString(), 125, y, { align: "right" });
-    doc.text(`$${p.precio.toFixed(2)}`, 150, y, { align: "right" });
-    doc.text(`$${subtotal.toFixed(2)}`, 196, y, { align: "right" });
+    doc.text(`$${p.precio.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 150, y, { align: "right" });
+    doc.text(`$${subtotal.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
 
     // bajar según cantidad de líneas usadas
     y += descripcionLineas.length * 6;
@@ -378,10 +378,10 @@ doc.setFontSize(11);
 if (anticipo > 0) {
 
   // Total normal
-  doc.text(`Total: $${total.toFixed(2)}`, 196, y, { align: "right" });
+  doc.text(`TOTAL: $${total.localeString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
 
   y += 6;
-  doc.text(`Anticipo: -$${anticipo.toFixed(2)}`, 196, y, { align: "right" });
+  doc.text(`Anticipo: -$${anticipo.localeString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
 
   y += 10;
 
@@ -397,7 +397,7 @@ if (anticipo > 0) {
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(14);
-  const textoTotalFinal = `TOTAL FINAL: $${totalFinal.toFixed(2)}`;
+  const textoTotalFinal = `TOTAL FINAL: $${totalFinal.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`;
 
   // Centro horizontal de la caja
   const centerX = boxX + boxWidth / 2;
@@ -411,7 +411,7 @@ if (anticipo > 0) {
 } else {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(14);
-  doc.text(`TOTAL: $${total.toFixed(2)}`, 196, y, { align: "right" });
+  doc.text(`TOTAL: $${total.localeString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
 }
 
   // ---------------------------
