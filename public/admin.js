@@ -182,12 +182,20 @@ function calcularTotal() {
     0
   );
 
-  const anticipo = parseFloat(document.getElementById("anticipo").value) || 0;
+  const anticipoInput = document.getElementById("anticipo");
+  const anticipo = anticipoInput
+    ? parseFloat(anticipoInput.value) || 0
+    : 0;
 
   const totalFinal = Math.max(total - anticipo, 0);
 
-  document.getElementById("total").innerText = total;
-  document.getElementById("totalFinal").innerText = totalFinal;
+  const totalElement = document.getElementById("total");
+  const totalFinalElement = document.getElementById("totalFinal");
+
+  if (totalElement) totalElement.innerText = total;
+  if (totalFinalElement) totalFinalElement.innerText = totalFinal;
+
+  return total; // 🔥 IMPORTANTE: devolvemos el total como antes
 }
 
 // -----------------------------
