@@ -97,6 +97,15 @@ function mostrarDetalle(ticket) {
   `;
 
   document.getElementById("ticketDetail").innerHTML = html;
+  // 🔥 Activar listener del anticipo después de renderizar
+  const anticipoInput = document.getElementById("anticipo");
+  if (anticipoInput) {
+      anticipoInput.addEventListener("input", calcularTotal);
+  }
+
+// Calcular total inicial
+calcularTotal();
+
 }
 
 // -----------------------------
@@ -197,14 +206,6 @@ function calcularTotal() {
 
   return total; // 🔥 IMPORTANTE: devolvemos el total como antes
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  const anticipoInput = document.getElementById("anticipo");
-
-  if (anticipoInput) {
-    anticipoInput.addEventListener("input", calcularTotal);
-  }
-});
 
 // -----------------------------
 // Guardar cambios
