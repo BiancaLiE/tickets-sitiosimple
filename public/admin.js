@@ -74,6 +74,8 @@ function mostrarDetalle(ticket) {
       ➕ Agregar producto
     </button>
 
+    <h5>Total: $<span id="totalTicket">${calcularTotal()}</span></h5>
+
     <div style="margin-top:15px;">
       <label><strong>Anticipo:</strong></label>
       <input type="number" id="anticipo" value="0" min="0" step="0.01">
@@ -82,8 +84,6 @@ function mostrarDetalle(ticket) {
     <div style="margin-top:10px;">
       <strong>Total final: $<span id="totalFinal">0</span></strong>
     </div>
-
-    <h5>Total: $<span id="totalTicket">${calcularTotal()}</span></h5>
 
     <div class="mt-3">
       <button class="btn btn-primary me-2" onclick="guardarCambios()">
