@@ -187,6 +187,7 @@ function calcularTotal() {
 
   document.getElementById("total").innerText = total;
   document.getElementById("totalFinal").innerText = totalFinal;
+  document.getElementById("anticipo").addEventListener("input", calcularTotal);
 }
 
 // -----------------------------
