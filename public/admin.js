@@ -177,17 +177,17 @@ function eliminarProducto(index) {
 // Calcular total
 // -----------------------------
 function calcularTotal() {
-  return ticketSeleccionado.productos.reduce(
+  const total = ticketSeleccionado.productos.reduce(
     (sum, p) => sum + p.cantidad * p.precio,
     0
   );
+
   const anticipo = parseFloat(document.getElementById("anticipo").value) || 0;
 
-  const totalFinal = total - anticipo;
+  const totalFinal = Math.max(total - anticipo, 0);
 
   document.getElementById("total").innerText = total;
   document.getElementById("totalFinal").innerText = totalFinal;
-  document.getElementById("anticipo").addEventListener("input", calcularTotal);
 }
 
 // -----------------------------
