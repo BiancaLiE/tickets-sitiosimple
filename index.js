@@ -35,7 +35,7 @@ app.use(
     saveUninitialized: false,
     rolling: true,
     cookie: {
-      maxAge: 18 * 60 * 60 * 1000, // 18 horas
+      maxAge: 12 * 60 * 60 * 1000, // 12 horas
       httpOnly: true,
       secure: true,              // OBLIGATORIO en Render
       sameSite: "none"            // OBLIGATORIO en Render
@@ -208,6 +208,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
 });
+
 
 
 
