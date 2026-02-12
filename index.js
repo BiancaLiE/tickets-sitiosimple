@@ -24,7 +24,8 @@ async function connectDB() {
 // -----------------------------
 // Middlewares
 // -----------------------------
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(
   session({
     name: "tickets-session",
@@ -215,6 +216,7 @@ connectDB()
     console.error("❌ Error conectando a MongoDB:", err);
     process.exit(1);
   });
+
 
 
 
