@@ -344,16 +344,17 @@ function generarPDF() {
     // bajar según cantidad de líneas usadas
     y += descripcionLineas.length * 6;
 
-    if (y > 270) {
+    const pageHeight = doc.internal.pageSize.getHeight();
+    if (y > pageHeight - 20) {
       doc.addPage();
       y = 20;
     }
   });
 
 
-  y += 4;
+  y += 2;
   doc.line(14, y, 196, y);
-  y += 8;
+  y += 5;
 
   // ---------------------------
   // CÁLCULO TOTAL + ANTICIPO
