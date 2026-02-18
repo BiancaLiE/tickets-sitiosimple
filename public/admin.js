@@ -25,6 +25,24 @@ async function cargarTickets(page = 1) {
   renderPagination(data.totalPages, data.currentPage);
 }
 
+function renderPagination(totalPages, currentPage) {
+  const container = document.getElementById("pagination");
+  container.innerHTML = "";
+
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement("button");
+    btn.innerText = i;
+    btn.className = "btn btn-sm mx-1 " + (i === currentPage ? "btn-primary" : "btn-outline-primary");
+
+    btn.onclick = () => {
+      paginaActual = i;
+      cargarTickets(i);
+    };
+
+    container.appendChild(btn);
+  }
+}
+
 // -----------------------------
 // Mostrar detalle
 // -----------------------------
