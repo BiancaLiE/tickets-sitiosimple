@@ -165,12 +165,18 @@ app.post("/webhook", async (req, res) => {
 // Ver todos los tickets
 // -----------------------------
 app.get("/tickets", requireAuth, async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 100;
+  const skip = (page - 1) * limit;
+  const totalTickets = await ticketsCollection.countDocuments();
   const tickets = await ticketsCollection
     .find({})
     .sort({ creadoEn: -1 })
+    .skip(skip)
+    .limit(limit)
     .toArray();
 
-  res.json(tickets);
+  res.json({tickets, totalPages: Math.ceil(totalTickets / lmimit), currentPage: page});
 });
 
 // -----------------------------
@@ -216,6 +222,7 @@ connectDB()
     console.error("❌ Error conectando a MongoDB:", err);
     process.exit(1);
   });
+
 
 
 
