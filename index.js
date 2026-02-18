@@ -176,7 +176,7 @@ app.get("/tickets", requireAuth, async (req, res) => {
     .limit(limit)
     .toArray();
 
-  res.json({tickets, totalPages: Math.ceil(totalTickets / lmimit), currentPage: page});
+  res.json({tickets, totalPages: Math.ceil(totalTickets / limit), currentPage: page});
 });
 
 // -----------------------------
@@ -222,6 +222,7 @@ connectDB()
     console.error("❌ Error conectando a MongoDB:", err);
     process.exit(1);
   });
+
 
 
 
