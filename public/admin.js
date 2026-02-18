@@ -4,9 +4,12 @@ let ticketSeleccionado = null;
 // -----------------------------
 // Cargar tickets
 // -----------------------------
-async function cargarTickets() {
-  const res = await fetch("/tickets");
-  tickets = await res.json();
+let paginaActual = 1;
+
+async function cargarTickets(page = 1) {
+  const res = await fetch(`/tickets?page=${page}`);
+  const data = await res.json();
+  tickets = data.tickets;
 
   const list = document.getElementById("ticketsList");
   list.innerHTML = "";
@@ -19,6 +22,7 @@ async function cargarTickets() {
     div.onclick = () => mostrarDetalle(t);
     list.appendChild(div);
   });
+  renderPagination(data.totalPages, data.currentPage);
 }
 
 // -----------------------------
