@@ -168,7 +168,7 @@ app.get("/tickets", requireAuth, async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = 100;
   const skip = (page - 1) * limit;
-  const totalTickets = await ticketsCollection.countDocuments();
+  const totalTickets = await ticketsCollection.estimatedDocumentCount();
   const tickets = await ticketsCollection
     .find({})
     .sort({ creadoEn: -1 })
@@ -222,6 +222,7 @@ connectDB()
     console.error("❌ Error conectando a MongoDB:", err);
     process.exit(1);
   });
+
 
 
 
