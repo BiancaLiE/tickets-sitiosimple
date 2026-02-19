@@ -7,12 +7,12 @@ let ticketSeleccionado = null;
 let paginaActual = 1;
 
 async function cargarTickets(page = 1) {
+  const list = document.getElementById("ticketsList");
   list.innerHTML = "<div class='text-center p-3'>Cargando...</div>";
   const res = await fetch(`/tickets?page=${page}`);
   const data = await res.json();
   tickets = data.tickets;
 
-  const list = document.getElementById("ticketsList");
   list.innerHTML = "";
 
   tickets.forEach(t => {
