@@ -29,17 +29,43 @@ function renderPagination(totalPages, currentPage) {
   const container = document.getElementById("pagination");
   container.innerHTML = "";
 
-  for (let i = 1; i <= totalPages; i++) {
+  if (totalPages <= 1) return;
+
+  const maxVisible = 5;
+  let start = Math.max(1, currentPage - 2);
+  let end = Math.min(totalPages, start + maxVisible - 1);
+
+  if (end - start < maxVisible - 1) {
+    start = Math.max(1, end - maxVisible + 1);
+  }
+
+  // Botón Anterior
+  if (currentPage > 1) {
+    const prev = document.createElement("button");
+    prev.innerText = "«";
+    prev.className = "btn btn-sm btn-outline-primary mx-1";
+    prev.onclick = () => cargarTickets(currentPage - 1);
+    container.appendChild(prev);
+  }
+
+  for (let i = start; i <= end; i++) {
     const btn = document.createElement("button");
     btn.innerText = i;
-    btn.className = "btn btn-sm mx-1 " + (i === currentPage ? "btn-primary" : "btn-outline-primary");
+    btn.className =
+      "btn btn-sm mx-1 " +
+      (i === currentPage ? "btn-primary" : "btn-outline-primary");
 
-    btn.onclick = () => {
-      paginaActual = i;
-      cargarTickets(i);
-    };
-
+    btn.onclick = () => cargarTickets(i);
     container.appendChild(btn);
+  }
+
+  // Botón Siguiente
+  if (currentPage < totalPages) {
+    const next = document.createElement("button");
+    next.innerText = "»";
+    next.className = "btn btn-sm btn-outline-primary mx-1";
+    next.onclick = () => cargarTickets(currentPage + 1);
+    container.appendChild(next);
   }
 }
 
