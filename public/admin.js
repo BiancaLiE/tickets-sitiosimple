@@ -1,15 +1,19 @@
 let tickets = [];
 let ticketSeleccionado = null;
 
+document.getElementById("searchInput").addEventListener("input", () => {
+  cargarTickets(1);
+});
+
 // -----------------------------
 // Cargar tickets
 // -----------------------------
 let paginaActual = 1;
-
 async function cargarTickets(page = 1) {
+  const search = document.getElementById("searchInput")?.value || "";
   const list = document.getElementById("ticketsList");
   list.innerHTML = "<div class='text-center p-3'>Cargando...</div>";
-  const res = await fetch(`/tickets?page=${page}`);
+  const res = await fetch(`/tickets?page=${page}&search=${encodeURIComponent(search)}`);
   const data = await res.json();
   tickets = data.tickets;
 
