@@ -173,17 +173,18 @@ app.get("/tickets", requireAuth, async (req, res) => {
   let filtro = {};
 
   if (search) {
+    const esNumero = !isNaN(search);
     filtro = {
       $or: [
-        { pedidoId: { $regex: search, $options: "i" } },
+        ...(esNumero ? [{ pedidoId: Number(search) }] : []),
         { "cliente.nombre": { $regex: search, $options: "i" } },
         { "cliente.apellido": { $regex: search, $options: "i" } }
       ]
     };
   }
-  const totalTickets = await ticketsCollection.estimatedDocumentCount();
+  const totalTickets = await ticketsCollection.countDocuments(filtro);
   const tickets = await ticketsCollection
-    .find({})
+    .find(filtro)
     .sort({ creadoEn: -1 })
     .skip(skip)
     .limit(limit)
@@ -235,6 +236,7 @@ connectDB()
     console.error("❌ Error conectando a MongoDB:", err);
     process.exit(1);
   });
+
 
 
 
