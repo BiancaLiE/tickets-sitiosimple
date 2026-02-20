@@ -173,10 +173,9 @@ app.get("/tickets", requireAuth, async (req, res) => {
   let filtro = {};
 
   if (search) {
-    const esNumero = !isNaN(search);
     filtro = {
       $or: [
-        ...(esNumero ? [{ pedidoId: Number(search) }] : []),
+        { pedidoId: { $regex: search, $options: "i" } },
         { "cliente.nombre": { $regex: search, $options: "i" } },
         { "cliente.apellido": { $regex: search, $options: "i" } }
       ]
@@ -236,6 +235,7 @@ connectDB()
     console.error("❌ Error conectando a MongoDB:", err);
     process.exit(1);
   });
+
 
 
 
