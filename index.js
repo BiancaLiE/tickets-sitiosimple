@@ -166,8 +166,21 @@ app.post("/webhook", async (req, res) => {
 // -----------------------------
 app.get("/tickets", requireAuth, async (req, res) => {
   const page = parseInt(req.query.page) || 1;
+  const search = req.query.search || "";
   const limit = 50;
   const skip = (page - 1) * limit;
+  
+  let filtro = {};
+
+  if (search) {
+    filtro = {
+      $or: [
+        { pedidoId: { $regex: search, $options: "i" } },
+        { "cliente.nombre": { $regex: search, $options: "i" } },
+        { "cliente.apellido": { $regex: search, $options: "i" } }
+      ]
+    };
+  }
   const totalTickets = await ticketsCollection.estimatedDocumentCount();
   const tickets = await ticketsCollection
     .find({})
@@ -222,6 +235,7 @@ connectDB()
     console.error("❌ Error conectando a MongoDB:", err);
     process.exit(1);
   });
+
 
 
 
