@@ -342,10 +342,6 @@ function generarPDF() {
   doc.setFont("helvetica", "normal");
   doc.text(`Nombre: ${ticketSeleccionado.cliente?.nombre || ""} ${ticketSeleccionado.cliente?.apellido || ""}`, 14, y);
   y += 5;
-  doc.text(`Email: ${ticketSeleccionado.cliente?.email || "-"}`, 14, y);
-  y += 5;
-  doc.text(`Teléfono: ${ticketSeleccionado.cliente?.telefono || "-"}`, 14, y);
-  y += 5;
   doc.text(`Dirección: ${ticketSeleccionado.envio?.direccion || "-"}`, 14, y);
   y += 5;
   doc.text(
