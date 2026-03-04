@@ -173,11 +173,12 @@ app.get("/tickets", requireAuth, async (req, res) => {
   let filtro = {};
 
   if (search) {
+    const regex = new RegExp("^" + search, "i");
     filtro = {
       $or: [
-        { pedidoId: { $regex: search, $options: "i" } },
-        { "cliente.nombre": { $regex: search, $options: "i" } },
-        { "cliente.apellido": { $regex: search, $options: "i" } }
+        {pedidoId: regex},
+        {"cliente.nombre": regex },
+        {"cliente.apellido": regex}
       ]
     };
   }
@@ -235,6 +236,7 @@ connectDB()
     console.error("❌ Error conectando a MongoDB:", err);
     process.exit(1);
   });
+
 
 
 
