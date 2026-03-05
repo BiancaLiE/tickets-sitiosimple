@@ -146,7 +146,9 @@ function mostrarDetalle(ticket) {
       <button class="btn btn-success" onclick="generarPDF()">
         📄 Generar PDF
       </button>
-      <button onclick="generarRemito()">Generar Remito</button>
+      <button class="btn btn-success" onclick="generarRemito()">
+        📄 Generar Remito
+      </button>
     </div>
   `;
 
