@@ -542,13 +542,13 @@ function generarRemito() {
     doc.text(cliente?.telefono || "", 109, 52);
 
     // Domicilio
-    doc.text(envio?.direccion || "", 23, 58);
+    doc.text(envio?.direccion || "", 23, 60);
 
     // 🔥 NUEVO CAMPO — LOCALIDAD
-    doc.text(`Localidad: ${envio?.ciudad || ""}`, 9, 63);
+    doc.text(`Localidad: ${envio?.ciudad || ""}`, 9, 66);
 
     // Provincia
-    doc.text(envio?.provincia || "", 98, 64);
+    doc.text(envio?.provincia || "", 98, 66);
 
     // =============================
     // DESCRIPCIÓN FIJA
