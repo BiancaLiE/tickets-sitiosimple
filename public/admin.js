@@ -536,19 +536,19 @@ function generarRemito() {
     const envio = ticketSeleccionado.envio;
 
     // Cliente
-    doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`, 20, 53);
+    doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`, 20, 52);
 
     // Teléfono (si querés)
-    doc.text(cliente?.telefono || "", 110, 52);
+    doc.text(cliente?.telefono || "", 109, 52);
 
     // Domicilio
-    doc.text(envio?.direccion || "", 23, 59);
+    doc.text(envio?.direccion || "", 23, 58);
 
     // 🔥 NUEVO CAMPO — LOCALIDAD
-    doc.text(`Localidad: ${envio?.ciudad || ""}`, 10, 65);
+    doc.text(`Localidad: ${envio?.ciudad || ""}`, 9, 63);
 
     // Provincia
-    doc.text(envio?.provincia || "", 105, 65);
+    doc.text(envio?.provincia || "", 98, 64);
 
     // =============================
     // DESCRIPCIÓN FIJA
