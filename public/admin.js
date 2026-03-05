@@ -545,11 +545,7 @@ function generarRemito() {
     doc.text(envio?.direccion || "", 25, 72);
 
     // 🔥 NUEVO CAMPO — LOCALIDAD
-    doc.text(
-      `Localidad: ${envio?.ciudad || ""}`,
-      25,
-      78
-    );
+    doc.text(`Localidad: ${envio?.ciudad || ""}`, 25, 78);
 
     // Provincia
     doc.text(envio?.provincia || "", 140, 78);
