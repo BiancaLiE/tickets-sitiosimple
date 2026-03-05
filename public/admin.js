@@ -551,19 +551,27 @@ function generarRemito() {
     doc.text(envio?.provincia || "", 140, 78);
 
     // =============================
-    // PRODUCTOS
+    // DESCRIPCIÓN FIJA
     // =============================
 
-    let y = 100;
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
 
-    ticketSeleccionado.productos.forEach(p => {
-      doc.text(p.cantidad.toString(), 20, y);
+    const textoDescripcion = 
+      "BULTO DE MERCADERIA EN TRANSITO DE ORIGEN NACIONAL";
 
-      const descripcion = doc.splitTextToSize(p.descripcion, 100);
-      doc.text(descripcion, 35, y);
+    // Área aproximada de la descripción
+    const descripcionX = 35;
+    const descripcionY = 120; // ajustar fino si querés
+    const descripcionWidth = 130;
 
-      y += descripcion.length * 5;
-    });
+    // Centrado horizontal dentro del bloque
+    doc.text(
+      textoDescripcion,
+      descripcionX + descripcionWidth / 2,
+      descripcionY,
+      { align: "center", maxWidth: descripcionWidth }
+    );
 
     // =============================
     // GUARDAR
