@@ -383,32 +383,40 @@ function generarPDF() {
   doc.setFont("helvetica", "normal");
 
   ticketSeleccionado.productos.forEach(p => {
-    const subtotal = p.cantidad * p.precio;
+  const subtotal = p.cantidad * p.precio;
+  const descripcionMaxWidth = 90;
+  const descripcionLineas = doc.splitTextToSize(
+    p.descripcion,
+    descripcionMaxWidth
+  );
 
-    const descripcionMaxWidth = 90;
-    const descripcionLineas = doc.splitTextToSize(
-      p.descripcion,
-      descripcionMaxWidth
-    );
+  const alturaProducto = descripcionLineas.length * 6;
 
-    // descripción (puede ocupar varias líneas)
-    doc.text(descripcionLineas, 14, y);
+  // 🔥 1️⃣ Verificamos ANTES de dibujar
+  y = checkPageBreak(doc, y, alturaProducto);
 
-    // columnas alineadas a la derecha
-    doc.text(p.cantidad.toString(), 125, y, { align: "right" });
-    doc.text(`$${p.precio.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 150, y, { align: "right" });
-    doc.text(`$${subtotal.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
+  // 🔥 2️⃣ Dibujamos descripción
+  doc.text(descripcionLineas, 14, y);
 
-    const alturaProducto = descripcionLineas.length * 6;
+  // 🔥 3️⃣ Dibujamos columnas
+  doc.text(p.cantidad.toString(), 125, y, { align: "right" });
+  doc.text(
+    `$${p.precio.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
+    150,
+    y,
+    { align: "right" }
+  );
+  doc.text(
+    `$${subtotal.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
+    196,
+    y,
+    { align: "right" }
+  );
 
-    // verificar antes de pintar
-    y = checkPageBreak(doc, y, alturaProducto);
-
-    const pageHeight = doc.internal.pageSize.getHeight();
-    
-  });
-
-
+  // 🔥 4️⃣ Ahora sí bajamos la Y
+  y += alturaProducto;
+});
+  
   y += 2;
   doc.line(14, y, 196, y);
   y += 5;
