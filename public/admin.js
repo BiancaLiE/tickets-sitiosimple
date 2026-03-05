@@ -146,6 +146,7 @@ function mostrarDetalle(ticket) {
       <button class="btn btn-success" onclick="generarPDF()">
         📄 Generar PDF
       </button>
+      <button onclick="generarRemito()">Generar Remito</button>
     </div>
   `;
 
@@ -502,6 +503,76 @@ if (anticipo > 0) {
   // GUARDAR
   // ---------------------------
   doc.save(`Pedido_${ticketSeleccionado.pedidoId}.pdf`);
+}
+// ---------------------------
+// GENERAR REMITO
+// ------------------------
+function generarRemito() {
+  if (!ticketSeleccionado) {
+    alert("Seleccioná un ticket primero");
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF("p", "mm", "a4");
+
+  // 📌 Cargar imagen de fondo
+  const img = new Image();
+  img.src = "/remito_base.jpeg";
+
+  img.onload = function () {
+    doc.addImage(img, "JPEG", 0, 0, 210, 297);
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+
+    // =============================
+    // DATOS DINÁMICOS
+    // =============================
+
+    const cliente = ticketSeleccionado.cliente;
+    const envio = ticketSeleccionado.envio;
+
+    // Cliente
+    doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`, 25, 62);
+
+    // Teléfono (si querés)
+    doc.text(cliente?.telefono || "", 150, 62);
+
+    // Domicilio
+    doc.text(envio?.direccion || "", 25, 72);
+
+    // 🔥 NUEVO CAMPO — LOCALIDAD
+    doc.text(
+      `Localidad: ${envio?.ciudad || ""}`,
+      25,
+      78
+    );
+
+    // Provincia
+    doc.text(envio?.provincia || "", 140, 78);
+
+    // =============================
+    // PRODUCTOS
+    // =============================
+
+    let y = 100;
+
+    ticketSeleccionado.productos.forEach(p => {
+      doc.text(p.cantidad.toString(), 20, y);
+
+      const descripcion = doc.splitTextToSize(p.descripcion, 100);
+      doc.text(descripcion, 35, y);
+
+      y += descripcion.length * 5;
+    });
+
+    // =============================
+    // GUARDAR
+    // =============================
+
+    doc.save(`Remito_${ticketSeleccionado.pedidoId}.pdf`);
+  };
 }
 
 // -----------------------------
