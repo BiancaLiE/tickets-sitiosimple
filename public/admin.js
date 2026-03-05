@@ -561,8 +561,8 @@ function generarRemito() {
       "BULTO DE MERCADERIA EN TRANSITO DE ORIGEN NACIONAL";
 
     // Área aproximada de la descripción
-    const descripcionX = 30;
-    const descripcionY = 115; // ajustar fino si querés
+    const descripcionX = 25;
+    const descripcionY = 112; // ajustar fino si querés
     const descripcionWidth = 130;
 
     // Centrado horizontal dentro del bloque
