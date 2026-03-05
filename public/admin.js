@@ -536,19 +536,19 @@ function generarRemito() {
     const envio = ticketSeleccionado.envio;
 
     // Cliente
-    doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`, 25, 62);
+    doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`, 22, 52);
 
     // Teléfono (si querés)
-    doc.text(cliente?.telefono || "", 150, 62);
+    doc.text(cliente?.telefono || "", 130, 52);
 
     // Domicilio
-    doc.text(envio?.direccion || "", 25, 72);
+    doc.text(envio?.direccion || "", 23, 62);
 
     // 🔥 NUEVO CAMPO — LOCALIDAD
-    doc.text(`Localidad: ${envio?.ciudad || ""}`, 25, 78);
+    doc.text(`Localidad: ${envio?.ciudad || ""}`, 15, 68);
 
     // Provincia
-    doc.text(envio?.provincia || "", 140, 78);
+    doc.text(envio?.provincia || "", 120, 68);
 
     // =============================
     // DESCRIPCIÓN FIJA
@@ -561,8 +561,8 @@ function generarRemito() {
       "BULTO DE MERCADERIA EN TRANSITO DE ORIGEN NACIONAL";
 
     // Área aproximada de la descripción
-    const descripcionX = 25;
-    const descripcionY = 112; // ajustar fino si querés
+    const descripcionX = 22;
+    const descripcionY = 111; // ajustar fino si querés
     const descripcionWidth = 130;
 
     // Centrado horizontal dentro del bloque
