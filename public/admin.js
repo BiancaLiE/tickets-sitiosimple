@@ -303,6 +303,15 @@ async function logout() {
 // Generar PDF
 // -----------------------------
 function generarPDF() {
+  function checkPageBreak(doc, y, espacioNecesario) {
+    const pageHeight = doc.internal.pageSize.getHeight();
+    if (y + espacioNecesario > pageHeight - 15) {
+      doc.addPage();
+      return 20; // margen superior nueva página
+    }
+    return y;
+  }
+  
   if (!ticketSeleccionado) {
     alert("Seleccioná un ticket primero");
     return;
@@ -390,14 +399,13 @@ function generarPDF() {
     doc.text(`$${p.precio.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 150, y, { align: "right" });
     doc.text(`$${subtotal.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
 
-    // bajar según cantidad de líneas usadas
-    y += descripcionLineas.length * 6;
+    const alturaProducto = descripcionLineas.length * 6;
+
+    // verificar antes de pintar
+    y = checkPageBreak(doc, y, alturaProducto);
 
     const pageHeight = doc.internal.pageSize.getHeight();
-    if (y > pageHeight - 20) {
-      doc.addPage();
-      y = 20;
-    }
+    
   });
 
 
@@ -416,6 +424,11 @@ function generarPDF() {
     : 0;
 
   const totalFinal = Math.max(total - anticipo, 0);
+  // Estimamos cuánto espacio necesita el bloque completo
+  const espacioTotales = anticipo > 0 ? 40 : 20;
+
+  // Verificamos si entra
+  y = checkPageBreak(doc, y, espacioTotales);
   
 // ---------------------------
 // TOTALES
