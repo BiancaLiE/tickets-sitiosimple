@@ -552,8 +552,7 @@ function generarRemito() {
   img.onload = function () {
     doc.addImage(img, "JPEG", 0, 0, 210, 297);
 
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(11);
+    doc.setFont("courier", "bold");
 
     const fechaActual = new Date();
     const dia = String(fechaActual.getDate()).padStart(2, "0");
@@ -597,12 +596,13 @@ function generarRemito() {
     // Provincia
     doc.text(envio?.provincia || "".toUpperCase(), 98, 66);
 
-    doc.setFontSize(15);
+    doc.setFontSize(17);
     // Cantidad de Bultos
-    doc.text(String(cantidadBultos).toUpperCase(), 58, 165);
+    doc.text(String(cantidadBultos).toUpperCase(), 58, 166);
 
+    doc.setFontSize(15);
     // Transportista
-    doc.text(transportista.toUpperCase(), 32, 180);
+    doc.text(transportista.toUpperCase(), 31, 180);
 
     // =============================
     // DESCRIPCIÓN FIJA
