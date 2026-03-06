@@ -575,7 +575,7 @@ function generarRemito() {
 
     // Fecha
     // doc.text(fechaTexto, 109, 36);
-    doc.setFontSize(14);
+    doc.setFontSize(15);
     doc.text(`${dia}`, 110, 29);
     doc.text(`${mes}`, 124, 29);
     doc.text(`${anio}`, 136, 29);
@@ -598,7 +598,7 @@ function generarRemito() {
 
     doc.setFontSize(19);
     // Cantidad de Bultos
-    doc.text(String(cantidadBultos).toUpperCase(), 55, 166);
+    doc.text(String(cantidadBultos).toUpperCase(), 54, 166);
 
     doc.setFontSize(15);
     // Transportista
@@ -609,7 +609,7 @@ function generarRemito() {
     // =============================
 
     doc.setFontSize(13);
-    const textoDescripcion = "BULTO DE MERCADERIA EN TRANSITO DE ORIGEN NACIONAL";
+    const textoDescripcion = "BULTO DE MERCADERIA EN TRANSITO DE ORIGEN NACIONAL E IMPORTADO";
 
     // Área aproximada de la descripción
     const descripcionX = 20;
@@ -621,7 +621,7 @@ function generarRemito() {
       textoDescripcion,
       descripcionX + descripcionWidth / 2,
       descripcionY,
-      { align: "center", maxWidth: descripcionWidth }
+      { align: "right", maxWidth: descripcionWidth }
     );
 
     // =============================
