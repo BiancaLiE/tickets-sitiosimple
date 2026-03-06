@@ -168,6 +168,9 @@ function mostrarDetalle(ticket) {
   if (anticipoInput) {
       anticipoInput.addEventListener("input", calcularTotal);
   }
+  // Traer Cantidad de Bultos y Transportista
+  document.getElementById("bultosInput").value = ticket.bultos || "";
+  document.getElementById("transportistaInput").value = ticket.transportista || "";
 
 // Calcular total inicial
 calcularTotal();
