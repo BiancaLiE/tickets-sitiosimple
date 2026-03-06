@@ -559,7 +559,7 @@ function generarRemito() {
     const dia = String(fechaActual.getDate()).padStart(2, "0");
     const mes = String(fechaActual.getMonth() + 1).padStart(2, "0");
     const anio = fechaActual.getFullYear();
-    // const fechaTexto = `${dia}/${mes}/${anio}`;
+    const fechaTexto = `${dia}/${mes}/${anio}`;
 
     const bultosInput = document.getElementById("bultosInput");
     const cantidadBultos = bultosInput ? bultosInput.value : "";
