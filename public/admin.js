@@ -552,8 +552,8 @@ function generarRemito() {
   img.onload = function () {
     doc.addImage(img, "JPEG", 0, 0, 210, 297);
 
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
 
     const fechaActual = new Date();
     const dia = String(fechaActual.getDate()).padStart(2, "0");
@@ -570,36 +570,38 @@ function generarRemito() {
     // =============================
     // DATOS DINÁMICOS
     // =============================
-    doc.setFont("helvetica", "bold");
+    
     const cliente = ticketSeleccionado.cliente;
     const envio = ticketSeleccionado.envio;
 
     // Fecha
     // doc.text(fechaTexto, 109, 36);
+    doc.setFontSize(13);
     doc.text(`${dia}`, 110, 29);
     doc.text(`${mes}`, 124, 29);
     doc.text(`${anio}`, 136, 29);
 
+    doc.setFontSize(10);
     // Cliente
-    doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`, 20, 52);
+    doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`.toUpperCase(), 20, 52);
 
     // Teléfono (si querés)
-    doc.text(cliente?.telefono || "", 109, 52);
+    doc.text(cliente?.telefono || "".toUpperCase(), 109, 52);
 
     // Domicilio
-    doc.text(envio?.direccion || "", 23, 60);
+    doc.text(envio?.direccion || "".toUpperCase(), 23, 60);
 
     // 🔥 NUEVO CAMPO — LOCALIDAD
-    doc.text(`Localidad: ${envio?.ciudad || ""}`, 9, 66);
+    doc.text(`Localidad: ${envio?.ciudad || ""}`.toUpperCase(), 9, 66);
 
     // Provincia
-    doc.text(envio?.provincia || "", 98, 66);
+    doc.text(envio?.provincia || "".toUpperCase(), 98, 66);
 
     // Cantidad de Bultos
-    doc.text(String(cantidadBultos), 82, 214);
+    doc.text(String(cantidadBultos).toUpperCase(), 82, 214);
 
     // Transportista
-    doc.text(transportista, 35, 232);
+    doc.text(transportista.toUpperCase(), 35, 232);
 
     // =============================
     // DESCRIPCIÓN FIJA
