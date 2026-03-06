@@ -143,6 +143,11 @@ function mostrarDetalle(ticket) {
       <input id="bultosInput" type="number" class="form-control" style="width:120px;">
     </div>
 
+    <div class="mt-2">
+      <label>Transportista:</label>
+      <input id="transportistaInput" type="text" class="form-control" style="width:250px;">
+    </div>
+
     <div class="mt-3">
       <button class="btn btn-primary me-2" onclick="guardarCambios()">
         💾 Guardar cambios
@@ -539,6 +544,12 @@ function generarRemito() {
     const anio = fechaActual.getFullYear();
     const fechaTexto = `${dia}/${mes}/${anio}`;
 
+    const bultosInput = document.getElementById("bultosInput");
+    const cantidadBultos = bultosInput ? bultosInput.value : "";
+
+    const transportistaInput = document.getElementById("transportistaInput");
+    const transportista = transportistaInput ? transportistaInput.value : "";
+
     // =============================
     // DATOS DINÁMICOS
     // =============================
@@ -563,6 +574,12 @@ function generarRemito() {
 
     // Provincia
     doc.text(envio?.provincia || "", 98, 66);
+
+    // Cantidad de Bultos
+    doc.text(String(cantidadBultos), 82, 214);
+
+    // Transportista
+    doc.text(transportista, 35, 232);
 
     // =============================
     // DESCRIPCIÓN FIJA
