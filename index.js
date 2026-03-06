@@ -208,6 +208,10 @@ app.put("/tickets/:pedidoId", async (req, res) => {
           productos: ticket.productos,
           total: ticket.total,
           anticipo: Number(ticket.anticipo) || 0,
+
+          bultos: Number(ticket.bultos) || 0,            // 👈 NUEVO
+          transportista: ticket.transportista || "",     // 👈 NUEVO
+
           estado: ticket.estado || "pendiente",
           actualizadoEn: new Date()
         }
@@ -236,6 +240,7 @@ connectDB()
     console.error("❌ Error conectando a MongoDB:", err);
     process.exit(1);
   });
+
 
 
 
