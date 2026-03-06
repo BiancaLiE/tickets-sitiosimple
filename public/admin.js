@@ -528,12 +528,21 @@ function generarRemito() {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
 
+    const fechaActual = new Date();
+    const dia = String(fechaActual.getDate()).padStart(2, "0");
+    const mes = String(fechaActual.getMonth() + 1).padStart(2, "0");
+    const anio = fechaActual.getFullYear();
+    const fechaTexto = `${dia}/${mes}/${anio}`;
+
     // =============================
     // DATOS DINÁMICOS
     // =============================
 
     const cliente = ticketSeleccionado.cliente;
     const envio = ticketSeleccionado.envio;
+
+    // Fecha
+    doc.text(fechaTexto, 109, 36);
 
     // Cliente
     doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`, 20, 52);
