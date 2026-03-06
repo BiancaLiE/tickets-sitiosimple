@@ -570,15 +570,15 @@ function generarRemito() {
     // =============================
     // DATOS DINÁMICOS
     // =============================
-
+    doc.setFont("helvetica", "bold");
     const cliente = ticketSeleccionado.cliente;
     const envio = ticketSeleccionado.envio;
 
     // Fecha
     // doc.text(fechaTexto, 109, 36);
-    doc.text(`${dia}`, 110, 30);
-    doc.text(`${mes}`, 123, 30);
-    doc.text(`${anio}`, 136, 30);
+    doc.text(`${dia}`, 110, 29);
+    doc.text(`${mes}`, 124, 29);
+    doc.text(`${anio}`, 136, 29);
 
     // Cliente
     doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`, 20, 52);
@@ -605,7 +605,6 @@ function generarRemito() {
     // DESCRIPCIÓN FIJA
     // =============================
 
-    doc.setFont("helvetica", "bold");
     doc.setFontSize(11);
 
     const textoDescripcion = 
