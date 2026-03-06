@@ -277,13 +277,27 @@ function calcularTotal() {
 // Guardar cambios
 // -----------------------------
 async function guardarCambios() {
+
   const anticipoInput = document.getElementById("anticipo");
+  const bultosInput = document.getElementById("bultosInput");
+  const transportistaInput = document.getElementById("transportistaInput");
+
   const anticipo = anticipoInput
     ? parseFloat(anticipoInput.value) || 0
     : 0;
 
+  const bultos = bultosInput
+    ? parseInt(bultosInput.value) || 0
+    : 0;
+
+  const transportista = transportistaInput
+    ? transportistaInput.value || ""
+    : "";
+
   ticketSeleccionado.total = calcularTotal();
-  ticketSeleccionado.anticipo = anticipo; // 👈 NUEVO
+  ticketSeleccionado.anticipo = anticipo;
+  ticketSeleccionado.bultos = bultos;                // 👈 NUEVO
+  ticketSeleccionado.transportista = transportista;  // 👈 NUEVO
 
   const res = await fetch(`/tickets/${ticketSeleccionado.pedidoId}`, {
     method: "PUT",
