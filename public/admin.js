@@ -138,6 +138,11 @@ function mostrarDetalle(ticket) {
       <strong>Total final: $<span id="totalFinal">0</span></strong>
     </div>
 
+    <div class="mt-2">
+      <label>Bultos:</label>
+      <input id="bultosInput" type="number" class="form-control" style="width:120px;">
+    </div>
+
     <div class="mt-3">
       <button class="btn btn-primary me-2" onclick="guardarCambios()">
         💾 Guardar cambios
