@@ -576,9 +576,9 @@ function generarRemito() {
 
     // Fecha
     // doc.text(fechaTexto, 109, 36);
-    doc.text(`${dia}`, 109, 36);
-    doc.text(`${mes}`, 119, 36);
-    doc.text(`${anio}`, 129, 36);
+    doc.text(`${dia}`, 110, 30);
+    doc.text(`${mes}`, 123, 30);
+    doc.text(`${anio}`, 136, 30);
 
     // Cliente
     doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`, 20, 52);
