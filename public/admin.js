@@ -575,12 +575,12 @@ function generarRemito() {
 
     // Fecha
     // doc.text(fechaTexto, 109, 36);
-    doc.setFontSize(13);
+    doc.setFontSize(14);
     doc.text(`${dia}`, 110, 29);
     doc.text(`${mes}`, 124, 29);
     doc.text(`${anio}`, 136, 29);
 
-    doc.setFontSize(10);
+    doc.setFontSize(11);
     // Cliente
     doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`.toUpperCase(), 20, 52);
 
@@ -596,23 +596,23 @@ function generarRemito() {
     // Provincia
     doc.text(envio?.provincia || "".toUpperCase(), 98, 66);
 
-    doc.setFontSize(17);
+    doc.setFontSize(19);
     // Cantidad de Bultos
-    doc.text(String(cantidadBultos).toUpperCase(), 58, 166);
+    doc.text(String(cantidadBultos).toUpperCase(), 55, 166);
 
     doc.setFontSize(15);
     // Transportista
-    doc.text(transportista.toUpperCase(), 31, 180);
+    doc.text(transportista.toUpperCase(), 30, 180);
 
     // =============================
     // DESCRIPCIÓN FIJA
     // =============================
 
-    doc.setFontSize(11);
+    doc.setFontSize(13);
     const textoDescripcion = "BULTO DE MERCADERIA EN TRANSITO DE ORIGEN NACIONAL";
 
     // Área aproximada de la descripción
-    const descripcionX = 22;
+    const descripcionX = 20;
     const descripcionY = 111; // ajustar fino si querés
     const descripcionWidth = 130;
 
