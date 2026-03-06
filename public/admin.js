@@ -599,10 +599,10 @@ function generarRemito() {
 
     doc.setFontSize(15);
     // Cantidad de Bultos
-    doc.text(String(cantidadBultos).toUpperCase(), 62, 160);
+    doc.text(String(cantidadBultos).toUpperCase(), 58, 165);
 
     // Transportista
-    doc.text(transportista.toUpperCase(), 33, 175);
+    doc.text(transportista.toUpperCase(), 32, 180);
 
     // =============================
     // DESCRIPCIÓN FIJA
