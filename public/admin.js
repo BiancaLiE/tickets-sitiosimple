@@ -597,20 +597,19 @@ function generarRemito() {
     // Provincia
     doc.text(envio?.provincia || "".toUpperCase(), 98, 66);
 
+    doc.setFontSize(15);
     // Cantidad de Bultos
-    doc.text(String(cantidadBultos).toUpperCase(), 82, 214);
+    doc.text(String(cantidadBultos).toUpperCase(), 62, 160);
 
     // Transportista
-    doc.text(transportista.toUpperCase(), 35, 232);
+    doc.text(transportista.toUpperCase(), 33, 175);
 
     // =============================
     // DESCRIPCIÓN FIJA
     // =============================
 
     doc.setFontSize(11);
-
-    const textoDescripcion = 
-      "BULTO DE MERCADERIA EN TRANSITO DE ORIGEN NACIONAL";
+    const textoDescripcion = "BULTO DE MERCADERIA EN TRANSITO DE ORIGEN NACIONAL";
 
     // Área aproximada de la descripción
     const descripcionX = 22;
