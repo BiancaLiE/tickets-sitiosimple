@@ -621,7 +621,7 @@ function generarRemito() {
       textoDescripcion,
       descripcionX + descripcionWidth / 2,
       descripcionY,
-      { align: "right", maxWidth: descripcionWidth }
+      { align: "center", maxWidth: descripcionWidth }
     );
 
     // =============================
