@@ -93,6 +93,10 @@ function mostrarDetalle(ticket) {
       <p><b>Cliente:</b> ${ticketSeleccionado.cliente?.nombre || ""} ${ticketSeleccionado.cliente?.apellido || ""}</p>
       <p><b>Email:</b> ${ticketSeleccionado.cliente?.email || "-"}</p>
       <p><b>Teléfono:</b> ${ticketSeleccionado.cliente?.telefono || "-"}</p>
+      <div class="mt-2">
+        <p><b>DNI:</b></p>
+        <input type="text" id="dniCliente" class="form-control" style="width:250px;" value="${ticket.dni || ""}">
+      </div>
     </div>
 
     <div class="col-md-6">
