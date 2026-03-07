@@ -148,15 +148,19 @@ function mostrarDetalle(ticket) {
       <input id="transportistaInput" type="text" class="form-control" style="width:250px;">
     </div>
 
-    <label>DNI:</label>
-    <input type="text" id="dniCliente" value="${ticket.dni || ""}">
+    <div class="mt-2">
+      <label>DNI:</label>
+      <input type="text" id="dniCliente" class="form-control" value="${ticket.dni || ""}">
+    </div>
 
-    <label>Envío a Sucursal:</label>
-    <select id="envioSucursal">
-      <option value="false" ${ticket.envioSucursal ? "" : "selected"}>No</option>
-      <option value="true" ${ticket.envioSucursal ? "selected" : ""}>Si</option>
-    </select>
-
+    <div class="mt-2">
+      <label>Envío a Sucursal:</label>
+      <select id="envioSucursal" class="form.select">
+        <option value="false" ${ticket.envioSucursal ? "" : "selected"}>No</option>
+        <option value="true" ${ticket.envioSucursal ? "selected" : ""}>Si</option>
+      </select>
+    </div>
+    
     <div class="mt-3">
       <button class="btn btn-primary me-2" onclick="guardarCambios()">
         💾 Guardar cambios
