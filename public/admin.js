@@ -153,7 +153,7 @@ function mostrarDetalle(ticket) {
         </div>
         <div class="mt-2 input-group">
           <label class="input-group-text">Envío a Sucursal:</label>
-          <select id="envioSucursal" class="form-select" style:"max-width:30px !important;">
+          <select id="envioSucursal" class="form-select" style:"width:30px;">
             <option value="false" ${ticket.envioSucursal ? "" : "selected"}>No</option>
             <option value="true" ${ticket.envioSucursal ? "selected" : ""}>Si</option>
           </select>
