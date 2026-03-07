@@ -93,8 +93,8 @@ function mostrarDetalle(ticket) {
       <p><b>Cliente:</b> ${ticketSeleccionado.cliente?.nombre || ""} ${ticketSeleccionado.cliente?.apellido || ""}</p>
       <p><b>Email:</b> ${ticketSeleccionado.cliente?.email || "-"}</p>
       <p><b>Teléfono:</b> ${ticketSeleccionado.cliente?.telefono || "-"}</p>
-      <div class="mt-2 input-group-sm">
-        <label class="input-group-text"><b>DNI:</b></label>
+      <div class="mt-2 input-group">
+        <label class="input-group-text"><strong>DNI:</strong></label>
         <input type="text" id="dniCliente" class="form-control" style="width:250px;" value="${ticket.dni || ""}">
       </div>
     </div>
@@ -133,9 +133,9 @@ function mostrarDetalle(ticket) {
 
     <h5>Total: $<span id="totalTicket">${calcularTotal()}</span></h5>
 
-    <div style="margin-top:15px;">
-      <label><strong>Anticipo:</strong></label>
-      <input type="number" id="anticipo" class="form-control" style="width:120px;" value="${ticketSeleccionado.anticipo || 0}" min="0" step="0.01">
+    <div class="input-group" style="margin-top:15px;">
+      <label class="input-group-text"><strong>Anticipo:</strong></label>
+      <input type="number" id="anticipo" class="form-control" style="max-width:120px;" value="${ticketSeleccionado.anticipo || 0}" min="0" step="0.01">
     </div>
 
     <div style="margin-top:10px;">
