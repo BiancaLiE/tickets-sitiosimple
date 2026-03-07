@@ -150,7 +150,7 @@ function mostrarDetalle(ticket) {
 
     <div class="mt-2">
       <label>DNI:</label>
-      <input type="text" id="dniCliente" class="form-control" value="${ticket.dni || ""}">
+      <input type="text" id="dniCliente" class="form-control" style="width:250px;" value="${ticket.dni || ""}">
     </div>
 
     <div class="mt-2">
