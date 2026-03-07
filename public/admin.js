@@ -588,13 +588,13 @@ function generarRemito() {
     doc.text(cliente?.telefono || "".toUpperCase(), 111, 51);
 
     // Domicilio
-    doc.text(envio?.direccion || "".toUpperCase(), 25, 58);
+    doc.text(envio?.direccion || "".toUpperCase(), 25, 59);
 
     // 🔥 NUEVO CAMPO — LOCALIDAD
     doc.text(`Localidad: ${envio?.ciudad || ""}`.toUpperCase(), 10, 65);
 
     // Provincia
-    doc.text(envio?.provincia || "".toUpperCase(), 99, 64);
+    doc.text(envio?.provincia || "".toUpperCase(), 99, 65);
 
     doc.setFontSize(19);
     // Cantidad de Bultos
@@ -602,7 +602,7 @@ function generarRemito() {
 
     doc.setFontSize(15);
     // Transportista
-    doc.text(transportista.toUpperCase(), 31, 178);
+    doc.text(transportista.toUpperCase(), 32, 178);
 
     // =============================
     // DESCRIPCIÓN FIJA
