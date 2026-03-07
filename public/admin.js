@@ -547,7 +547,7 @@ function generarRemito() {
 
   // 📌 Cargar imagen de fondo
   const img = new Image();
-  img.src = "/remito_base.jpeg";
+  img.src = "/remito_base.png";
 
   img.onload = function () {
     doc.addImage(img, "JPEG", 0, 0, 210, 297);
