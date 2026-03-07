@@ -576,16 +576,16 @@ function generarRemito() {
     // Fecha
     // doc.text(fechaTexto, 109, 36);
     doc.setFontSize(15);
-    doc.text(`${dia}`, 110, 29);
-    doc.text(`${mes}`, 124, 29);
-    doc.text(`${anio}`, 136, 29);
+    doc.text(`${dia}`, 111, 28);
+    doc.text(`${mes}`, 125, 28);
+    doc.text(`${anio}`, 137, 28);
 
     doc.setFontSize(11);
     // Cliente
-    doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`.toUpperCase(), 20, 52);
+    doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`.toUpperCase(), 21, 51);
 
     // Teléfono (si querés)
-    doc.text(cliente?.telefono || "".toUpperCase(), 109, 52);
+    doc.text(cliente?.telefono || "".toUpperCase(), 110, 51);
 
     // Domicilio
     doc.text(envio?.direccion || "".toUpperCase(), 23, 60);
