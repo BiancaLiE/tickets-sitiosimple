@@ -585,16 +585,16 @@ function generarRemito() {
     doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`.toUpperCase(), 22, 51);
 
     // Teléfono (si querés)
-    doc.text(cliente?.telefono || "".toUpperCase(), 111, 51);
+    doc.text((cliente?.telefono || "").toUpperCase(), 111, 51);
 
     // Domicilio
-    doc.text(envio?.direccion || "".toUpperCase(), 25, 59);
+    doc.text((envio?.direccion || "").toUpperCase(), 25, 59);
 
     // 🔥 NUEVO CAMPO — LOCALIDAD
     doc.text(`Localidad: ${envio?.ciudad || ""}`.toUpperCase(), 10, 65);
 
     // Provincia
-    doc.text(envio?.provincia || "".toUpperCase(), 99, 65);
+    doc.text((envio?.provincia || "").toUpperCase(), 99, 65);
 
     doc.setFontSize(19);
     // Cantidad de Bultos
