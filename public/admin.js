@@ -145,7 +145,7 @@ function mostrarDetalle(ticket) {
       <div class="col-md-6">
         <div class="mt-2 input-group">
           <label class="input-group-text">Bultos:</label>
-          <input id="bultosInput" type="number" class="form-control" style="max-width:60px;">
+          <input id="bultosInput" type="number" class="form-control" style="max-width:80px;">
         </div>
         <div class="mt-2 input-group">
           <label class="input-group-text">Transportista:</label>
@@ -153,7 +153,7 @@ function mostrarDetalle(ticket) {
         </div>
         <div class="mt-2 input-group">
           <label class="input-group-text">Envío a Sucursal:</label>
-          <select id="envioSucursal" class="form-select" style:"max-width:60px;">
+          <select id="envioSucursal" class="form-select" style:"max-width:80px;">
             <option value="false" ${ticket.envioSucursal ? "" : "selected"}>No</option>
             <option value="true" ${ticket.envioSucursal ? "selected" : ""}>Si</option>
           </select>
