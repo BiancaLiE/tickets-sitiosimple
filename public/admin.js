@@ -95,7 +95,7 @@ function mostrarDetalle(ticket) {
       <p><b>Teléfono:</b> ${ticketSeleccionado.cliente?.telefono || "-"}</p>
       <div class="mt-2 input-group">
         <label class="input-group-text"><strong>DNI:</strong></label>
-        <input type="text" id="dniCliente" class="form-control" style="width:250px;" value="${ticket.dni || ""}">
+        <input type="text" id="dniCliente" class="form-control" style="max-width:250px;" value="${ticket.dni || ""}">
       </div>
     </div>
 
@@ -131,35 +131,36 @@ function mostrarDetalle(ticket) {
       ➕ Agregar producto
     </button>
 
-    <h5>Total: $<span id="totalTicket">${calcularTotal()}</span></h5>
-
-    <div class="input-group" style="margin-top:15px;">
-      <label class="input-group-text"><strong>Anticipo:</strong></label>
-      <input type="number" id="anticipo" class="form-control" style="max-width:120px;" value="${ticketSeleccionado.anticipo || 0}" min="0" step="0.01">
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <h5>Total: $<span id="totalTicket">${calcularTotal()}</span></h5>
+        <div class="input-group" style="margin-top:15px;">
+          <label class="input-group-text"><strong>Anticipo:</strong></label>
+          <input type="number" id="anticipo" class="form-control" style="max-width:120px;" value="${ticketSeleccionado.anticipo || 0}" min="0" step="0.01">
+        </div>
+        <div style="margin-top:15px;">
+          <strong>Total final: $<span id="totalFinal">0</span></strong>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="mt-2 input-group">
+          <label class="input-group-text">Bultos:</label>
+          <input id="bultosInput" type="number" class="form-control" style="max-width:120px;">
+        </div>
+        <div class="mt-2 input-group">
+          <label class="input-group-text">Transportista:</label>
+          <input id="transportistaInput" type="text" class="form-control" style="max-width:250px;">
+        </div>
+        <div class="mt-2">
+          <label>Envío a Sucursal:</label>
+          <select id="envioSucursal" class="form.select">
+            <option value="false" ${ticket.envioSucursal ? "" : "selected"}>No</option>
+            <option value="true" ${ticket.envioSucursal ? "selected" : ""}>Si</option>
+          </select>
+        </div>
+      </div>
     </div>
-
-    <div style="margin-top:10px;">
-      <strong>Total final: $<span id="totalFinal">0</span></strong>
-    </div>
-
-    <div class="mt-2 input-group">
-      <label class="input-group-text">Bultos:</label>
-      <input id="bultosInput" type="number" class="form-control" style="max-width:120px;">
-    </div>
-
-    <div class="mt-2 input-group">
-      <label class="input-group-text">Transportista:</label>
-      <input id="transportistaInput" type="text" class="form-control" style="max-width:250px;">
-    </div>
-
-    <div class="mt-2">
-      <label>Envío a Sucursal:</label>
-      <select id="envioSucursal" class="form.select">
-        <option value="false" ${ticket.envioSucursal ? "" : "selected"}>No</option>
-        <option value="true" ${ticket.envioSucursal ? "selected" : ""}>Si</option>
-      </select>
-    </div>
-    
+   
     <div class="mt-3">
       <button class="btn btn-primary me-2" onclick="guardarCambios()">
         💾 Guardar cambios
