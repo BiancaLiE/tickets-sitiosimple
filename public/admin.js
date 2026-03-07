@@ -129,9 +129,9 @@ function mostrarDetalle(ticket) {
 
     <h5>Total: $<span id="totalTicket">${calcularTotal()}</span></h5>
 
-    <div style="margin-top:15px;">
+    <div class="mt-2" style="margin-top:15px;">
       <label><strong>Anticipo:</strong></label>
-      <input type="number" id="anticipo" value="${ticketSeleccionado.anticipo || 0}" min="0" step="0.01">
+      <input type="number" id="anticipo" class="form-control" value="${ticketSeleccionado.anticipo || 0}" min="0" step="0.01">
     </div>
 
     <div style="margin-top:10px;">
