@@ -578,31 +578,31 @@ function generarRemito() {
     doc.setFontSize(15);
     doc.text(`${dia}`, 111, 28);
     doc.text(`${mes}`, 125, 28);
-    doc.text(`${anio}`, 137, 28);
+    doc.text(`${anio}`, 138, 28);
 
     doc.setFontSize(11);
     // Cliente
-    doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`.toUpperCase(), 21, 51);
+    doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`.toUpperCase(), 22, 51);
 
     // Teléfono (si querés)
-    doc.text(cliente?.telefono || "".toUpperCase(), 110, 51);
+    doc.text(cliente?.telefono || "".toUpperCase(), 111, 51);
 
     // Domicilio
-    doc.text(envio?.direccion || "".toUpperCase(), 23, 60);
+    doc.text(envio?.direccion || "".toUpperCase(), 25, 58);
 
     // 🔥 NUEVO CAMPO — LOCALIDAD
-    doc.text(`Localidad: ${envio?.ciudad || ""}`.toUpperCase(), 9, 66);
+    doc.text(`Localidad: ${envio?.ciudad || ""}`.toUpperCase(), 10, 65);
 
     // Provincia
-    doc.text(envio?.provincia || "".toUpperCase(), 98, 66);
+    doc.text(envio?.provincia || "".toUpperCase(), 99, 64);
 
     doc.setFontSize(19);
     // Cantidad de Bultos
-    doc.text(String(cantidadBultos).toUpperCase(), 54, 166);
+    doc.text(String(cantidadBultos).toUpperCase(), 55, 165);
 
     doc.setFontSize(15);
     // Transportista
-    doc.text(transportista.toUpperCase(), 30, 180);
+    doc.text(transportista.toUpperCase(), 31, 178);
 
     // =============================
     // DESCRIPCIÓN FIJA
@@ -613,7 +613,7 @@ function generarRemito() {
 
     // Área aproximada de la descripción
     const descripcionX = 20;
-    const descripcionY = 111; // ajustar fino si querés
+    const descripcionY = 110; // ajustar fino si querés
     const descripcionWidth = 130;
 
     // Centrado horizontal dentro del bloque
