@@ -93,8 +93,8 @@ function mostrarDetalle(ticket) {
       <p><b>Cliente:</b> ${ticketSeleccionado.cliente?.nombre || ""} ${ticketSeleccionado.cliente?.apellido || ""}</p>
       <p><b>Email:</b> ${ticketSeleccionado.cliente?.email || "-"}</p>
       <p><b>Teléfono:</b> ${ticketSeleccionado.cliente?.telefono || "-"}</p>
-      <div class="mt-2 input-group">
-        <p class="input-group-text"><b>DNI:</b></p>
+      <div class="mt-2 input-group-sm">
+        <label class="input-group-text"><b>DNI:</b></label>
         <input type="text" id="dniCliente" class="form-control" style="width:250px;" value="${ticket.dni || ""}">
       </div>
     </div>
@@ -144,12 +144,12 @@ function mostrarDetalle(ticket) {
 
     <div class="mt-2 input-group">
       <label class="input-group-text">Bultos:</label>
-      <input id="bultosInput" type="number" class="form-control" style="width:120px;">
+      <input id="bultosInput" type="number" class="form-control" style="max-width:120px;">
     </div>
 
     <div class="mt-2 input-group">
       <label class="input-group-text">Transportista:</label>
-      <input id="transportistaInput" type="text" class="form-control" style="width:250px;">
+      <input id="transportistaInput" type="text" class="form-control" style="max-width:250px;">
     </div>
 
     <div class="mt-2">
