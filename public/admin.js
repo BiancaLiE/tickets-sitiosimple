@@ -591,6 +591,12 @@ function generarRemito() {
     const transportistaInput = document.getElementById("transportistaInput");
     const transportista = transportistaInput ? transportistaInput.value : "";
 
+    const dniInput = document.getElementById("dniCliente");
+    const dni = dniInput ? dniInput.value : "";
+    
+    const envioSucursalInput = document.getElementById("envioSucursal");
+    const envioSucursal = envioSucursalInput ? envioSucursalInput.value === "true" : false;
+
     // =============================
     // DATOS DINÁMICOS
     // =============================
