@@ -655,7 +655,7 @@ function generarRemito() {
     // Área aproximada de la descripción
     const descripcionX = 22;
     const descripcionY = 110; // ajustar fino si querés
-    const descripcionWidth = 150;
+    const descripcionWidth = 140;
 
     // Centrado horizontal dentro del bloque
     doc.text(
