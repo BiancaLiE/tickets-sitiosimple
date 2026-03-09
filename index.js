@@ -214,6 +214,9 @@ app.put("/tickets/:pedidoId", async (req, res) => {
           dni: ticket.dni || "",                         // 👈 NUEVO
           envioSucursal: ticket.envioSucursal || false,  // 👈 NUEVO
 
+          cliente: ticket.cliente,
+          envio: ticket.envio,
+
           estado: ticket.estado || "pendiente",
           actualizadoEn: new Date()
         }
@@ -242,6 +245,7 @@ connectDB()
     console.error("❌ Error conectando a MongoDB:", err);
     process.exit(1);
   });
+
 
 
 
