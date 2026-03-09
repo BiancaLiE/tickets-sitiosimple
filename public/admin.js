@@ -297,6 +297,8 @@ async function guardarCambios() {
   const anticipoInput = document.getElementById("anticipo");
   const bultosInput = document.getElementById("bultosInput");
   const transportistaInput = document.getElementById("transportistaInput");
+  const dniInput = document.getElementById("dniCliente");
+  const envioSucursalInput = document.getElementById("envioSucursal");
 
   const anticipo = anticipoInput
     ? parseFloat(anticipoInput.value) || 0
@@ -310,10 +312,20 @@ async function guardarCambios() {
     ? transportistaInput.value || ""
     : "";
 
+  const dni = dniInput
+    ? dniInput.value 
+    : "";
+
+  const envioSucursal = envioSucursalInput
+    ? envioSucursalInput.value === "true"
+    : false;
+
   ticketSeleccionado.total = calcularTotal();
   ticketSeleccionado.anticipo = anticipo;
   ticketSeleccionado.bultos = bultos;                // 👈 NUEVO
   ticketSeleccionado.transportista = transportista;  // 👈 NUEVO
+  ticketSeleccionado.dni = dni;
+  ticketSeleccionado.envioSucursal = envioSucursal;
 
   const res = await fetch(`/tickets/${ticketSeleccionado.pedidoId}`, {
     method: "PUT",
