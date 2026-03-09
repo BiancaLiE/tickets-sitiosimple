@@ -629,7 +629,7 @@ function generarRemito() {
     }
 
     // 🔥 NUEVO CAMPO — LOCALIDAD
-    doc.text(`Localidad: (${envio?.ciudad || ""}).toUpperCase`, 10, 65);
+    doc.text(`Localidad: ${envio?.ciudad || ""}.toUpperCase()`, 10, 65);
 
     // Provincia
     doc.text((envio?.provincia || "").toUpperCase(), 99, 65);
