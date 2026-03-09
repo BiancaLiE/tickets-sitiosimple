@@ -619,7 +619,7 @@ function generarRemito() {
     doc.text((cliente?.telefono || "").toUpperCase(), 111, 51);
 
     // Domicilio
-    if(ticketSeleccionado.envioSucursal){
+    if(envioSucursal){
       doc.text("RETIRA EN SUCURSAL", 25, 59);
     } else {
       doc.text((envio?.direccion || "").toUpperCase(), 25, 59);
@@ -632,7 +632,7 @@ function generarRemito() {
     doc.text((envio?.provincia || "").toUpperCase(), 99, 65);
 
     // DNI
-    doc.text((ticketSeleccionado.dni).toUpperCase(), 109, 75);
+    doc.text((dni || "").toUpperCase(), 109, 75);
 
     doc.setFontSize(19);
     // Cantidad de Bultos
