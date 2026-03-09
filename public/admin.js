@@ -632,7 +632,7 @@ function generarRemito() {
     doc.text((envio?.provincia || "").toUpperCase(), 99, 65);
 
     // DNI
-    doc.text((dni || "").toUpperCase(), 109, 75);
+    doc.text((dni || "").toUpperCase(), 111, 76);
 
     doc.setFontSize(19);
     // Cantidad de Bultos
