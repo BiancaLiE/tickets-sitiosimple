@@ -90,20 +90,45 @@ function mostrarDetalle(ticket) {
 
   <div class="row mb-3">
     <div class="col-md-6">
-      <p><b>Cliente:</b> ${ticketSeleccionado.cliente?.nombre || ""} ${ticketSeleccionado.cliente?.apellido || ""}</p>
-      <p><b>Email:</b> ${ticketSeleccionado.cliente?.email || "-"}</p>
-      <p><b>Teléfono:</b> ${ticketSeleccionado.cliente?.telefono || "-"}</p>
-      <div class="mt-2 input-group">
+      <div class="input-group mb-2">
+        <label class="input-group-text"><strong>Cliente:</strong></label>
+        <input type="text" id="clienteNombre" class="form-control" value="${ticketSeleccionado.cliente?.nombre || ""}">
+      </div>
+      <div class="input-group mb-2">
+        <label class="input-group-text"><strong>Apellido:</strong></label>
+        <input type="text" id="clienteApellido" class="form-control" value="${ticketSeleccionado.cliente?.apellido || ""}">
+      </div>
+      <div class="input-group mb-2">
+        <label class="input-group-text"><strong>Email:</strong></label>
+        <input type="text" id="clienteEmail" class="form-control" value="${ticketSeleccionado.cliente?.email || ""}">
+      </div>
+      <div class="input-group mb-2">
+        <label class="input-group-text"><strong>Teléfono:</strong></label>
+        <input type="text" id="clienteTelefono" class="form-control" value="${ticketSeleccionado.cliente?.telefono || ""}">
+      </div>
+      <div class="input-group mb-2">
         <label class="input-group-text"><strong>DNI:</strong></label>
-        <input type="text" id="dniCliente" class="form-control" style="max-width:250px;" value="${ticket.dni || ""}">
+        <input type="text" id="dniCliente" class="form-control" style="max-width:250px;" value="${ticketSeleccionado.dni || ""}">
       </div>
     </div>
 
     <div class="col-md-6">
-      <p><b>Dirección:</b> ${ticketSeleccionado.envio?.direccion || "-"}</p>
-      <p><b>Código Postal:</b> ${ticketSeleccionado.envio?.codigoPostal || "-"}</p>
-      <p><b>Ciudad:</b> ${ticketSeleccionado.envio?.ciudad || "-"}</p>
-      <p><b>Provincia:</b> ${ticketSeleccionado.envio?.provincia || "-"}</p>
+      <div class="input-group mb-2">
+        <label class="input-group-text"><strong>Dirección:</strong></label>
+        <input type="text" id="direccionEnvio" class="form-control" value="${ticketSeleccionado.envio?.direccion || ""}">
+      </div>
+      <div class="input-group mb-2">
+        <label class="input-group-text"><strong>Código Postal:</strong></label>
+        <input type="text" id="cpEnvio" class="form-control" value="${ticketSeleccionado.envio?.codigoPostal || ""}">
+      </div>
+      <div class="input-group mb-2">
+        <label class="input-group-text"><strong>Ciudad:</strong></label>
+        <input type="text" id="ciudadEnvio" class="form-control" value="${ticketSeleccionado.envio?.ciudad || ""}">
+      </div>
+      <div class="input-group mb-2">
+        <label class="input-group-text"><strong>Provincia:</strong></label>
+        <input type="text" id="provinciaEnvio" class="form-control" value="${ticketSeleccionado.envio?.provincia || ""}">
+      </div>
     </div>
   </div>
 
@@ -293,6 +318,15 @@ function calcularTotal() {
 // Guardar cambios
 // -----------------------------
 async function guardarCambios() {
+
+  ticketSeleccionado.cliente.nombre = document.getElementById("clienteNombre").value;
+  ticketSeleccionado.cliente.apellido = document.getElementById("clienteApellido").value;
+  ticketSeleccionado.cliente.email = document.getElementById("clienteEmail").value;
+  ticketSeleccionado.cliente.telefono = document.getElementById("clienteTelefono").value;
+  ticketSeleccionado.envio.direccion = document.getElementById("direccionEnvio").value;
+  ticketSeleccionado.envio.codigoPostal = document.getElementById("cpEnvio").value;
+  ticketSeleccionado.envio.ciudad = document.getElementById("ciudadEnvio").value;
+  ticketSeleccionado.envio.provincia = document.getElementById("provinciaEnvio").value;
 
   const anticipoInput = document.getElementById("anticipo");
   const bultosInput = document.getElementById("bultosInput");
