@@ -629,7 +629,7 @@ function generarRemito() {
     }
 
     // 🔥 NUEVO CAMPO — LOCALIDAD
-    doc.text(`Localidad: ${(envio?.ciudad || "").toUpperCase()}`, 10, 65);
+    doc.text(`Loc: ${(envio?.ciudad || "").toUpperCase()}`, 10, 65);
 
     // Provincia
     doc.text((envio?.provincia || "").toUpperCase(), 99, 65);
@@ -653,7 +653,7 @@ function generarRemito() {
     const textoDescripcion = "BULTO DE MERCADERIA EN TRANSITO DE ORIGEN NACIONAL E IMPORTADO";
 
     // Área aproximada de la descripción
-    const descripcionX = 22;
+    const descripcionX = 23;
     const descripcionY = 110; // ajustar fino si querés
     const descripcionWidth = 130;
 
