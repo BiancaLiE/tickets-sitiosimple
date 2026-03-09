@@ -606,12 +606,12 @@ function generarRemito() {
 
     // Fecha
     // doc.text(fechaTexto, 109, 36);
-    doc.setFontSize(15);
+    doc.setFontSize(16);
     doc.text(`${dia}`, 111, 28);
     doc.text(`${mes}`, 125, 28);
     doc.text(`${anio}`, 138, 28);
 
-    doc.setFontSize(11);
+    doc.setFontSize(13);
     // Codigo Postal
     doc.text(`CP: ${envio?.codigoPostal || "-"}`.toUpperCase(), 134, 38);
     
@@ -649,7 +649,7 @@ function generarRemito() {
     // DESCRIPCIÓN FIJA
     // =============================
 
-    doc.setFontSize(13);
+    doc.setFontSize(14);
     const textoDescripcion = "BULTO DE MERCADERIA EN TRANSITO DE ORIGEN NACIONAL E IMPORTADO";
 
     // Área aproximada de la descripción
