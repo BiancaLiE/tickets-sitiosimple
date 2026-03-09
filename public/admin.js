@@ -613,13 +613,20 @@ function generarRemito() {
     doc.text((cliente?.telefono || "").toUpperCase(), 111, 51);
 
     // Domicilio
-    doc.text((envio?.direccion || "").toUpperCase(), 25, 59);
+    if(ticketSeleccionado.envioSucursal){
+      doc.text("RETIRA EN SUCURSAL", 25, 59);
+    } else {
+      doc.text((envio?.direccion || "").toUpperCase(), 25, 59);
+    }
 
     // 🔥 NUEVO CAMPO — LOCALIDAD
     doc.text(`Localidad: ${envio?.ciudad || ""}`.toUpperCase(), 10, 65);
 
     // Provincia
     doc.text((envio?.provincia || "").toUpperCase(), 99, 65);
+
+    // DNI
+    doc.text((ticketSeleccionado.dni).toUpperCase(), 109, 75);
 
     doc.setFontSize(19);
     // Cantidad de Bultos
