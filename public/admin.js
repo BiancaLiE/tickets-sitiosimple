@@ -31,12 +31,14 @@ async function cargarTickets(page = 1) {
 }
 
 function renderPagination(totalPages, currentPage) {
+
   const container = document.getElementById("pagination");
   container.innerHTML = "";
 
   if (totalPages <= 1) return;
 
   const maxVisible = 5;
+
   let start = Math.max(1, currentPage - 2);
   let end = Math.min(totalPages, start + maxVisible - 1);
 
@@ -44,33 +46,64 @@ function renderPagination(totalPages, currentPage) {
     start = Math.max(1, end - maxVisible + 1);
   }
 
-  // Botón Anterior
+  // BOTON ANTERIOR
   if (currentPage > 1) {
-    const prev = document.createElement("button");
-    prev.innerText = "«";
-    prev.className = "btn btn-sm btn-outline-primary mx-1";
-    prev.onclick = () => cargarTickets(currentPage - 1);
-    container.appendChild(prev);
+
+    const li = document.createElement("li");
+    li.className = "page-item";
+
+    const a = document.createElement("a");
+    a.className = "page-link";
+    a.innerHTML = "&laquo;";
+    a.href = "#";
+
+    a.onclick = (e) => {
+      e.preventDefault();
+      cargarTickets(currentPage - 1);
+    };
+
+    li.appendChild(a);
+    container.appendChild(li);
   }
 
+  // PAGINAS
   for (let i = start; i <= end; i++) {
-    const btn = document.createElement("button");
-    btn.innerText = i;
-    btn.className =
-      "btn btn-sm mx-1" +
-      (i === currentPage ? "btn-primary" : "btn-outline-primary");
 
-    btn.onclick = () => cargarTickets(i);
-    container.appendChild(btn);
+    const li = document.createElement("li");
+    li.className = "page-item " + (i === currentPage ? "active" : "");
+
+    const a = document.createElement("a");
+    a.className = "page-link";
+    a.innerText = i;
+    a.href = "#";
+
+    a.onclick = (e) => {
+      e.preventDefault();
+      cargarTickets(i);
+    };
+
+    li.appendChild(a);
+    container.appendChild(li);
   }
 
-  // Botón Siguiente
+  // BOTON SIGUIENTE
   if (currentPage < totalPages) {
-    const next = document.createElement("button");
-    next.innerText = "»";
-    next.className = "btn btn-sm btn-outline-primary mx-1";
-    next.onclick = () => cargarTickets(currentPage + 1);
-    container.appendChild(next);
+
+    const li = document.createElement("li");
+    li.className = "page-item";
+
+    const a = document.createElement("a");
+    a.className = "page-link";
+    a.innerHTML = "&raquo;";
+    a.href = "#";
+
+    a.onclick = (e) => {
+      e.preventDefault();
+      cargarTickets(currentPage + 1);
+    };
+
+    li.appendChild(a);
+    container.appendChild(li);
   }
 }
 
