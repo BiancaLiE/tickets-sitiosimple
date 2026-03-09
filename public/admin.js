@@ -108,7 +108,7 @@ function mostrarDetalle(ticket) {
       </div>
       <div class="input-group mb-2">
         <label class="input-group-text"><strong>DNI:</strong></label>
-        <input type="text" id="dniCliente" class="form-control" style="max-width:250px;" value="${ticketSeleccionado.dni || ""}">
+        <input type="text" id="dniCliente" class="form-control" value="${ticketSeleccionado.dni || ""}">
       </div>
     </div>
 
