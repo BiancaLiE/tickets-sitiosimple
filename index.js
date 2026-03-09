@@ -153,8 +153,35 @@ app.post("/webhook", async (req, res) => {
 
     await ticketsCollection.insertOne(ticket);
 
+    // -----------------------------
+    // Limitar colección a 5000 tickets
+    // -----------------------------
+    const MAX_TICKETS = 5000;
+
+    const total = await ticketsCollection.countDocuments();
+
+    if (total > MAX_TICKETS) {
+
+      const exceso = total - MAX_TICKETS;
+
+      const viejos = await ticketsCollection
+        .find({})
+        .sort({ creadoEn: 1 }) // los más viejos primero
+        .limit(exceso)
+        .toArray();
+
+      const ids = viejos.map(t => t._id);
+
+      await ticketsCollection.deleteMany({
+        _id: { $in: ids }
+      });
+
+      console.log(`🗑️ Eliminados ${exceso} tickets antiguos`);
+    }
+
     console.log("🧾 Ticket guardado en MongoDB");
     res.sendStatus(200);
+    
   } catch (error) {
     console.error("❌ Error guardando ticket:", error);
     res.sendStatus(500);
@@ -245,6 +272,7 @@ connectDB()
     console.error("❌ Error conectando a MongoDB:", err);
     process.exit(1);
   });
+
 
 
 
