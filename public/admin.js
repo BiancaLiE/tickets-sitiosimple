@@ -48,7 +48,7 @@ function renderPagination(totalPages, currentPage) {
   if (currentPage > 1) {
     const prev = document.createElement("button");
     prev.innerText = "«";
-    prev.className = "btn btn-sm btn-outline-primary mx-1";
+    prev.className = "btn btn-sm btn-outline-primary";
     prev.onclick = () => cargarTickets(currentPage - 1);
     container.appendChild(prev);
   }
@@ -57,7 +57,7 @@ function renderPagination(totalPages, currentPage) {
     const btn = document.createElement("button");
     btn.innerText = i;
     btn.className =
-      "btn btn-sm mx-1 " +
+      "btn btn-sm" +
       (i === currentPage ? "btn-primary" : "btn-outline-primary");
 
     btn.onclick = () => cargarTickets(i);
@@ -68,7 +68,7 @@ function renderPagination(totalPages, currentPage) {
   if (currentPage < totalPages) {
     const next = document.createElement("button");
     next.innerText = "»";
-    next.className = "btn btn-sm btn-outline-primary mx-1";
+    next.className = "btn btn-sm btn-outline-primary";
     next.onclick = () => cargarTickets(currentPage + 1);
     container.appendChild(next);
   }
