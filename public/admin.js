@@ -649,11 +649,11 @@ function generarRemito() {
     // DESCRIPCIÓN FIJA
     // =============================
 
-    doc.setFontSize(14);
+    doc.setFontSize(15);
     const textoDescripcion = "BULTO DE MERCADERIA EN TRANSITO DE ORIGEN NACIONAL E IMPORTADO";
 
     // Área aproximada de la descripción
-    const descripcionX = 22;
+    const descripcionX = 20;
     const descripcionY = 110; // ajustar fino si querés
     const descripcionWidth = 140;
 
