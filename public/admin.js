@@ -612,6 +612,9 @@ function generarRemito() {
     doc.text(`${anio}`, 138, 28);
 
     doc.setFontSize(11);
+    // Codigo Postal
+    doc.text(`CP: ${envio?.codigoPostal || "-"}`.toUpperCase(), 134, 38);
+    
     // Cliente
     doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`.toUpperCase(), 22, 51);
 
@@ -632,7 +635,7 @@ function generarRemito() {
     doc.text((envio?.provincia || "").toUpperCase(), 99, 65);
 
     // DNI
-    doc.text((dni || "").toUpperCase(), 111, 76);
+    doc.text((dni || "").toUpperCase(), 112, 77);
 
     doc.setFontSize(19);
     // Cantidad de Bultos
