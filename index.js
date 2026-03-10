@@ -111,7 +111,8 @@ app.get("/", (req, res) => {
 // -----------------------------
 app.post("/webhook", async (req, res) => {
   const token = req.body.token;
-  if (token !== process.env.vecla2006) {
+  if (token !== process.env.SITIOSIMPLE_TOKEN) {
+    console.log("❌ Webhook no autorizado");
     return res.status(401).send("Unauthorized");
   }
   console.log("📩 WEBHOOK RECIBIDO");
@@ -276,6 +277,7 @@ connectDB()
     console.error("❌ Error conectando a MongoDB:", err);
     process.exit(1);
   });
+
 
 
 
