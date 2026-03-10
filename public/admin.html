@@ -12,55 +12,55 @@
 </head>
 
 <body style="background-color:#82bfae;">
+  <div class="d-flex">
+    <button class="btn btn-danger mb-3 me-auto" onclick="logout()">
+      🚪 Cerrar sesión
+    </button>
+  </div>div
+  <div class="container-fluid mt-4">
+    <h1 class="mb-4">🧾 Panel de Tickets</h1>
 
-<button class="btn btn-danger mb-3 ms-0" onclick="logout()">
-  🚪 Cerrar sesión
-</button>
-
-<div class="container-fluid mt-4">
-  <h1 class="mb-4">🧾 Panel de Tickets</h1>
-
-  <div class="row">
-    <!-- LISTA DE TICKETS -->
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-header fw-bold">
-          Tickets recibidos
+    <div class="row">
+      <!-- LISTA DE TICKETS -->
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header fw-bold">
+            Tickets recibidos
+          </div>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Buscar por cliente o número de orden..."
+            class="form-control mb-3"
+          />
+          <div class="card-body" id="ticketsList" style="max-height: 75vh; overflow-y: auto;">
+            <!-- Se llena con admin.js -->
+          </div>
+          <nav class="mt-3 d-flex justify-content-center">
+            <ul id="pagination" class="pagination pagination-sm"></ul>
+          </nav>
         </div>
-        <input 
-          type="text" 
-          id="searchInput" 
-          placeholder="Buscar por cliente o número de orden..."
-          class="form-control mb-3"
-        />
-        <div class="card-body" id="ticketsList" style="max-height: 75vh; overflow-y: auto;">
-          <!-- Se llena con admin.js -->
-        </div>
-        <nav class="mt-3 d-flex justify-content-center">
-          <ul id="pagination" class="pagination pagination-sm"></ul>
-        </nav>
       </div>
-    </div>
 
-    <!-- DETALLE DEL TICKET -->
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-header fw-bold">
-          Detalle del ticket
-        </div>
-        <div class="card-body" id="ticketDetail">
-          <p class="text-muted">
-            Seleccioná un ticket para ver o editar los detalles
-          </p>
+      <!-- DETALLE DEL TICKET -->
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header fw-bold">
+            Detalle del ticket
+          </div>
+          <div class="card-body" id="ticketDetail">
+            <p class="text-muted">
+              Seleccioná un ticket para ver o editar los detalles
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- admin.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="/admin.js"></script>
+  <!-- admin.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="/admin.js"></script>
 
-</body>
+  </body>
 </html>
