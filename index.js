@@ -18,6 +18,7 @@ async function connectDB() {
   await client.connect();
   const db = client.db("ticketsDB");
   ticketsCollection = db.collection("tickets");
+  await ticketsCollection.createIndex({ pedidoId: 1 }, { unique: true });
   console.log("✅ Conectado a MongoDB");
 }
 
@@ -156,7 +157,15 @@ app.post("/webhook", async (req, res) => {
       creadoEn: new Date()
     };
 
-    await ticketsCollection.insertOne(ticket);
+    try {
+      await ticketsCollection.insertOne(ticket);
+    } catch (err) {
+      if (err.code === 11000) {
+        console.log("⚠️ Pedido duplicado ignorado:", ticket.pedidoId);
+        return res.sendStatus(200);
+      }
+      throw err;
+    }
 
     // -----------------------------
     // Limitar colección a 5000 tickets
@@ -277,6 +286,7 @@ connectDB()
     console.error("❌ Error conectando a MongoDB:", err);
     process.exit(1);
   });
+
 
 
 
