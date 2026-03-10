@@ -110,14 +110,12 @@ app.get("/", (req, res) => {
 // Webhook SitioSimple
 // -----------------------------
 app.post("/webhook", async (req, res) => {
-  const token = req.body.token;
+  const token = req.query.token;
   //if (token !== process.env.SITIOSIMPLE_TOKEN) {
     //console.log("❌ Webhook no autorizado");
     //return res.status(401).send("Unauthorized");
   //}
   console.log("📩 WEBHOOK RECIBIDO");
-  console.log("BODY COMPLETO:");
-  console.log(req.body);
   console.log("Token recibido:", token);
   console.log("Keys:", Object.keys(req.body));
   
@@ -281,6 +279,7 @@ connectDB()
     console.error("❌ Error conectando a MongoDB:", err);
     process.exit(1);
   });
+
 
 
 
