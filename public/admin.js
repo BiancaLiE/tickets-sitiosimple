@@ -717,7 +717,7 @@ function generarRemito() {
     // =============================
 
     doc.setFontSize(17);
-    const textoDescripcion = "BULTO DE MERCADERIA EN TRANSITO DE ORIGEN NACIONAL E IMPORTADO";
+    const textoDescripcion = "BULTO DE MERCADERIA EN TRANSITO DE ORIGEN NACIONAL";
 
     // Área aproximada de la descripción
     const descripcionX = 24;
