@@ -678,7 +678,7 @@ function generarRemito() {
     doc.text(`${mes}`, 125, 28);
     doc.text(`${anio}`, 138, 28);
 
-    doc.setFontSize(13);
+    doc.setFontSize(15);
     // Codigo Postal
     doc.text(`CP: ${envio?.codigoPostal || "-"}`.toUpperCase(), 134, 37);
     
