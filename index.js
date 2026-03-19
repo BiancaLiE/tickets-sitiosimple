@@ -195,6 +195,59 @@ app.post("/webhook", async (req, res) => {
 });
 
 // -----------------------------
+// FALLBACK MANUAL (por si falla el webhook)
+// -----------------------------
+app.post("/manual-order", async (req, res) => {
+  try {
+    const pedido = req.body;
+
+    const ticket = {
+      pedidoId: pedido.id,
+      fecha: pedido.fechaEsOrden || new Date(),
+
+      cliente: {
+        nombre: pedido?.cliente?.nombre || "",
+        apellido: pedido?.cliente?.apellido || "",
+        email: pedido?.cliente?.email || "",
+        telefono: pedido?.direccionEnvio?.telefono || ""
+      },
+      
+      envio: {
+        direccion: pedido?.direccionEnvio?.direccion || "",
+        codigoPostal: pedido?.direccionEnvio?.codigoPostal || "",
+        ciudad: pedido?.direccionEnvio?.ciudad || "",
+        provincia: pedido?.direccionEnvio?.provincia || "",
+        pais: pedido?.direccionEnvio?.pais || ""
+      },
+
+      productos: Array.isArray(pedido.detalle)
+        ? pedido.detalle
+          .filter(item => item.tipo === "PRO")
+          .map(item => ({
+            descripcion: item.descripcion,
+            cantidad: Number(item.cantidad),
+            precio: Number(item.precio)
+          }))
+      : [],
+
+      total: Number(pedido.detallePrecios?.[0]?.total || 0),
+      anticipo: 0,
+      estado: "pendiente",
+      creadoEn: new Date()
+    };
+
+    await ticketsCollection.insertOne(ticket);
+
+    console.log("🛠️ Ticket insertado manualmente");
+    res.json({ ok: true });
+
+  } catch (error) {
+    console.error("❌ Error en fallback manual:", error);
+    res.status(500).json({ error: "Error interno" });
+  }
+});
+
+// -----------------------------
 // Ver todos los tickets
 // -----------------------------
 app.get("/tickets", requireAuth, async (req, res) => {
