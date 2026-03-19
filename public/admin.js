@@ -107,6 +107,47 @@ function renderPagination(totalPages, currentPage) {
   }
 }
 
+// --------------------------
+// Recuperar Ticket Manualmente
+// -------------------------
+async function recuperarTicket() {
+  const id = document.getElementById("fallbackId").value;
+
+  if (!id) {
+    alert("Ingresá un ID");
+    return;
+  }
+
+  try {
+    const res = await fetch("/fallback-ticket", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: id,
+        fechaEsOrden: new Date(),
+        cliente: {},
+        direccionEnvio: {},
+        detallePrecios: [{ total: 0 }]
+      })
+    });
+
+    const data = await res.json();
+
+    if (data.ok) {
+      alert("✅ Ticket recuperado");
+      cargarTickets(); // refresca lista
+    } else {
+      alert("❌ Error");
+    }
+
+  } catch (error) {
+    console.error(error);
+    alert("❌ Error de conexión");
+  }
+}
+
 // -----------------------------
 // Mostrar detalle
 // -----------------------------
