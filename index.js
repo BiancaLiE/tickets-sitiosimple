@@ -201,6 +201,13 @@ app.post("/manual-order", async (req, res) => {
   try {
     const pedido = req.body;
 
+    // Evitar duplicados
+    const existe = await ticketsCollection.findOne({ pedidoId: pedido.id });
+    if (existe) {
+      console.log("⚠️ Ticket ya existe, no se duplica");
+      return res.json({ ok: true, duplicado: true });
+    }
+
     const ticket = {
       pedidoId: pedido.id,
       fecha: pedido.fechaEsOrden || new Date(),
