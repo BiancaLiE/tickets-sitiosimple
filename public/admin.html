@@ -32,6 +32,17 @@
             placeholder="Buscar por cliente o número de orden..."
             class="form-control mb-3"
           />
+          <div class="d-flex gap-2 mb-2">
+            <input 
+              type="text" 
+              id="fallbackId" 
+              class="form-control" 
+              placeholder="Ingresar ID faltante..."
+            >
+            <button class="btn btn-warning" onclick="recuperarTicket()">
+              Recuperar
+            </button>
+          </div>
           <div class="card-body" id="ticketsList" style="max-height: 75vh; overflow-y: auto;">
             <!-- Se llena con admin.js -->
           </div>
