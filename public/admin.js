@@ -119,7 +119,7 @@ async function recuperarTicket() {
   }
 
   try {
-    const res = await fetch("/fallback-ticket", {
+    const res = await fetch("/manual-order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
