@@ -28,7 +28,10 @@ async function cargarTickets(page = 1) {
       div.style.backgroundColor = "rgba(255, 165, 0, 0.15)";
     }
     div.style.cursor = "pointer";
-    div.innerText = `#${t.pedidoId} - ${t.cliente?.nombre || ""} ${t.cliente?.apellido || ""} - $${t.total}`;
+    const badge = t.tienda === "galpon"
+      ? `<span style="background-color:orange;color:white;padding:2px 6px;border-radius:6px;font-size:12px;margin-right:6px;">GALPÓN</span>`
+      : `<span style="background-color:#00c8a0;color:white;padding:2px 6px;border-radius:6px;font-size:12px;margin-right:6px;">ESTRELLA</span>`;
+    div.innerHTML = `${badge} #${t.pedidoId} - ${t.cliente?.nombre || ""} ${t.cliente?.apellido || ""} - $${t.total}`;
     div.onclick = () => mostrarDetalle(t);
     list.appendChild(div);
   });
