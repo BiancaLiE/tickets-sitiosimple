@@ -220,11 +220,11 @@ app.post("/manual-order", async (req, res) => {
         ? ticketsCollectionGalpon
         : ticketsCollectionEstrella;
 
-    // Evitar duplicados
-    const existeEstrella = await ticketsCollectionEstrella.findOne({ pedidoId: pedido.id });
-    const existeGalpon = await ticketsCollectionGalpon.findOne({ pedidoId: pedido.id });
-    if (existeEstrella || existeGalpon) {
-      console.log("⚠️ Ticket ya existe");
+    // 🔥 EVITAR DUPLICADOS (CORRECTO)
+    const existe = await collection.findOne({ pedidoId: pedido.id });
+
+    if (existe) {
+      console.log("⚠️ Ticket ya existe en esta tienda");
       return res.json({ ok: true, duplicado: true });
     }
 
