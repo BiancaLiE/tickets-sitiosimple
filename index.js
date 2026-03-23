@@ -133,7 +133,8 @@ app.post("/webhook", async (req, res) => {
     const ticket = {
       pedidoId: pedido.id,
       fecha: pedido.fechaEsOrden || new Date(),
-
+      tienda: token === process.env.TOKEN_ESTRELLA ? "estrella" : "galpon",
+      
       cliente: {
         nombre: pedido?.cliente?.nombre || "",
         apellido: pedido?.cliente?.apellido || "",
