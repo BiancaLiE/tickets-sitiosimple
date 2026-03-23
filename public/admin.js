@@ -1,6 +1,11 @@
 let tickets = [];
 let ticketSeleccionado = null;
 
+const btn = document.querySelector("button[onclick='recuperarTicket()']");
+document.getElementById("tiendaSelect").addEventListener("change", (e) => {
+  btn.disabled = !e.target.value;
+});
+
 document.getElementById("searchInput").addEventListener("input", () => {
   cargarTickets(1);
 });
@@ -18,11 +23,6 @@ async function cargarTickets(page = 1) {
   tickets = data.tickets;
 
   list.innerHTML = "";
-
-  const btn = document.querySelector("button[onclick='recuperarTicket()']");
-  document.getElementById("tiendaSelect").addEventListener("change", (e) => {
-    btn.disabled = !e.target.value;
-  });
 
   tickets.forEach(t => {
     const div = document.createElement("div");
