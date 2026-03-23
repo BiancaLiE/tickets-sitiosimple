@@ -114,7 +114,7 @@ app.get("/", (req, res) => {
 // -----------------------------
 app.post("/webhook", async (req, res) => {
   const token = req.query.token;
-  if (token !== process.env.SITIOSIMPLE_TOKEN) {
+  if (token !== process.env.TOKEN_ESTRELLA) {
     console.log("❌ Webhook no autorizado");
     return res.status(401).send("Unauthorized");
   }
