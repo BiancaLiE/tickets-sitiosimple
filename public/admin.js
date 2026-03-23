@@ -15,6 +15,7 @@ document.getElementById("searchInput").addEventListener("input", () => {
 // -----------------------------
 let paginaActual = 1;
 async function cargarTickets(page = 1) {
+  paginaActual = page;
   const search = document.getElementById("searchInput")?.value || "";
   const list = document.getElementById("ticketsList");
   list.innerHTML = "<div class='text-center p-3'>Cargando...</div>";
