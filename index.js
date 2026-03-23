@@ -166,7 +166,13 @@ app.post("/webhook", async (req, res) => {
       creadoEn: new Date()
     };
 
-    
+    // 🔥 EVITAR DUPLICADOS POR WEBHOOK
+    const existe = await collection.findOne({ pedidoId: pedido.id });
+
+    if (existe) {
+      console.log("⚠️ Ticket duplicado (webhook), no se guarda");
+      return res.sendStatus(200);
+    }
     await collection.insertOne(ticket);
 
     // -----------------------------
