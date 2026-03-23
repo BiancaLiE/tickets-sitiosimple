@@ -290,33 +290,27 @@ app.get("/tickets", requireAuth, async (req, res) => {
     };
   }
 
-  // 🔥 Traemos de ambas
-  const skip = (page - 1) * limit;
-
+  // 🔥 TRAER TODO (sin skip ni limit)
   const ticketsEstrella = await ticketsCollectionEstrella
     .find(filtro)
-    .sort({ creadoEn: -1 })
-    .skip(skip)
-    .limit(limit)
     .toArray();
 
   const ticketsGalpon = await ticketsCollectionGalpon
     .find(filtro)
-    .sort({ creadoEn: -1 })
-    .skip(skip)
-    .limit(limit)
     .toArray();
 
-  // 🔥 Unimos
+  // 🔥 UNIR
   let todos = [...ticketsEstrella, ...ticketsGalpon];
 
-  // 🔥 Ordenamos por fecha
+  // 🔥 ORDENAR
   todos.sort((a, b) => new Date(b.creadoEn) - new Date(a.creadoEn));
 
+  // 🔥 TOTAL REAL
   const totalTickets = todos.length;
 
-  // 🔥 Paginación manual
-  const paginados = todos.slice(0, limit);
+  // 🔥 PAGINACIÓN REAL
+  const start = (page - 1) * limit;
+  const paginados = todos.slice(start, start + limit);
 
   res.json({
     tickets: paginados,
