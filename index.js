@@ -210,9 +210,10 @@ app.post("/manual-order", async (req, res) => {
     const pedido = req.body;
 
     // Evitar duplicados
-    const existe = await ticketsCollectionEstrella.findOne({ pedidoId: pedido.id });
-    if (existe) {
-      console.log("⚠️ Ticket ya existe, no se duplica");
+    const existeEstrella = await ticketsCollectionEstrella.findOne({ pedidoId: pedido.id });
+    const existeGalpon = await ticketsCollectionGalpon.findOne({ pedidoId: pedido.id });
+    if (existeEstrella || existeGalpon) {
+      console.log("⚠️ Ticket ya existe");
       return res.json({ ok: true, duplicado: true });
     }
 
