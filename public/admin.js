@@ -22,6 +22,11 @@ async function cargarTickets(page = 1) {
   tickets.forEach(t => {
     const div = document.createElement("div");
     div.className = "ticket border p-2 mb-2 rounded";
+    if (t.tienda === "estrella") {
+      div.style.backgroundColor = "rgba(0, 255, 200, 0.15)";
+    } else if (t.tienda === "galpon") {
+      div.style.backgroundColor = "rgba(255, 165, 0, 0.15)";
+    }
     div.style.cursor = "pointer";
     div.innerText = `#${t.pedidoId} - ${t.cliente?.nombre || ""} ${t.cliente?.apellido || ""} - $${t.total}`;
     div.onclick = () => mostrarDetalle(t);
