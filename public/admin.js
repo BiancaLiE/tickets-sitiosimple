@@ -120,7 +120,11 @@ function renderPagination(totalPages, currentPage) {
 // -------------------------
 async function recuperarTicket() {
   const id = document.getElementById("fallbackId").value;
-
+  const tienda = document.getElementById("tiendaSelect").value;
+  if (!tienda) {
+    alert("Seleccioná la tienda");
+    return;
+  }
   if (!id) {
     alert("Ingresá un ID");
     return;
