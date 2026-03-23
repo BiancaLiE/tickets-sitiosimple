@@ -19,6 +19,11 @@ async function cargarTickets(page = 1) {
 
   list.innerHTML = "";
 
+  const btn = document.querySelector("button[onclick='recuperarTicket()']");
+  document.getElementById("tiendaSelect").addEventListener("change", (e) => {
+    btn.disabled = !e.target.value;
+  });
+
   tickets.forEach(t => {
     const div = document.createElement("div");
     div.className = "ticket border p-2 mb-2 rounded";
