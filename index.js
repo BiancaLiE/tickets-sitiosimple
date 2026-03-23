@@ -208,6 +208,11 @@ app.post("/webhook", async (req, res) => {
 app.post("/manual-order", async (req, res) => {
   try {
     const pedido = req.body;
+    const tienda = req.body.tienda || "estrella";
+    const collection =
+      tienda === "galpon"
+        ? ticketsCollectionGalpon
+        : ticketsCollectionEstrella;
 
     // Evitar duplicados
     const existeEstrella = await ticketsCollectionEstrella.findOne({ pedidoId: pedido.id });
@@ -220,6 +225,7 @@ app.post("/manual-order", async (req, res) => {
     const ticket = {
       pedidoId: pedido.id,
       fecha: pedido.fechaEsOrden || new Date(),
+      tienda: tienda,
 
       cliente: {
         nombre: pedido?.cliente?.nombre || "",
@@ -252,7 +258,7 @@ app.post("/manual-order", async (req, res) => {
       creadoEn: new Date()
     };
 
-    await ticketsCollectionEstrella.insertOne(ticket);
+    await collection.insertOne(ticket);
 
     console.log("🛠️ Ticket insertado manualmente");
     res.json({ ok: true });
@@ -285,8 +291,21 @@ app.get("/tickets", requireAuth, async (req, res) => {
   }
 
   // 🔥 Traemos de ambas
-  const ticketsEstrella = await ticketsCollectionEstrella.find(filtro).toArray();
-  const ticketsGalpon = await ticketsCollectionGalpon.find(filtro).toArray();
+  const skip = (page - 1) * limit;
+
+  const ticketsEstrella = await ticketsCollectionEstrella
+    .find(filtro)
+    .sort({ creadoEn: -1 })
+    .skip(skip)
+    .limit(limit)
+    .toArray();
+
+  const ticketsGalpon = await ticketsCollectionGalpon
+    .find(filtro)
+    .sort({ creadoEn: -1 })
+    .skip(skip)
+    .limit(limit)
+    .toArray();
 
   // 🔥 Unimos
   let todos = [...ticketsEstrella, ...ticketsGalpon];
@@ -297,8 +316,7 @@ app.get("/tickets", requireAuth, async (req, res) => {
   const totalTickets = todos.length;
 
   // 🔥 Paginación manual
-  const start = (page - 1) * limit;
-  const paginados = todos.slice(start, start + limit);
+  const paginados = todos.slice(0, limit);
 
   res.json({
     tickets: paginados,
