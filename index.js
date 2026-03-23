@@ -114,10 +114,16 @@ app.get("/", (req, res) => {
 // -----------------------------
 app.post("/webhook", async (req, res) => {
   const token = req.query.token;
-  if (token !== process.env.TOKEN_ESTRELLA) {
+  let collection;
+  if (token === process.env.TOKEN_ESTRELLA) {
+    collection = ticketsCollectionEstrella;
+  } else if (token === process.env.TOKEN_GALPON){
+    collection = ticketsCollectionGalpon;
+  } else {
     console.log("❌ Webhook no autorizado");
     return res.status(401).send("Unauthorized");
   }
+  
   console.log("📩 WEBHOOK RECIBIDO");
   console.log("Keys:", Object.keys(req.body));
   
@@ -160,7 +166,7 @@ app.post("/webhook", async (req, res) => {
     };
 
     
-    await ticketsCollectionEstrella.insertOne(ticket);
+    await collection.insertOne(ticket);
 
     // -----------------------------
     // Limitar colección a 5000 tickets
@@ -170,9 +176,7 @@ app.post("/webhook", async (req, res) => {
     const total = await ticketsCollectionEstrella.countDocuments();
 
     if (total > MAX_TICKETS) {
-
       const exceso = total - MAX_TICKETS;
-
       const viejos = await ticketsCollectionEstrella
         .find({})
         .sort({ creadoEn: 1 }) // los más viejos primero
