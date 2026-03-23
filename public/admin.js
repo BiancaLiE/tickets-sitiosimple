@@ -19,7 +19,9 @@ async function cargarTickets(page = 1) {
   const search = document.getElementById("searchInput")?.value || "";
   const list = document.getElementById("ticketsList");
   list.innerHTML = "<div class='text-center p-3'>Cargando...</div>";
-  const res = await fetch(`/tickets?page=${page}&search=${encodeURIComponent(search)}`);
+  const res = await fetch(`/tickets?page=${page}&search=${encodeURIComponent(search)}`, {
+    credentials: "include"
+  });
   const data = await res.json();
   tickets = data.tickets;
 
@@ -142,6 +144,7 @@ async function recuperarTicket() {
       headers: {
         "Content-Type": "application/json"
       },
+      credentials: "include",
       body: JSON.stringify({
         id: id,
         tienda: tienda,
@@ -457,6 +460,7 @@ async function guardarCambios() {
   const res = await fetch(`/tickets/${ticketSeleccionado.pedidoId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
+    credentials: "include",
     body: JSON.stringify(ticketSeleccionado)
   });
 
