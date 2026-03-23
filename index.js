@@ -315,7 +315,12 @@ app.put("/tickets/:pedidoId", async (req, res) => {
     const { pedidoId } = req.params;
     const ticket = req.body;
 
-    const result = await ticketsCollectionEstrella.updateOne(
+    const collection =
+      ticket.tienda === "galpon"
+        ? ticketsCollectionGalpon
+        : ticketsCollectionEstrella;
+
+    const result = await collection.updateOne(
       { pedidoId: String(pedidoId) },
       {
         $set: {
