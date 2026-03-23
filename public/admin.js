@@ -138,6 +138,7 @@ async function recuperarTicket() {
       },
       body: JSON.stringify({
         id: id,
+        tienda: tienda,
         fechaEsOrden: new Date(),
         cliente: {},
         direccionEnvio: {},
