@@ -174,22 +174,22 @@ app.post("/webhook", async (req, res) => {
     // -----------------------------
     const MAX_TICKETS = 5000;
 
-    const total = await ticketsCollectionEstrella.countDocuments();
+    const total = await collection.countDocuments();
 
     if (total > MAX_TICKETS) {
       const exceso = total - MAX_TICKETS;
-      const viejos = await ticketsCollectionEstrella
+    
+      const viejos = await collection
         .find({})
-        .sort({ creadoEn: 1 }) // los más viejos primero
+        .sort({ creadoEn: 1 })
         .limit(exceso)
         .toArray();
 
       const ids = viejos.map(t => t._id);
 
-      await ticketsCollectionEstrella.deleteMany({
+      await collection.deleteMany({
         _id: { $in: ids }
       });
-
       console.log(`🗑️ Eliminados ${exceso} tickets antiguos`);
     }
 
@@ -269,29 +269,41 @@ app.get("/tickets", requireAuth, async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const search = req.query.search || "";
   const limit = 50;
-  const skip = (page - 1) * limit;
-  
+
   let filtro = {};
 
   if (search) {
     const regex = new RegExp("^" + search, "i");
     filtro = {
       $or: [
-        {pedidoId: regex},
-        {"cliente.nombre": regex },
-        {"cliente.apellido": regex}
+        { pedidoId: regex },
+        { "cliente.nombre": regex },
+        { "cliente.apellido": regex }
       ]
     };
   }
-  const totalTickets = await ticketsCollectionEstrella.countDocuments(filtro);
-  const tickets = await ticketsCollectionEstrella
-    .find(filtro)
-    .sort({ creadoEn: -1 })
-    .skip(skip)
-    .limit(limit)
-    .toArray();
 
-  res.json({tickets, totalPages: Math.ceil(totalTickets / limit), currentPage: page});
+  // 🔥 Traemos de ambas
+  const ticketsEstrella = await ticketsCollectionEstrella.find(filtro).toArray();
+  const ticketsGalpon = await ticketsCollectionGalpon.find(filtro).toArray();
+
+  // 🔥 Unimos
+  let todos = [...ticketsEstrella, ...ticketsGalpon];
+
+  // 🔥 Ordenamos por fecha
+  todos.sort((a, b) => new Date(b.creadoEn) - new Date(a.creadoEn));
+
+  const totalTickets = todos.length;
+
+  // 🔥 Paginación manual
+  const start = (page - 1) * limit;
+  const paginados = todos.slice(start, start + limit);
+
+  res.json({
+    tickets: paginados,
+    totalPages: Math.ceil(totalTickets / limit),
+    currentPage: page
+  });
 });
 
 // -----------------------------
