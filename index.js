@@ -12,13 +12,16 @@ const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI;
 const client = new MongoClient(MONGODB_URI);
 
-let ticketsCollection;
+let ticketsCollectionEstrella;
+let ticketsCollectionGalpon;
 
 async function connectDB() {
   await client.connect();
-  const db = client.db("ticketsDB");
-  ticketsCollection = db.collection("tickets");
-  console.log("✅ Conectado a MongoDB");
+  const db1 = client.db("ticketsDB");
+  const db2 = client.db("ticketsDB_galpon");
+  ticketsCollectionEstrella = db1.collection("tickets");
+  ticketsCollectionGalpon = db2.collection("tickets");
+  console.log("✅ Conectado a MongoDB (2 tiendas)");
 }
 
 // -----------------------------
@@ -157,20 +160,20 @@ app.post("/webhook", async (req, res) => {
     };
 
     
-    await ticketsCollection.insertOne(ticket);
+    await ticketsCollectionEstrella.insertOne(ticket);
 
     // -----------------------------
     // Limitar colección a 5000 tickets
     // -----------------------------
     const MAX_TICKETS = 5000;
 
-    const total = await ticketsCollection.countDocuments();
+    const total = await ticketsCollectionEstrella.countDocuments();
 
     if (total > MAX_TICKETS) {
 
       const exceso = total - MAX_TICKETS;
 
-      const viejos = await ticketsCollection
+      const viejos = await ticketsCollectionEstrella
         .find({})
         .sort({ creadoEn: 1 }) // los más viejos primero
         .limit(exceso)
@@ -178,7 +181,7 @@ app.post("/webhook", async (req, res) => {
 
       const ids = viejos.map(t => t._id);
 
-      await ticketsCollection.deleteMany({
+      await ticketsCollectionEstrella.deleteMany({
         _id: { $in: ids }
       });
 
@@ -202,7 +205,7 @@ app.post("/manual-order", async (req, res) => {
     const pedido = req.body;
 
     // Evitar duplicados
-    const existe = await ticketsCollection.findOne({ pedidoId: pedido.id });
+    const existe = await ticketsCollectionEstrella.findOne({ pedidoId: pedido.id });
     if (existe) {
       console.log("⚠️ Ticket ya existe, no se duplica");
       return res.json({ ok: true, duplicado: true });
@@ -243,7 +246,7 @@ app.post("/manual-order", async (req, res) => {
       creadoEn: new Date()
     };
 
-    await ticketsCollection.insertOne(ticket);
+    await ticketsCollectionEstrella.insertOne(ticket);
 
     console.log("🛠️ Ticket insertado manualmente");
     res.json({ ok: true });
@@ -275,8 +278,8 @@ app.get("/tickets", requireAuth, async (req, res) => {
       ]
     };
   }
-  const totalTickets = await ticketsCollection.countDocuments(filtro);
-  const tickets = await ticketsCollection
+  const totalTickets = await ticketsCollectionEstrella.countDocuments(filtro);
+  const tickets = await ticketsCollectionEstrella
     .find(filtro)
     .sort({ creadoEn: -1 })
     .skip(skip)
@@ -294,7 +297,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
     const { pedidoId } = req.params;
     const ticket = req.body;
 
-    const result = await ticketsCollection.updateOne(
+    const result = await ticketsCollectionEstrella.updateOne(
       { pedidoId: String(pedidoId) },
       {
         $set: {
