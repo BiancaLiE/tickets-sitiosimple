@@ -744,7 +744,7 @@ function generarRemito() {
 
     doc.setFontSize(15);
     // Codigo Postal
-    doc.text(`CP: ${envio?.codigoPostal || "-"}`.toUpperCase(), 134, 37);
+    doc.text(`CP: ${envio?.codigoPostal || "-"}`.toUpperCase(), 132, 37);
     
     // Cliente
     doc.text(`${cliente?.nombre || ""} ${cliente?.apellido || ""}`.toUpperCase(), 22, 51);
