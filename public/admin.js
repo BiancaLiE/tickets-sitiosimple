@@ -580,21 +580,25 @@ function generarPDF() {
   
   const espacioReservadoFinal = 35; // totales + pie aprox
   
-  ticketSeleccionado.productos.forEach(p => {
+  for (let i = 0; i < ticketSeleccionado.productos.length; i++) {
+  const p = ticketSeleccionado.productos[i];
   const subtotal = p.cantidad * p.precio;
   const descripcionMaxWidth = 90;
-  const descripcionLineas = doc.splitTextToSize(
-    p.descripcion,
-    descripcionMaxWidth
-  );
-
+  const descripcionLineas = doc.splitTextToSize(p.descripcion, descripcionMaxWidth);
+  const esUltimo = i === ticketSeleccionado.productos.length - 1;
   const alturaProducto = descripcionLineas.length * 6;
 
   const pageHeight = doc.internal.pageSize.getHeight();
   const margenInferior = 15;
 
-  // 🔥 chequeo REAL teniendo en cuenta lo que viene después
-  if (y + alturaProducto + espacioReservadoFinal > pageHeight - margenInferior) {
+  let espacioExtra = 0;
+
+  // 🔥 SOLO el último reserva espacio para totales + pie
+  if (esUltimo) {
+    espacioExtra = 25; // mucho más preciso que 35
+  }
+
+  if (y + alturaProducto + espacioExtra > pageHeight - margenInferior) {
     doc.addPage();
     y = 20;
   }
@@ -619,7 +623,7 @@ function generarPDF() {
 
   // 🔥 4️⃣ Ahora sí bajamos la Y
   y += alturaProducto;
-});
+}
   
   y += 2;
   doc.line(14, y, 196, y);
