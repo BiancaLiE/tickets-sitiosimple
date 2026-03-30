@@ -615,7 +615,7 @@ function generarPDF() {
   
   y += 2;
   doc.line(14, y, 196, y);
-  y += 4;
+  y += 3;
 
   // ---------------------------
   // CÁLCULO TOTAL + ANTICIPO
@@ -700,7 +700,7 @@ if (anticipo > 0) {
   // ---------------------------
   // PIE
   // ---------------------------
-  y += 8;
+  y += 5;
   doc.setFontSize(9);
   doc.setFont("helvetica", "normal");
   doc.text(
