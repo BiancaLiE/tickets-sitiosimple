@@ -629,10 +629,26 @@ function generarPDF() {
 
   const totalFinal = Math.max(total - anticipo, 0);
   // Estimamos cuánto espacio necesita el bloque completo
-  const espacioTotales = anticipo > 0 ? 40 : 20;
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const margenInferior = 15;
 
-  // Verificamos si entra
-  y = checkPageBreak(doc, y, espacioTotales);
+  // Calculamos altura REAL del bloque
+  let alturaTotales = 10; // base
+
+  if (anticipo > 0) {
+    alturaTotales += 20; // anticipo + caja
+  }
+
+  // Sumamos también el pie
+  const alturaPie = 10;
+
+  const espacioNecesario = alturaTotales + alturaPie;
+
+  // 🔥 SOLO si realmente no entra, hacemos salto
+  if (y + espacioNecesario > pageHeight - margenInferior) {
+    doc.addPage();
+    y = 20;
+  }
   
 // ---------------------------
 // TOTALES
