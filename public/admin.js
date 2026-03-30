@@ -614,6 +614,11 @@ function generarPDF() {
   // 🔥 4️⃣ Ahora sí bajamos la Y
   y += alturaProducto;
 }
+  
+  const anticipoInput = document.getElementById("anticipo");
+  const anticipo = anticipoInput
+    ? parseFloat(anticipoInput.value) || 0
+    : 0;
 
   const pageHeight = doc.internal.pageSize.getHeight();
   const margenInferior = 15;
@@ -642,11 +647,6 @@ function generarPDF() {
   // CÁLCULO TOTAL + ANTICIPO
   // ---------------------------
   const total = calcularTotal();
-
-  const anticipoInput = document.getElementById("anticipo");
-  const anticipo = anticipoInput
-    ? parseFloat(anticipoInput.value) || 0
-    : 0;
 
   const totalFinal = Math.max(total - anticipo, 0);
   // Estimamos cuánto espacio necesita el bloque completo
