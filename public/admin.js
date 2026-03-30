@@ -570,7 +570,7 @@ function generarPDF() {
   doc.text("Producto", 14, y);
   doc.text("Cant.", 120, y);
   doc.text("Precio", 145, y);
-  doc.text("Subtotal", 170, y);
+  doc.text("Subtotal", 180, y);
 
   y += 2;
   doc.line(14, y, 196, y);
@@ -598,7 +598,7 @@ function generarPDF() {
   doc.text(p.cantidad.toString(), 125, y, { align: "right" });
   doc.text(
     `$${p.precio.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
-    155,
+    156,
     y,
     { align: "right" }
   );
@@ -684,7 +684,7 @@ if (anticipo > 0) {
   // ---------------------------
   // PIE
   // ---------------------------
-  y += 15;
+  y += 8;
   doc.setFontSize(9);
   doc.setFont("helvetica", "normal");
   doc.text(
