@@ -37,8 +37,8 @@ async function cargarTickets(page = 1) {
     }
     div.style.cursor = "pointer";
     const badge = t.tienda === "galpon"
-      ? `<span style="background-color:orange;color:white;padding:2px 6px;border-radius:6px;font-size:12px;margin-right:6px;">GALPÓN</span>`
-      : `<span style="background-color:#00c8a0;color:white;padding:2px 6px;border-radius:6px;font-size:12px;margin-right:6px;">ESTRELLA</span>`;
+      ? `<span style="background-color:orange;color:white;padding:2px 6px;border-radius:6px;font-size:12px;margin-right:6px;">G11</span>`
+      : `<span style="background-color:#00c8a0;color:white;padding:2px 6px;border-radius:6px;font-size:12px;margin-right:6px;">EDB</span>`;
     div.innerHTML = `${badge} #${t.pedidoId} - ${t.cliente?.nombre || ""} ${t.cliente?.apellido || ""} - $${t.total}`;
     div.onclick = () => mostrarDetalle(t);
     list.appendChild(div);
