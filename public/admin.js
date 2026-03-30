@@ -577,6 +577,9 @@ function generarPDF() {
   y += 6;
 
   doc.setFont("helvetica", "normal");
+
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const margenInferior = 15;
   
   for (let i = 0; i < ticketSeleccionado.productos.length; i++) {
   const p = ticketSeleccionado.productos[i];
