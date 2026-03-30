@@ -584,21 +584,18 @@ function generarPDF() {
   for (let i = 0; i < ticketSeleccionado.productos.length; i++) {
   const p = ticketSeleccionado.productos[i];
   const subtotal = p.cantidad * p.precio;
-  const descripcionMaxWidth = 90;
-  const descripcionLineas = doc.splitTextToSize(p.descripcion, descripcionMaxWidth);
+
+  const descripcionLineas = doc.splitTextToSize(p.descripcion, 90);
   const alturaProducto = descripcionLineas.length * 6;
 
-  const margenInferior = 15;
-
-  if (y + alturaProducto > pageHeight - 15) {
+  // 🔥 SOLO controlamos que el producto entre
+  if (y + alturaProducto > pageHeight - margenInferior) {
     doc.addPage();
     y = 20;
   }
 
-  // 🔥 2️⃣ Dibujamos descripción
   doc.text(descripcionLineas, 14, y);
 
-  // 🔥 3️⃣ Dibujamos columnas
   doc.text(p.cantidad.toString(), 125, y, { align: "right" });
   doc.text(
     `$${p.precio.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
@@ -613,27 +610,16 @@ function generarPDF() {
     { align: "right" }
   );
 
-  // 🔥 4️⃣ Ahora sí bajamos la Y
   y += alturaProducto;
 }
-  
+
   const anticipoInput = document.getElementById("anticipo");
   const anticipo = anticipoInput
     ? parseFloat(anticipoInput.value) || 0
     : 0;
 
-  // 🔥 altura real del bloque final
-  let alturaBloqueFinal = 20; // total simple
-
-  if (anticipo > 0) {
-    alturaBloqueFinal = 40; // con caja
-  }
-
-  // 🔥 sumamos pie
-  alturaBloqueFinal += 10;
-
-  // 🔥 si no entra, recién ahí salto
-  if (y + alturaBloqueFinal > pageHeight - margenInferior) {
+  // 🔥 chequeo REAL y mínimo
+  if (y > pageHeight - (anticipo > 0 ? 50 : 30)) {
     doc.addPage();
     y = 20;
   }
@@ -648,9 +634,6 @@ function generarPDF() {
   const total = calcularTotal();
 
   const totalFinal = Math.max(total - anticipo, 0);
-  // Estimamos cuánto espacio necesita el bloque completo
-  const pageHeight = doc.internal.pageSize.getHeight();
-  const margenInferior = 15;
 
   // Calculamos altura REAL del bloque
   let alturaTotales = 10; // base
