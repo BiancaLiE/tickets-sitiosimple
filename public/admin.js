@@ -577,7 +577,9 @@ function generarPDF() {
   y += 6;
 
   doc.setFont("helvetica", "normal");
-
+  
+  const espacioReservadoFinal = 35; // totales + pie aprox
+  
   ticketSeleccionado.productos.forEach(p => {
   const subtotal = p.cantidad * p.precio;
   const descripcionMaxWidth = 90;
@@ -588,8 +590,14 @@ function generarPDF() {
 
   const alturaProducto = descripcionLineas.length * 6;
 
-  // 🔥 1️⃣ Verificamos ANTES de dibujar
-  y = checkPageBreak(doc, y, alturaProducto);
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const margenInferior = 15;
+
+  // 🔥 chequeo REAL teniendo en cuenta lo que viene después
+  if (y + alturaProducto + espacioReservadoFinal > pageHeight - margenInferior) {
+    doc.addPage();
+    y = 20;
+  }
 
   // 🔥 2️⃣ Dibujamos descripción
   doc.text(descripcionLineas, 14, y);
@@ -641,14 +649,6 @@ function generarPDF() {
 
   // Sumamos también el pie
   const alturaPie = 10;
-
-  const espacioNecesario = alturaTotales + alturaPie;
-
-  // 🔥 SOLO si realmente no entra, hacemos salto
-  if (y + espacioNecesario > pageHeight - margenInferior) {
-    doc.addPage();
-    y = 20;
-  }
   
 // ---------------------------
 // TOTALES
