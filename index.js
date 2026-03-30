@@ -40,7 +40,7 @@ app.use(
       maxAge: 12 * 60 * 60 * 1000, // 12 horas
       httpOnly: true,
       secure: true,              // OBLIGATORIO en Render
-      sameSite: "none"            // OBLIGATORIO en Render
+      sameSite: "lax"            // OBLIGATORIO en Render
     }
   })
 );
