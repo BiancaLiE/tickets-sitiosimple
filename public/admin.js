@@ -697,7 +697,26 @@ if (anticipo > 0) {
   // ---------------------------
   // GUARDAR
   // ---------------------------
-  doc.save(`Pedido_${ticketSeleccionado.pedidoId}.pdf`);
+  // 🔥 Prefijo según tienda
+  const prefijo =
+    ticketSeleccionado.tienda === "galpon"
+      ? "G11"
+      : "EDB";
+
+  // 🔥 Nombre cliente
+  const nombre = ticketSeleccionado.cliente?.nombre || "";
+  const apellido = ticketSeleccionado.cliente?.apellido || "";
+
+  // 🔥 Últimos 4 del teléfono
+  let telefono = ticketSeleccionado.cliente?.telefono || "";
+  telefono = telefono.replace(/\D/g, ""); // solo números
+  const ultimos4 = telefono.slice(-4) || "0000";
+
+  // 🔥 Nombre final archivo
+  const fileName = `#${ticketSeleccionado.pedidoId} ${prefijo} - ${nombre} ${apellido} ${ultimos4}.pdf`;
+
+  // 🔥 Guardar PDF
+  doc.save(fileName);
 }
 // ---------------------------
 // GENERAR REMITO
