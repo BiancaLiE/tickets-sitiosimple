@@ -704,8 +704,8 @@ if (anticipo > 0) {
       : "EDB";
 
   // 🔥 Nombre cliente
-  const nombre = ticketSeleccionado.cliente?.nombre || "";
-  const apellido = ticketSeleccionado.cliente?.apellido || "";
+  const nombre = (ticketSeleccionado.cliente?.nombre || "").toUpperCase();
+  const apellido = (ticketSeleccionado.cliente?.apellido || "").toUpperCase();
 
   // 🔥 Últimos 4 del teléfono
   let telefono = ticketSeleccionado.cliente?.telefono || "";
