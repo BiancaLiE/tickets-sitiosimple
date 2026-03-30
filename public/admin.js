@@ -537,7 +537,7 @@ function generarPDF() {
 
   y += 2;
   doc.line(14, y, 196, y);
-  y += 4;
+  y += 6;
 
   // ---------------------------
   // DATOS DEL CLIENTE
