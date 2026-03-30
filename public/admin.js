@@ -585,7 +585,6 @@ function generarPDF() {
   const descripcionLineas = doc.splitTextToSize(p.descripcion, descripcionMaxWidth);
   const alturaProducto = descripcionLineas.length * 6;
 
-  const pageHeight = doc.internal.pageSize.getHeight();
   const margenInferior = 15;
 
   if (y + alturaProducto > pageHeight - 15) {
@@ -619,9 +618,6 @@ function generarPDF() {
   const anticipo = anticipoInput
     ? parseFloat(anticipoInput.value) || 0
     : 0;
-
-  const pageHeight = doc.internal.pageSize.getHeight();
-  const margenInferior = 15;
 
   // 🔥 altura real del bloque final
   let alturaBloqueFinal = 20; // total simple
