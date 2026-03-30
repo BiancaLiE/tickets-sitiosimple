@@ -615,7 +615,7 @@ function generarPDF() {
   
   y += 2;
   doc.line(14, y, 196, y);
-  y += 5;
+  y += 4;
 
   // ---------------------------
   // CÁLCULO TOTAL + ANTICIPO
@@ -637,7 +637,7 @@ function generarPDF() {
 // ---------------------------
 // TOTALES
 // ---------------------------
-y += 6;
+y += 2;
 
 doc.setFont("helvetica", "normal");
 doc.setFontSize(11);
