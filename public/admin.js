@@ -533,7 +533,7 @@ function generarPDF() {
   doc.text(`Orden N°: ${ticketSeleccionado.pedidoId}`, 14, y);
 
   const fecha = new Date(ticketSeleccionado.fecha || ticketSeleccionado.creadoEn);
-  doc.text(`Fecha: ${fecha.toLocaleDateString("es-AR")}`, 150, y);
+  doc.text(`Fecha: ${fecha.toLocaleDateString("es-AR")}`, 160, y);
 
   y += 2;
   doc.line(14, y, 196, y);
@@ -595,20 +595,9 @@ function generarPDF() {
   }
 
   doc.text(descripcionLineas, 14, y);
-
   doc.text(p.cantidad.toString(), 125, y, { align: "right" });
-  doc.text(
-    `$${p.precio.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
-    156,
-    y,
-    { align: "right" }
-  );
-  doc.text(
-    `$${subtotal.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
-    196,
-    y,
-    { align: "right" }
-  );
+  doc.text(`$${p.precio.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 156, y, { align: "right" });
+  doc.text(`$${subtotal.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
 
   y += alturaProducto;
 }
@@ -626,7 +615,7 @@ function generarPDF() {
   
   y += 2;
   doc.line(14, y, 196, y);
-  y += 3;
+  y += 6;
 
   // ---------------------------
   // CÁLCULO TOTAL + ANTICIPO
