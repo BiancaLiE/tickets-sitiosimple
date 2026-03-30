@@ -511,8 +511,20 @@ function generarPDF() {
   // ---------------------------
   // ENCABEZADO
   // ---------------------------
+  
+  // 🔥 Nombre de la tienda dinámico
+  const nombreTienda =
+    ticketSeleccionado.tienda === "galpon"
+      ? "El Galpon de Once"
+      : "La Estrella de Belen";
+  
   doc.setFont("helvetica", "bold");
+  // 🔥 Nombre tienda (más chico arriba)
   doc.setFontSize(18);
+  doc.text(nombreTienda, 105, y, { align: "center" });
+  y += 6;
+  // 🔥 Título principal
+  doc.setFontSize(12);
   doc.text("COMPROBANTE DE PEDIDO", 105, y, { align: "center" });
 
   y += 8;
@@ -535,9 +547,7 @@ function generarPDF() {
   y += 6;
 
   doc.setFont("helvetica", "normal");
-  doc.text(`Nombre: ${ticketSeleccionado.cliente?.nombre || ""} ${ticketSeleccionado.cliente?.apellido || ""}`, 14, y);
-  y += 5;
-  doc.text(`Dirección: ${ticketSeleccionado.envio?.direccion || "-"}`, 14, y);
+  doc.text(`Cliente: ${ticketSeleccionado.cliente?.nombre || ""} ${ticketSeleccionado.cliente?.apellido || ""}`, 14, y);
   y += 5;
   doc.text(
     `CP: ${ticketSeleccionado.envio?.codigoPostal || "-"} - ${ticketSeleccionado.envio?.ciudad || ""}, ${ticketSeleccionado.envio?.provincia || ""}`,
