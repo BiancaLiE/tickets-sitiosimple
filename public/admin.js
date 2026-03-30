@@ -187,7 +187,7 @@ function mostrarDetalle(ticket) {
   <div class="row mb-3">
     <div class="col-md-6">
       <div class="input-group mb-2">
-        <label class="input-group-text"><strong>Cliente:</strong></label>
+        <label class="input-group-text"><strong>Nombre:</strong></label>
         <input type="text" id="clienteNombre" class="form-control" value="${ticketSeleccionado.cliente?.nombre || ""}">
       </div>
       <div class="input-group mb-2">
