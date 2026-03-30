@@ -557,7 +557,7 @@ function generarPDF() {
 
   y += 4;
   doc.line(14, y, 196, y);
-  y += 4;
+  y += 6;
 
   // ---------------------------
   // TABLA DE PRODUCTOS
@@ -598,7 +598,7 @@ function generarPDF() {
   doc.text(p.cantidad.toString(), 125, y, { align: "right" });
   doc.text(
     `$${p.precio.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
-    150,
+    155,
     y,
     { align: "right" }
   );
