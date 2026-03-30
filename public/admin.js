@@ -614,6 +614,25 @@ function generarPDF() {
   // 🔥 4️⃣ Ahora sí bajamos la Y
   y += alturaProducto;
 }
+
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const margenInferior = 15;
+
+  // 🔥 altura real del bloque final
+  let alturaBloqueFinal = 20; // total simple
+
+  if (anticipo > 0) {
+    alturaBloqueFinal = 40; // con caja
+  }
+
+  // 🔥 sumamos pie
+  alturaBloqueFinal += 10;
+
+  // 🔥 si no entra, recién ahí salto
+  if (y + alturaBloqueFinal > pageHeight - margenInferior) {
+    doc.addPage();
+    y = 20;
+  }
   
   y += 2;
   doc.line(14, y, 196, y);
