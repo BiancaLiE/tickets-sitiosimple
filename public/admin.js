@@ -578,27 +578,17 @@ function generarPDF() {
 
   doc.setFont("helvetica", "normal");
   
-  const espacioReservadoFinal = 35; // totales + pie aprox
-  
   for (let i = 0; i < ticketSeleccionado.productos.length; i++) {
   const p = ticketSeleccionado.productos[i];
   const subtotal = p.cantidad * p.precio;
   const descripcionMaxWidth = 90;
   const descripcionLineas = doc.splitTextToSize(p.descripcion, descripcionMaxWidth);
-  const esUltimo = i === ticketSeleccionado.productos.length - 1;
   const alturaProducto = descripcionLineas.length * 6;
 
   const pageHeight = doc.internal.pageSize.getHeight();
   const margenInferior = 15;
 
-  let espacioExtra = 0;
-
-  // 🔥 SOLO el último reserva espacio para totales + pie
-  if (esUltimo) {
-    espacioExtra = 25; // mucho más preciso que 35
-  }
-
-  if (y + alturaProducto + espacioExtra > pageHeight - margenInferior) {
+  if (y + alturaProducto > pageHeight - 15) {
     doc.addPage();
     y = 20;
   }
