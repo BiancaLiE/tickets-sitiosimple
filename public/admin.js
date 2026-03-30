@@ -515,16 +515,16 @@ function generarPDF() {
   // 🔥 Nombre de la tienda dinámico
   const nombreTienda =
     ticketSeleccionado.tienda === "galpon"
-      ? "El Galpon de Once"
-      : "La Estrella de Belen";
+      ? "EL GALPON DE ONCE"
+      : "LA ESTRELLA DE BELEN";
   
   doc.setFont("helvetica", "bold");
-  // 🔥 Nombre tienda (más chico arriba)
+  // 🔥 Nombre tienda
   doc.setFontSize(18);
   doc.text(nombreTienda, 105, y, { align: "center" });
   y += 6;
   // 🔥 Título principal
-  doc.setFontSize(12);
+  doc.setFontSize(11);
   doc.text("COMPROBANTE DE PEDIDO", 105, y, { align: "center" });
 
   y += 8;
@@ -535,9 +535,9 @@ function generarPDF() {
   const fecha = new Date(ticketSeleccionado.fecha || ticketSeleccionado.creadoEn);
   doc.text(`Fecha: ${fecha.toLocaleDateString("es-AR")}`, 150, y);
 
-  y += 6;
+  y += 2;
   doc.line(14, y, 196, y);
-  y += 8;
+  y += 4;
 
   // ---------------------------
   // DATOS DEL CLIENTE
@@ -555,9 +555,9 @@ function generarPDF() {
     y
   );
 
-  y += 8;
+  y += 4;
   doc.line(14, y, 196, y);
-  y += 8;
+  y += 4;
 
   // ---------------------------
   // TABLA DE PRODUCTOS
