@@ -738,7 +738,7 @@ if (hayAnticipo) {
 }
 
 // 🔥 TOTAL FINAL (CAJA)
-const boxHeight = 12;
+const boxHeight = 9;
 const boxWidth = 80;
 const boxX = 196 - boxWidth;
 const boxY = y - 8;
