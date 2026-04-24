@@ -729,6 +729,8 @@ if (anticipo > 0) {
     { align: "right" }
   );
   y += 10;
+} else {
+  y += 4; // 🔥 espacio compensatorio si NO hay anticipo
 }
 
 // 🔥 TOTAL FINAL (CAJA)
