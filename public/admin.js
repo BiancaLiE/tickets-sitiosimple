@@ -254,13 +254,16 @@ function mostrarDetalle(ticket) {
 
     <div class="row mb-3">
       <div class="col-md-6">
-        <h5>Subtotal: $<span id="totalTicket">0</span></h5>
+        <h5>Subtotal: $<span id="subtotalOriginal">0</span></h5>
         <div class="input-group mt-2">
           <label class="input-group-text"><strong>Descuento %:</strong></label>
           <input type="number" id="descuento" class="form-control" 
             style="max-width:120px;" 
             value="${ticketSeleccionado.descuento || 0}" 
             min="0" max="100" step="0.1">
+        </div>
+        <div style="margin-top:10px;">
+          <strong>Subtotal con descuento: $<span id="totalTicket">0</span></strong>
         </div>
         <div class="input-group" style="margin-top:15px;">
           <label class="input-group-text"><strong>Anticipo:</strong></label>
@@ -407,36 +410,36 @@ function calcularTotal() {
     ? parseFloat(descuentoInput.value) || 0
     : 0;
 
-  let total = 0;
+  let subtotal = 0;
   let totalAplicable = 0;
 
   ticketSeleccionado.productos.forEach(p => {
-    const subtotal = p.cantidad * p.precio;
+    const sub = p.cantidad * p.precio;
 
-    total += subtotal;
+    subtotal += sub;
 
-    // 🔥 SOLO suma productos SIN descuento previo
-    if (p.precioSinDescuento === null || p.precioSinDescuento === "" || p.precioSinDescuento === undefined) {
-      totalAplicable += subtotal;
+    // SOLO productos sin descuento previo
+    if (!p.precioSinDescuento) {
+      totalAplicable += sub;
     }
   });
 
-  // 🔥 descuento SOLO sobre productos aplicables
   const montoDescuento = totalAplicable * (descuento / 100);
-
-  const totalConDescuento = total - montoDescuento;
+  const subtotalConDescuento = subtotal - montoDescuento;
 
   const anticipoInput = document.getElementById("anticipo");
   const anticipo = anticipoInput
     ? parseFloat(anticipoInput.value) || 0
     : 0;
 
-  const totalFinal = Math.max(totalConDescuento - anticipo, 0);
+  const totalFinal = Math.max(subtotalConDescuento - anticipo, 0);
 
-  document.getElementById("totalTicket").innerText = Math.round(totalConDescuento);
+  // 🔥 ACTUALIZAR UI
+  document.getElementById("subtotalOriginal").innerText = Math.round(subtotal);
+  document.getElementById("totalTicket").innerText = Math.round(subtotalConDescuento);
   document.getElementById("totalFinal").innerText = Math.round(totalFinal);
 
-  return totalConDescuento;
+  return subtotalConDescuento;
 }
 
 // -----------------------------
@@ -652,95 +655,100 @@ function generarPDF() {
   doc.line(14, y, 196, y);
   y += 6;
 
-  // ---------------------------
-  // CÁLCULO TOTAL + ANTICIPO
-  // ---------------------------
-  const descuento = ticketSeleccionado.descuento || 0;
-
-  let total = 0;
-  let totalAplicable = 0;
-
-  ticketSeleccionado.productos.forEach(p => {
-    const subtotal = p.cantidad * p.precio;
-
-    total += subtotal;
-
-    if (!p.precioSinDescuento) {
-      totalAplicable += subtotal;
-    }
-  });
-
-  const montoDescuento = totalAplicable * (descuento / 100);
-  const totalConDescuento = total - montoDescuento;
-
-  if (descuento > 0) {
-    doc.text(
-      `Descuento (${descuento}%): -$${montoDescuento.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
-      196,
-      y,
-      { align: "right" }
-    );
-    y += 6;
-  }
-
-  const totalFinal = Math.max(totalConDescuento - anticipo, 0);
-
-  // Calculamos altura REAL del bloque
-  let alturaTotales = 10; // base
-
-  if (anticipo > 0) {
-    alturaTotales += 20; // anticipo + caja
-  }
-
-  // Sumamos también el pie
-  const alturaPie = 10;
-  
 // ---------------------------
-// TOTALES
+// CÁLCULO TOTALES COMPLETO
+// ---------------------------
+const descuento = ticketSeleccionado.descuento || 0;
+
+let subtotal = 0;
+let totalAplicable = 0;
+
+ticketSeleccionado.productos.forEach(p => {
+  const sub = p.cantidad * p.precio;
+
+  subtotal += sub;
+
+  if (!p.precioSinDescuento) {
+    totalAplicable += sub;
+  }
+});
+
+const montoDescuento = totalAplicable * (descuento / 100);
+const subtotalConDescuento = subtotal - montoDescuento;
+
+const totalFinal = Math.max(subtotalConDescuento - anticipo, 0);
+
+// ---------------------------
+// MOSTRAR TOTALES
 // ---------------------------
 y += 2;
 
 doc.setFont("helvetica", "normal");
 doc.setFontSize(11);
 
-if (anticipo > 0) {
+// 🔹 Subtotal original
+doc.text(
+  `Subtotal: $${subtotal.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
+  196,
+  y,
+  { align: "right" }
+);
 
-  // Total normal
-  doc.text(`TOTAL: $${totalConDescuento.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
+y += 6;
 
-  y += 6;
-  doc.text(`Anticipo: -$${anticipo.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
-
-  y += 10;
-
-  // === CAJA DESTACADA ===
-  const boxHeight = 12;
-  const boxWidth = 80;
-  const boxX = 196 - boxWidth;
-  const boxY = y - 8;
-
-  doc.setDrawColor(0);
-  doc.setLineWidth(0.5);
-  doc.rect(boxX, boxY, boxWidth, boxHeight);
-
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(14);
-  const textoTotalFinal = `TOTAL FINAL: $${totalFinal.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`;
-
-  // Centro horizontal de la caja
-  const centerX = boxX + boxWidth / 2;
-
+// 🔹 Descuento (si existe)
+if (descuento > 0) {
   doc.text(
-    textoTotalFinal,
-    centerX,
-    boxY + boxHeight / 2 + 3,
-    { align: "center" }
+    `Descuento (${descuento}%): -$${montoDescuento.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
+    196,
+    y,
+    { align: "right" }
   );
-} else {
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(14);
-  doc.text(`TOTAL: $${total.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
+  y += 6;
 }
+
+// 🔹 Subtotal con descuento
+doc.text(
+  `Subtotal c/desc: $${subtotalConDescuento.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
+  196,
+  y,
+  { align: "right" }
+);
+
+y += 6;
+
+// 🔹 Anticipo
+if (anticipo > 0) {
+  doc.text(
+    `Anticipo: -$${anticipo.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
+    196,
+    y,
+    { align: "right" }
+  );
+  y += 10;
+}
+
+// 🔥 TOTAL FINAL (CAJA)
+const boxHeight = 12;
+const boxWidth = 80;
+const boxX = 196 - boxWidth;
+const boxY = y - 8;
+
+doc.setDrawColor(0);
+doc.setLineWidth(0.5);
+doc.rect(boxX, boxY, boxWidth, boxHeight);
+
+doc.setFont("helvetica", "bold");
+doc.setFontSize(14);
+
+const centerX = boxX + boxWidth / 2;
+
+doc.text(
+  `TOTAL FINAL: $${totalFinal.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
+  centerX,
+  boxY + boxHeight / 2 + 3,
+  { align: "center" }
+);
 
   // ---------------------------
   // PIE
