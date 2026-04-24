@@ -126,6 +126,9 @@ app.post("/webhook", async (req, res) => {
   
   console.log("📩 WEBHOOK RECIBIDO");
   console.log("Keys:", Object.keys(req.body));
+
+  console.log("🔥 WEBHOOK COMPLETO:");
+  console.log(JSON.stringify(req.body, null, 2));
   
   try {
     const pedido = req.body;
@@ -214,8 +217,6 @@ app.post("/webhook", async (req, res) => {
 app.post("/manual-order", async (req, res) => {
   try {
     const pedido = req.body;
-    console.log("🧾 DETALLE COMPLETO DEL PEDIDO:");
-    console.log(JSON.stringify(pedido.detalle, null, 2));
     const tienda = req.body.tienda || "estrella";
     const collection =
       tienda === "galpon"
