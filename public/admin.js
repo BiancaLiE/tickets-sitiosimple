@@ -254,7 +254,7 @@ function mostrarDetalle(ticket) {
 
     <div class="row mb-3">
       <div class="col-md-6">
-        <h5>Subtotal: $<span id="totalTicket">${calcularTotal()}</span></h5>
+        <h5>Subtotal: $<span id="totalTicket">0</span></h5>
         <div class="input-group mt-2">
           <label class="input-group-text"><strong>Descuento %:</strong></label>
           <input type="number" id="descuento" class="form-control" 
@@ -281,7 +281,7 @@ function mostrarDetalle(ticket) {
         </div>
         <div class="mt-2 input-group">
           <label class="input-group-text">Envío a Sucursal:</label>
-          <select id="envioSucursal" class="form-select" style:"max-width:80px;">
+          <select id="envioSucursal" class="form-select" style="max-width:80px;">
             <option value="false" ${ticket.envioSucursal ? "" : "selected"}>No</option>
             <option value="true" ${ticket.envioSucursal ? "selected" : ""}>Si</option>
           </select>
@@ -304,15 +304,17 @@ function mostrarDetalle(ticket) {
   `;
 
   document.getElementById("ticketDetail").innerHTML = html;
-  // 🔥 Activar listener del anticipo después de renderizar
+  
   const anticipoInput = document.getElementById("anticipo");
   if (anticipoInput) {
-      anticipoInput.addEventListener("input", calcularTotal);
-      const descuentoInput = document.getElementById("descuento");
-      if (descuentoInput) {
-        descuentoInput.addEventListener("input", calcularTotal);
-      }
+    anticipoInput.addEventListener("input", calcularTotal);
   }
+
+  const descuentoInput = document.getElementById("descuento");
+  if (descuentoInput) {
+    descuentoInput.addEventListener("input", calcularTotal);
+  }
+  
   // Traer Cantidad de Bultos y Transportista
   document.getElementById("bultosInput").value = ticket.bultos || "";
   document.getElementById("transportistaInput").value = ticket.transportista || "";
@@ -414,7 +416,7 @@ function calcularTotal() {
     total += subtotal;
 
     // 🔥 SOLO suma productos SIN descuento previo
-    if (!p.precioSinDescuento) {
+    if (p.precioSinDescuento === null || p.precioSinDescuento === "" || p.precioSinDescuento === undefined) {
       totalAplicable += subtotal;
     }
   });
