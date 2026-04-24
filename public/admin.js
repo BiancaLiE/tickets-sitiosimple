@@ -418,7 +418,7 @@ function calcularTotal() {
     const sub = p.cantidad * p.precio;
 
     subtotal += sub;
-    const tieneDescuentoPrevio = p.precioSinDescuento != null && p.precioSinDescuento !== "";
+    const tieneDescuentoPrevio = p.precioSinDescuento && p.precioSinDescuento > p.precio;
     // SOLO productos sin descuento previo
     if (!tieneDescuentoPrevio) {
       totalAplicable += sub;
@@ -668,7 +668,7 @@ ticketSeleccionado.productos.forEach(p => {
   const sub = p.cantidad * p.precio;
 
   subtotal += sub;
-  const tieneDescuentoPrevio = p.precioSinDescuento != null && p.precioSinDescuento !== "";
+  const tieneDescuentoPrevio = p.precioSinDescuento && p.precioSinDescuento > p.precio;
   if (!tieneDescuentoPrevio) {
     totalAplicable += sub;
   }
