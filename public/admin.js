@@ -419,7 +419,7 @@ function calcularTotal() {
     subtotal += sub;
 
     // SOLO productos sin descuento previo
-    if (!p.precioSinDescuento) {
+    if (p.precioSinDescuento === undefined || p.precioSinDescuento === null || p.precioSinDescuento === "") {
       totalAplicable += sub;
     }
   });
@@ -620,25 +620,26 @@ function generarPDF() {
   const margenInferior = 15;
   
   for (let i = 0; i < ticketSeleccionado.productos.length; i++) {
-  const p = ticketSeleccionado.productos[i];
-  const subtotal = p.cantidad * p.precio;
+    console.log("precioSinDescuento:", p.precioSinDescuento);
+    const p = ticketSeleccionado.productos[i];
+    const subtotal = p.cantidad * p.precio;
 
-  const descripcionLineas = doc.splitTextToSize(p.descripcion, 90);
-  const alturaProducto = descripcionLineas.length * 6;
+    const descripcionLineas = doc.splitTextToSize(p.descripcion, 90);
+    const alturaProducto = descripcionLineas.length * 6;
 
-  // 🔥 SOLO controlamos que el producto entre
-  if (y + alturaProducto > pageHeight - margenInferior) {
-    doc.addPage();
-    y = 20;
+    // 🔥 SOLO controlamos que el producto entre
+    if (y + alturaProducto > pageHeight - margenInferior) {
+      doc.addPage();
+      y = 20;
+    }
+
+    doc.text(descripcionLineas, 14, y);
+    doc.text(p.cantidad.toString(), 125, y, { align: "right" });
+    doc.text(`$${p.precio.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 156, y, { align: "right" });
+    doc.text(`$${subtotal.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
+
+    y += alturaProducto;
   }
-
-  doc.text(descripcionLineas, 14, y);
-  doc.text(p.cantidad.toString(), 125, y, { align: "right" });
-  doc.text(`$${p.precio.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 156, y, { align: "right" });
-  doc.text(`$${subtotal.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
-
-  y += alturaProducto;
-}
 
   const anticipoInput = document.getElementById("anticipo");
   const anticipo = anticipoInput
@@ -668,7 +669,7 @@ ticketSeleccionado.productos.forEach(p => {
 
   subtotal += sub;
 
-  if (!p.precioSinDescuento) {
+  if (p.precioSinDescuento === undefined || p.precioSinDescuento === null || p.precioSinDescuento === "") {
     totalAplicable += sub;
   }
 });
