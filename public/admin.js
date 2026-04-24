@@ -756,7 +756,7 @@ doc.text(
   // ---------------------------
   // PIE
   // ---------------------------
-  y += 5;
+  y += 7;
   doc.setFontSize(9);
   doc.setFont("helvetica", "normal");
   doc.text(
