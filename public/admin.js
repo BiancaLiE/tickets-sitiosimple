@@ -741,7 +741,7 @@ if (hayAnticipo) {
 const boxHeight = 9;
 const boxWidth = 80;
 const boxX = 196 - boxWidth;
-const boxY = y - 9;
+const boxY = y - 8;
 
 doc.setDrawColor(0);
 doc.setLineWidth(0.5);
