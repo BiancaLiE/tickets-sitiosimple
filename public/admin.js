@@ -441,12 +441,6 @@ function calcularTotal() {
   document.getElementById("totalTicket").innerText = Math.round(subtotalConDescuento);
   document.getElementById("totalFinal").innerText = Math.round(totalFinal);
 
-  console.log({
-    precio: p.precio,
-    precioOriginal: p.precioSinDescuento,
-    aplicaDescuentoGlobal: !(p.precioSinDescuento && p.precioSinDescuento > p.precio)
-  });
-
   return subtotalConDescuento;
 }
 
@@ -685,12 +679,6 @@ const montoDescuento = totalAplicable * (descuento / 100);
 const subtotalConDescuento = subtotal - montoDescuento;
 
 const totalFinal = Math.max(subtotalConDescuento - anticipo, 0);
-
-console.log({
-  precio: p.precio,
-  precioOriginal: p.precioSinDescuento,
-  aplicaDescuentoGlobal: !(p.precioSinDescuento && p.precioSinDescuento > p.precio)
-});
 
 // ---------------------------
 // MOSTRAR TOTALES
