@@ -254,7 +254,14 @@ function mostrarDetalle(ticket) {
 
     <div class="row mb-3">
       <div class="col-md-6">
-        <h5>Total: $<span id="totalTicket">${calcularTotal()}</span></h5>
+        <h5>Subtotal: $<span id="totalTicket">${calcularTotal()}</span></h5>
+        <div class="input-group mt-2">
+          <label class="input-group-text"><strong>Descuento %:</strong></label>
+          <input type="number" id="descuento" class="form-control" 
+            style="max-width:120px;" 
+            value="${ticketSeleccionado.descuento || 0}" 
+            min="0" max="100" step="0.1">
+        </div>
         <div class="input-group" style="margin-top:15px;">
           <label class="input-group-text"><strong>Anticipo:</strong></label>
           <input type="number" id="anticipo" class="form-control" style="max-width:120px;" value="${ticketSeleccionado.anticipo || 0}" min="0" step="0.01">
@@ -301,6 +308,10 @@ function mostrarDetalle(ticket) {
   const anticipoInput = document.getElementById("anticipo");
   if (anticipoInput) {
       anticipoInput.addEventListener("input", calcularTotal);
+      const descuentoInput = document.getElementById("descuento");
+      if (descuentoInput) {
+        descuentoInput.addEventListener("input", calcularTotal);
+      }
   }
   // Traer Cantidad de Bultos y Transportista
   document.getElementById("bultosInput").value = ticket.bultos || "";
@@ -389,25 +400,41 @@ function eliminarProducto(index) {
 // Calcular total
 // -----------------------------
 function calcularTotal() {
-  const total = ticketSeleccionado.productos.reduce(
-    (sum, p) => sum + p.cantidad * p.precio,
-    0
-  );
+  const descuentoInput = document.getElementById("descuento");
+  const descuento = descuentoInput
+    ? parseFloat(descuentoInput.value) || 0
+    : 0;
+
+  let total = 0;
+  let totalAplicable = 0;
+
+  ticketSeleccionado.productos.forEach(p => {
+    const subtotal = p.cantidad * p.precio;
+
+    total += subtotal;
+
+    // 🔥 SOLO suma productos SIN descuento previo
+    if (!p.precioSinDescuento) {
+      totalAplicable += subtotal;
+    }
+  });
+
+  // 🔥 descuento SOLO sobre productos aplicables
+  const montoDescuento = totalAplicable * (descuento / 100);
+
+  const totalConDescuento = total - montoDescuento;
 
   const anticipoInput = document.getElementById("anticipo");
   const anticipo = anticipoInput
     ? parseFloat(anticipoInput.value) || 0
     : 0;
 
-  const totalFinal = Math.max(total - anticipo, 0);
+  const totalFinal = Math.max(totalConDescuento - anticipo, 0);
 
-  const totalElement = document.getElementById("total");
-  const totalFinalElement = document.getElementById("totalFinal");
+  document.getElementById("totalTicket").innerText = Math.round(totalConDescuento);
+  document.getElementById("totalFinal").innerText = Math.round(totalFinal);
 
-  if (totalElement) totalElement.innerText = total;
-  if (totalFinalElement) totalFinalElement.innerText = totalFinal;
-
-  return total; // 🔥 IMPORTANTE: devolvemos el total como antes
+  return totalConDescuento;
 }
 
 // -----------------------------
@@ -429,6 +456,7 @@ async function guardarCambios() {
   const transportistaInput = document.getElementById("transportistaInput");
   const dniInput = document.getElementById("dniCliente");
   const envioSucursalInput = document.getElementById("envioSucursal");
+  const descuentoInput = document.getElementById("descuento");
 
   const anticipo = anticipoInput
     ? parseFloat(anticipoInput.value) || 0
@@ -450,6 +478,11 @@ async function guardarCambios() {
     ? envioSucursalInput.value === "true"
     : false;
 
+  const descuento = descuentoInput
+    ? parseFloat(descuentoInput.value) || 0
+    : 0;
+
+  ticketSeleccionado.descuento = descuento;
   ticketSeleccionado.total = calcularTotal();
   ticketSeleccionado.anticipo = anticipo;
   ticketSeleccionado.bultos = bultos;                // 👈 NUEVO
@@ -620,9 +653,35 @@ function generarPDF() {
   // ---------------------------
   // CÁLCULO TOTAL + ANTICIPO
   // ---------------------------
-  const total = calcularTotal();
+  const descuento = ticketSeleccionado.descuento || 0;
 
-  const totalFinal = Math.max(total - anticipo, 0);
+  let total = 0;
+  let totalAplicable = 0;
+
+  ticketSeleccionado.productos.forEach(p => {
+    const subtotal = p.cantidad * p.precio;
+
+    total += subtotal;
+
+    if (!p.precioSinDescuento) {
+      totalAplicable += subtotal;
+    }
+  });
+
+  const montoDescuento = totalAplicable * (descuento / 100);
+  const totalConDescuento = total - montoDescuento;
+
+  if (descuento > 0) {
+    doc.text(
+      `Descuento (${descuento}%): -$${montoDescuento.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
+      196,
+      y,
+      { align: "right" }
+    );
+    y += 6;
+  }
+
+  const totalFinal = Math.max(totalConDescuento - anticipo, 0);
 
   // Calculamos altura REAL del bloque
   let alturaTotales = 10; // base
@@ -645,7 +704,7 @@ doc.setFontSize(11);
 if (anticipo > 0) {
 
   // Total normal
-  doc.text(`TOTAL: $${total.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
+  doc.text(`TOTAL: $${totalConDescuento.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
 
   y += 6;
   doc.text(`Anticipo: -$${anticipo.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`, 196, y, { align: "right" });
