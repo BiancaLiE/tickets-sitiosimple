@@ -688,21 +688,25 @@ const totalFinal = Math.max(subtotalConDescuento - anticipo, 0);
 // ---------------------------
 y += 2;
 
+const hayDescuento = descuento > 0;
+const hayAnticipo = anticipo > 0;
+  
 doc.setFont("helvetica", "normal");
 doc.setFontSize(11);
 
-// 🔹 Subtotal original (siempre se muestra)
-doc.text(
-  `Subtotal: $${subtotal.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
-  196,
-  y,
-  { align: "right" }
-);
+// 🔥 SOLO mostramos Subtotal si hay descuento o anticipo
+if (hayDescuento || hayAnticipo) {
+  doc.text(
+    `Subtotal: $${subtotal.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
+    196,
+    y,
+    { align: "right" }
+  );
+  y += 6;
+}
 
-y += 6;
-
-// 🔹 SOLO si hay descuento
-if (descuento > 0) {
+// 🔹 Descuento
+if (hayDescuento) {
   doc.text(
     `Descuento (${descuento}%): -$${montoDescuento.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
     196,
@@ -721,7 +725,7 @@ if (descuento > 0) {
 }
 
 // 🔹 Anticipo
-if (anticipo > 0) {
+if (hayAnticipo) {
   doc.text(
     `Anticipo: -$${anticipo.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
     196,
@@ -730,7 +734,7 @@ if (anticipo > 0) {
   );
   y += 10;
 } else {
-  y += 4; // 🔥 espacio compensatorio si NO hay anticipo
+  y += 4;
 }
 
 // 🔥 TOTAL FINAL (CAJA)
