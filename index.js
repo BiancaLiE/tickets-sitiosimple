@@ -126,9 +126,6 @@ app.post("/webhook", async (req, res) => {
   
   console.log("📩 WEBHOOK RECIBIDO");
   console.log("Keys:", Object.keys(req.body));
-
-  console.log("🔥 WEBHOOK COMPLETO:");
-  console.log(JSON.stringify(req.body, null, 2));
   
   try {
     const pedido = req.body;
@@ -159,7 +156,8 @@ app.post("/webhook", async (req, res) => {
           .map(item => ({
             descripcion: item.descripcion,
             cantidad: Number(item.cantidad),
-            precio: Number(item.precio)
+            precio: Number(item.precio),
+            precioSinDescuento: item.producto?.precioSinDescuento ?? null
           }))
       : [],
 
@@ -257,7 +255,8 @@ app.post("/manual-order", async (req, res) => {
           .map(item => ({
             descripcion: item.descripcion,
             cantidad: Number(item.cantidad),
-            precio: Number(item.precio)
+            precio: Number(item.precio),
+            precioSinDescuento: item.producto?.precioSinDescuento ?? null
           }))
       : [],
 
