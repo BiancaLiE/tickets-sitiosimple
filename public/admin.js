@@ -383,7 +383,8 @@ function agregarProducto() {
   ticketSeleccionado.productos.push({
     descripcion: "",
     cantidad: 1,
-    precio: 0
+    precio: 0,
+    precioSinDescuento: null
   });
 
   const body = document.getElementById("productosBody");
