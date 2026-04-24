@@ -346,6 +346,7 @@ app.put("/tickets/:pedidoId", async (req, res) => {
         $set: {
           productos: ticket.productos,
           total: ticket.total,
+          descuento: Number(ticket.descuento) || 0,
           anticipo: Number(ticket.anticipo) || 0,
 
           bultos: Number(ticket.bultos) || 0,            // 👈 NUEVO
