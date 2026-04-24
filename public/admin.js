@@ -413,13 +413,14 @@ function calcularTotal() {
   let subtotal = 0;
   let totalAplicable = 0;
 
+  
   ticketSeleccionado.productos.forEach(p => {
     const sub = p.cantidad * p.precio;
 
     subtotal += sub;
-
+    const tieneDescuentoPrevio = p.precioSinDescuento != null && p.precioSinDescuento !== "";
     // SOLO productos sin descuento previo
-    if (p.precioSinDescuento === undefined || p.precioSinDescuento === null || p.precioSinDescuento === "") {
+    if (!tieneDescuentoPrevio) {
       totalAplicable += sub;
     }
   });
@@ -668,8 +669,8 @@ ticketSeleccionado.productos.forEach(p => {
   const sub = p.cantidad * p.precio;
 
   subtotal += sub;
-
-  if (p.precioSinDescuento === undefined || p.precioSinDescuento === null || p.precioSinDescuento === "") {
+  const tieneDescuentoPrevio = p.precioSinDescuento != null && p.precioSinDescuento !== "";
+  if (!tieneDescuentoPrevio) {
     totalAplicable += sub;
   }
 });
