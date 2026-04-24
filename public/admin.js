@@ -691,7 +691,7 @@ y += 2;
 doc.setFont("helvetica", "normal");
 doc.setFontSize(11);
 
-// 🔹 Subtotal original
+// 🔹 Subtotal original (siempre se muestra)
 doc.text(
   `Subtotal: $${subtotal.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
   196,
@@ -701,7 +701,7 @@ doc.text(
 
 y += 6;
 
-// 🔹 Descuento (si existe)
+// 🔹 SOLO si hay descuento
 if (descuento > 0) {
   doc.text(
     `Descuento (${descuento}%): -$${montoDescuento.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
@@ -710,17 +710,15 @@ if (descuento > 0) {
     { align: "right" }
   );
   y += 6;
+
+  doc.text(
+    `Subtotal c/desc: $${subtotalConDescuento.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
+    196,
+    y,
+    { align: "right" }
+  );
+  y += 6;
 }
-
-// 🔹 Subtotal con descuento
-doc.text(
-  `Subtotal c/desc: $${subtotalConDescuento.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
-  196,
-  y,
-  { align: "right" }
-);
-
-y += 6;
 
 // 🔹 Anticipo
 if (anticipo > 0) {
