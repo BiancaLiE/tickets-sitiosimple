@@ -622,7 +622,7 @@ function generarPDF() {
   for (let i = 0; i < ticketSeleccionado.productos.length; i++) {
     const p = ticketSeleccionado.productos[i];
     const subtotal = p.cantidad * p.precio;
-    console.log("PRODUCTO COMPLETO:", p);
+    console.log("precioSinDescuento:", p.precioSinDescuento);
 
     const descripcionLineas = doc.splitTextToSize(p.descripcion, 90);
     const alturaProducto = descripcionLineas.length * 6;
