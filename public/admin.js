@@ -660,7 +660,10 @@ function generarPDF() {
 // ---------------------------
 // CÁLCULO TOTALES COMPLETO
 // ---------------------------
-const descuento = ticketSeleccionado.descuento || 0;
+const descuentoInput = document.getElementById("descuento");
+const descuento = descuentoInput
+  ? parseFloat(descuentoInput.value) || 0
+  : 0;
 
 let subtotal = 0;
 let totalAplicable = 0;
