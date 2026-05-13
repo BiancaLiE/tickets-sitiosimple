@@ -126,49 +126,117 @@ app.post("/webhook", async (req, res) => {
   
   console.log("📩 WEBHOOK RECIBIDO");
   console.log("Keys:", Object.keys(req.body));
+  console.log(JSON.stringify(req.body, null, 2));
   
   try {
-    const pedido = req.body;
+    const pedido = req.body.payload || req.body;
+    const esNuevoWebhook = !!req.body.payload;
 
     const ticket = {
-      pedidoId: pedido.id,
-      fecha: pedido.fechaEsOrden || new Date(),
-      tienda: token === process.env.TOKEN_ESTRELLA ? "estrella" : "galpon",
-      
+      pedidoId: String(
+        esNuevoWebhook
+          ? pedido.order_id
+          : pedido.id
+      ),
+
+      fecha: esNuevoWebhook
+        ? new Date()
+        : (pedido.fechaEsOrden || new Date()),
+
+      tienda: token === process.env.TOKEN_ESTRELLA
+        ? "estrella"
+        : "galpon",
+
       cliente: {
-        nombre: pedido?.cliente?.nombre || "",
-        apellido: pedido?.cliente?.apellido || "",
-        email: pedido?.cliente?.email || "",
-        telefono: pedido?.direccionEnvio?.telefono || ""
+        nombre: esNuevoWebhook
+          ? (pedido.firstname || "")
+          : (pedido?.cliente?.nombre || ""),
+
+        apellido: esNuevoWebhook
+          ? (pedido.lastname || "")
+          : (pedido?.cliente?.apellido || ""),
+
+        email: esNuevoWebhook
+          ? (pedido.email || "")
+          : (pedido?.cliente?.email || ""),
+
+        telefono: esNuevoWebhook
+          ? ""
+          : (pedido?.direccionEnvio?.telefono || "")
       },
-      
+
       envio: {
-        direccion: pedido?.direccionEnvio?.direccion || "",
-        codigoPostal: pedido?.direccionEnvio?.codigoPostal || "",
-        ciudad: pedido?.direccionEnvio?.ciudad || "",
-        provincia: pedido?.direccionEnvio?.provincia || "",
-        pais: pedido?.direccionEnvio?.pais || ""
+        direccion: esNuevoWebhook
+          ? ""
+          : (pedido?.direccionEnvio?.direccion || ""),
+
+        codigoPostal: esNuevoWebhook
+          ? ""
+          : (pedido?.direccionEnvio?.codigoPostal || ""),
+
+        ciudad: esNuevoWebhook
+          ? ""
+          : (pedido?.direccionEnvio?.ciudad || ""),
+
+        provincia: esNuevoWebhook
+          ? ""
+          : (pedido?.direccionEnvio?.provincia || ""),
+
+        pais: esNuevoWebhook
+          ? ""
+          : (pedido?.direccionEnvio?.pais || "")
       },
 
-      productos: Array.isArray(pedido.detalle)
-        ? pedido.detalle
-          .filter(item => item.tipo === "PRO")
-          .map(item => ({
-            descripcion: item.descripcion,
-            cantidad: Number(item.cantidad),
-            precio: Number(item.precio),
-            precioSinDescuento: item.producto?.precioSinDescuento ?? null
-          }))
-      : [],
+      productos: esNuevoWebhook
+        ? (
+            Array.isArray(pedido.products)
+              ? pedido.products.map(item => ({
+                  descripcion: item.name,
+                  cantidad: Number(item.quantity),
+                  precio: Number(item.price),
 
-      total: Number(pedido.detallePrecios?.[0]?.total || 0),
+                  // 🔥 detectar si tiene descuento previo
+                  precioSinDescuento:
+                    item.compare_at_price &&
+                    item.compare_at_price > item.price
+                      ? Number(item.compare_at_price)
+                      : null
+                }))
+              : []
+          )
+        : (
+        Array.isArray(pedido.detalle)
+          ? pedido.detalle
+              .filter(item => item.tipo === "PRO")
+              .map(item => ({
+                descripcion: item.descripcion,
+                 cantidad: Number(item.cantidad),
+                precio: Number(item.precio),
+                 precioSinDescuento:
+                  item.producto?.precioSinDescuento ?? null
+               }))
+           : []
+       ),
+
+      total: Number(
+        esNuevoWebhook
+          ? pedido?.totals?.total
+          : pedido?.detallePrecios?.[0]?.total || 0
+      ),
+
+      descuento: 0,
       anticipo: 0,
       estado: "pendiente",
       creadoEn: new Date()
     };
 
     // 🔥 EVITAR DUPLICADOS POR WEBHOOK
-    const existe = await collection.findOne({ pedidoId: pedido.id });
+    const pedidoId = String(
+      esNuevoWebhook
+        ? pedido.order_id
+        : pedido.id
+    );
+    const existe = await collection.findOne({ pedidoId });
 
     if (existe) {
       console.log("⚠️ Ticket duplicado (webhook), no se guarda");
